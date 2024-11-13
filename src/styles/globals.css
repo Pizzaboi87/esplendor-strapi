@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply font-work text-dark-500 bg-background;
+}
+
+main {
+  @apply flex flex-col;
+}
+
+.normal {
+  @apply xl:px-24;
+}
+
+/* Headings */
+h1 {
+  @apply font-aboreto font-bold md:text-[4rem] md:leading-[4.375rem] mb-2 -ml-1 text-[2.625rem] leading-[2.625rem];
+}
+
+h2 {
+  @apply font-aboreto font-bold md:text-[3rem] md:leading-[3.375rem] text-[2rem] leading-[2.5rem];
+}
+
+h3 {
+  @apply font-aboreto font-bold md:text-[2rem] md:leading-[2.5rem] text-[1.625rem] leading-[2rem];
+}
+
+h4 {
+  @apply font-aboreto font-normal md:text-[1.875rem] md:leading-[2.6875rem] text-[1.375rem] leading-[1.875rem];
+}
+
+h5 {
+  @apply font-aboreto font-bold md:text-[1.375rem] md:leading-[1.875rem] text-[1.125rem] leading-[1.5rem];
+}
+
+h6 {
+  @apply font-aboreto font-bold text-inherit;
+}
+
+/* Label */
+label {
+  @apply md:text-[1rem] leading-[1.5rem] font-work text-[0.8125rem] pb-1;
+}
+
+/* Paragraph */
+p {
+  @apply text-[1.1rem] font-work leading-[1.5rem] m-0;
+}
+
+/* Lists */
+ul,
+ol {
+  @apply font-work m-0 p-0 list-none;
+}
+
+li {
+  @apply font-work text-dark-500;
+}
+
+/* Links */
+a {
+  @apply font-work text-dark-500 no-underline focus:opacity-80 focus:outline-none active:opacity-70 active:outline-none;
+}
+
+/* Icons */
+svg {
+  @apply align-middle;
+}
+
+input:-webkit-autofill {
+  background-color: rgb(220, 220, 220);
+  -webkit-box-shadow: 0 0 0px 1000px rgb(220, 220, 220) inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
