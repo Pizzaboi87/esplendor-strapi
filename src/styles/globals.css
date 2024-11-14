@@ -7,11 +7,7 @@ body {
 }
 
 main {
-  @apply flex flex-col;
-}
-
-.normal {
-  @apply xl:px-24;
+  @apply flex flex-col px-2;
 }
 
 /* Headings */

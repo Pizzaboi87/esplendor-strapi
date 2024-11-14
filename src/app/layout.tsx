@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Aboreto, Work_Sans, Bonheur_Royale } from "next/font/google";
 import "../styles/globals.css";
-import { Header } from "@/components/Header";
+import { Header } from "@/components/header/Header";
+import { Footer } from "@/components/footer/Footer";
 
 const aboreto = Aboreto({
   subsets: ["latin"],
@@ -38,6 +39,7 @@ const RootLayout = ({
         <main>
           <Header />
           {children}
+          <Footer />
         </main>
       </body>
     </html>

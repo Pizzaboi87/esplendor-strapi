@@ -18,7 +18,7 @@ export const HeaderNav = () => {
           href="/sign-in"
           className="text-[1rem] tracking-widest font-[300] text-work uppercase text-white"
         >
-          <button className="px-6 py-[0.625rem] rounded-md bg-black hover:bg-black/75">
+          <button className="px-6 py-[0.625rem] uppercase rounded-md bg-black hover:bg-black/75">
             Sign in
           </button>
         </Link>
