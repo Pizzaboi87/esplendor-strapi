@@ -38,7 +38,21 @@ export default {
           xl: "1280px",
           "2xl": "1360px",
         }
-      }
+      },
+      keyframes: {
+        pulseStrong: {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.2' },
+        },
+        loadingSpinner: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+      },
+      animation: {
+        pulseStrong: 'pulseStrong 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        loadingSpinner: 'loadingSpinner 5s linear infinite',
+      },
     }
   },
   plugins: [],

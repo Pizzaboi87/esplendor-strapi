@@ -3,6 +3,7 @@ import { Aboreto, Work_Sans, Bonheur_Royale } from "next/font/google";
 import "../styles/globals.css";
 import { Header } from "@/components/header/Header";
 import { Footer } from "@/components/footer/Footer";
+import { Providers } from "@/providers";
 
 const aboreto = Aboreto({
   subsets: ["latin"],
@@ -36,11 +37,13 @@ const RootLayout = ({
       <body
         className={`${aboreto.variable} ${work.variable} ${bonheur_royale.variable}`}
       >
-        <main>
-          <Header />
-          {children}
-          <Footer />
-        </main>
+        <Providers>
+          <main>
+            <Header />
+            {children}
+            <Footer />
+          </main>
+        </Providers>
       </body>
     </html>
   );
@@ -51,4 +54,5 @@ export default RootLayout;
 export const metadata: Metadata = {
   title: "Esplend'or Rings",
   description: "Esplend'or Rings - Where forever begins",
+  creator: "Peter Weiser",
 };
