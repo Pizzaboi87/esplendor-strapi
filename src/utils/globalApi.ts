@@ -1,65 +1,48 @@
-import axios from "axios";
+import { GraphQLClient } from "graphql-request";
+import { GET_CATEGORY_CARDS, GET_FILTERS, GET_PRODUCT, GET_PRODUCT_CARDS } from "./queries";
+import { CategoryCard, CategoryName, ColorName, ProductCard, ProductDetails } from "@/types/types";
 
-// Create an axios instance
-const apiClient = axios.create({
-    baseURL: `${process.env.NEXT_PUBLIC_API_URL}` as string,
-})
+const graphqlEndpoint = process.env.NEXT_PUBLIC_API_URL as string;
 
-// Define the API endpoints
-export const API_ENDPOINTS = {
-    GET_CATEGORIES: "/categories?populate=*",
-    GET_CATEGORY_NAMES: "/categories?select=name",
-    GET_PRODUCTS: "/products",
-} as const;
+export const graphqlClient = new GraphQLClient(graphqlEndpoint, {
+    headers: {
+        // Auth token can be added here
+    },
+});
 
-type ApiEndpointKeys = keyof typeof API_ENDPOINTS;
-
-// Fetch data from the API
-export const fetchFromApi = async (endpoint: typeof API_ENDPOINTS[ApiEndpointKeys]) => {
-    const response = await apiClient.get(endpoint);
-
-    if (!response.data || !response.data.data) {
-        throw new Error("Invalid API response structure");
-    }
-
-    return response.data.data;
+// Fetch data from the API using GraphQL
+export const gqlFetch = async <T>(query: string, variables: Record<string, any> = {}): Promise<T> => {
+    return graphqlClient.request<T>(query, variables);
 };
 
-// Fetch products from the API with category filters
-export const fetchProducts = async (
-    endpoint: typeof API_ENDPOINTS[ApiEndpointKeys],
-    categoryFilters: string[]
-) => {
-    // If there are no filters, fetch all products
-    if (categoryFilters.length === 0) {
-        const response = await apiClient.get(endpoint, {
-            params: {
-                populate: ["image"],
-            },
-        });
-
-        if (!response.data || !response.data.data) {
-            throw new Error("Invalid API response structure");
-        }
-
-        return response.data.data;
-    }
-
-    // If there are filters, fetch products based on the filters
-    const queryString = categoryFilters
-        .map((category) => `filters[categories][name][$in]=${encodeURIComponent(category)}`)
-        .join("&");
-
-    const response = await apiClient.get(`${endpoint}?${queryString}`, {
-        params: {
-            populate: ["image"],
-        },
-    });
-
-    if (!response.data || !response.data.data) {
-        throw new Error("Invalid API response structure");
-    }
-
-    return response.data.data;
+// Fetch category cards from the API
+export const fetchCategoryCards = async () => {
+    const data = await gqlFetch<{ categories: Array<CategoryCard> }>(GET_CATEGORY_CARDS);
+    return data.categories
 };
 
+// Fetch filters from the API
+export const fetchFilters = async () => {
+    const data = await gqlFetch<{ categories: Array<CategoryName>, colors: Array<ColorName> }>(GET_FILTERS);
+    return {
+        categories: data.categories,
+        colors: data.colors,
+    }
+}
+
+// Fetch products from the API
+export const fetchProductCards = async (categoryFilters: string[], colorFilters: string[]) => {
+    const variables = {
+        categoryFilters: categoryFilters.length > 0 ? categoryFilters : undefined,
+        colorFilters: colorFilters.length > 0 ? colorFilters : undefined,
+    };
+
+    const data = await gqlFetch<{ products: Array<ProductCard> }>(GET_PRODUCT_CARDS, variables);
+    return data.products;
+};
+
+// Fetch a single product from the API
+export const fetchProduct = async (documentId: string) => {
+    const data = await gqlFetch<{ product: ProductDetails }>(GET_PRODUCT, { documentId });
+    return data.product
+};

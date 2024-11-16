@@ -2,7 +2,13 @@ export type CategoryName = {
     name: string;
 }
 
+export type ColorName = {
+    name: string;
+}
+
 export type Media = {
+    name: string;
+    documentId: string;
     formats: {
         [key: string]: {
             url: string;
@@ -10,24 +16,29 @@ export type Media = {
     }
 }
 
-export type Category = {
-    createdAt: string;
-    documentId: number
+export type CategoryCard = {
     name: string;
-    publishedAt: string;
-    updatedAt: string;
-    icon: Media;
+    documentId: string;
+    icon: Media
 }
 
-export type Product = {
-    createdAt: string;
-    description: string;
-    documentId: string;
-    isInStock: boolean;
+export type ProductCard = {
     name: string;
+    documentId: string;
     price: number;
-    publishedAt: string;
     slug: string;
     updatedAt: string;
+    image: Media
+}
+
+export type ProductDetails = {
+    name: string;
+    documentId: string;
+    description: string;
+    price: number;
+    isInStock: boolean;
+    updatedAt: string;
+    color: ColorName;
+    categories: CategoryName[];
     image: Media
 }

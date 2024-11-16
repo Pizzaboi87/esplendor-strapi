@@ -2,8 +2,7 @@
 
 import { CategoryCard } from "./CategoryCard";
 import { useQuery } from "@tanstack/react-query";
-import { API_ENDPOINTS, fetchFromApi } from "@/utils/globalApi";
-import { Category } from "@/types/types";
+import { fetchCategoryCards } from "@/utils/globalApi";
 import { useRouter } from "next/navigation";
 import { useFilter } from "@/providers/Filters";
 
@@ -16,9 +15,9 @@ export const Categories = () => {
     data: categories,
     error,
     isLoading,
-  } = useQuery<Category[], Error>({
+  } = useQuery({
     queryKey: ["categories"],
-    queryFn: async () => await fetchFromApi(API_ENDPOINTS.GET_CATEGORIES),
+    queryFn: fetchCategoryCards,
   });
 
   // Handle view all categories

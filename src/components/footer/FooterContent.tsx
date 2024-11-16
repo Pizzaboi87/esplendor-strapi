@@ -27,7 +27,13 @@ export const FooterContent = () => (
       <div className="container mx-auto normal py-10 flex sm:flex-row flex-col justify-between sm:items-center items-start gap-y-10">
         <div className="">
           <Link href="/">
-            <Image src="/logo-white.png" alt="logo" width={240} height={50} />
+            <Image
+              src="/logo-white.png"
+              alt="logo"
+              width={240}
+              height={50}
+              className="w-auto h-auto"
+            />
           </Link>
           <p className="text-primary mt-3 text-[0.8rem] sm:text-base">
             ⓒ 2024 Esplend'or - All rights reserved.

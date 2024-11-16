@@ -18,7 +18,13 @@ export const Header = () => {
         } flex justify-center sm:justify-between gap-y-5 items-center container mx-auto py-10 flex-wrap`}
     >
       <Link href="/">
-        <Image src="/logo.png" alt="logo" width={240} height={50} />
+        <Image
+          src="/logo.png"
+          alt="logo"
+          width={240}
+          height={50}
+          className="w-auto h-auto"
+        />
       </Link>
 
       <HeaderNav />

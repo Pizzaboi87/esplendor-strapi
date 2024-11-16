@@ -1,14 +1,20 @@
 "use client";
 
 import { useFilter } from "@/providers/Filters";
-import { CategoryName } from "@/types/types";
-import { API_ENDPOINTS, fetchFromApi } from "@/utils/globalApi";
 import { useQuery } from "@tanstack/react-query";
 import { Checkbox } from "../common/Checkbox";
 import { RadioGroup } from "../common/RadioGroup";
+import { fetchFilters } from "@/utils/globalApi";
 
 export const Filters = () => {
-  const { sort, setSort, categoryFilters, setCategoryFilters } = useFilter();
+  const {
+    sort,
+    setSort,
+    categoryFilters,
+    setCategoryFilters,
+    colorFilters,
+    setColorFilters,
+  } = useFilter();
 
   // Handle category filters
   const handleCategories = (categoryName: string) => {
@@ -19,17 +25,26 @@ export const Filters = () => {
     }
   };
 
+  // Handle color filters
+  const handleColors = (colorName: string) => {
+    if (colorFilters.includes(colorName)) {
+      setColorFilters(colorFilters.filter((id) => id !== colorName));
+    } else {
+      setColorFilters([...colorFilters, colorName]);
+    }
+  };
+
   // Handle sort filters
   const handleSort = (value: string) => setSort(value);
 
-  // Fetch categories from the API
+  // Fetch filters (categories and colors) from the API
   const {
-    data: categories,
+    data: filters,
     error,
     isLoading,
-  } = useQuery<CategoryName[], Error>({
-    queryKey: ["category-names"],
-    queryFn: async () => await fetchFromApi(API_ENDPOINTS.GET_CATEGORY_NAMES),
+  } = useQuery({
+    queryKey: ["filters"],
+    queryFn: fetchFilters,
   });
 
   return (
@@ -46,10 +61,10 @@ export const Filters = () => {
             ))
           ) : error ? (
             <p className="text-red-500">
-              {error.message || "An error occurred while fetching categories."}
+              {error.message || "An error occurred while fetching filters."}
             </p>
           ) : (
-            (categories ?? []).map((category) => {
+            (filters?.categories ?? []).map((category) => {
               const isSelected = categoryFilters.includes(category.name);
 
               return (
@@ -64,6 +79,41 @@ export const Filters = () => {
             })
           )}
         </div>
+
+        <hr className="border-t border-gray-300 my-4 mr-[30%]" />
+
+        <h6 className="mb-2 text-[1.1rem]">Colors</h6>
+        <div className="mb-4">
+          {isLoading ? (
+            [...Array(3)].map((_, index) => (
+              <div
+                key={index}
+                className="animate-pulseStrong bg-gray-200 h-8 w-[80%] rounded-md mb-2"
+              />
+            ))
+          ) : error ? (
+            <p className="text-red-500">
+              {error.message || "An error occurred while fetching filters."}
+            </p>
+          ) : (
+            (filters?.colors ?? []).map((color) => {
+              const isSelected = colorFilters.includes(color.name);
+
+              return (
+                <Checkbox
+                  key={color.name}
+                  label={color.name}
+                  value={color.name}
+                  isSelected={isSelected}
+                  onClickHandler={handleColors}
+                />
+              );
+            })
+          )}
+        </div>
+
+        <hr className="border-t border-gray-300 my-4 mr-[30%]" />
+
         <h6 className="mb-2 text-[1.1rem]">Sort By:</h6>
         <RadioGroup
           options={[

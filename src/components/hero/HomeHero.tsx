@@ -8,6 +8,7 @@ export const HomeHero = () => (
       alt="hero"
       width={1920}
       height={1080}
+      priority
       className="md:rounded-tl-[2rem] md:rounded-br-[2rem]"
     />
     <div className="absolute top-1/2 transform md:translate-x-24 translate-x-10 -translate-y-1/2">

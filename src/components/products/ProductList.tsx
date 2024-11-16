@@ -1,24 +1,22 @@
 "use client";
 
 import { useFilter } from "@/providers/Filters";
-import { Product } from "@/types/types";
-import { API_ENDPOINTS, fetchProducts } from "@/utils/globalApi";
 import { useQuery } from "@tanstack/react-query";
 import { ProductCard } from "./ProductCard";
 import { Loading } from "../common/Loading";
+import { fetchProductCards } from "@/utils/globalApi";
 
 export const ProductList = () => {
-  const { categoryFilters, sort } = useFilter();
+  const { categoryFilters, colorFilters, sort } = useFilter();
 
   // Fetch products from the API
   const {
     data: products,
     error,
     isLoading,
-  } = useQuery<Product[], Error>({
-    queryKey: ["products", categoryFilters],
-    queryFn: async () =>
-      await fetchProducts(API_ENDPOINTS.GET_PRODUCTS, categoryFilters),
+  } = useQuery({
+    queryKey: ["products", categoryFilters, colorFilters],
+    queryFn: () => fetchProductCards(categoryFilters, colorFilters),
   });
 
   if (isLoading)
