@@ -28,7 +28,7 @@ export const GET_PRODUCT_CARDS = `
         products(filters: {
             categories: { name: { in: $categoryFilters } }
             color: { name: { in: $colorFilters } }
-        }) {
+        }, pagination: { limit: 100 }) {
             name
             documentId
             price
@@ -62,6 +62,23 @@ export const GET_PRODUCT = `
                 name
                 documentId
                 formats
+            }
+        }
+    }
+`;
+
+export const GET_RELATED_PRODUCTS = `
+    query GetRelatedProducts($documentId: ID!) {
+        product(documentId: $documentId) {
+            related_products {
+                name
+                documentId
+                price
+                image {
+                    name
+                    documentId
+                    formats
+                }
             }
         }
     }

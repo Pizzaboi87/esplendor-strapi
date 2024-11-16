@@ -1,9 +1,11 @@
 import { Product } from "@/components/pages/Product";
+import { RelatedProducts } from "@/components/products/RelatedProducts";
 
 const ProductPage = () => (
-  <div className="container mx-auto">
+  <section>
     <Product />
-  </div>
+    <RelatedProducts />
+  </section>
 );
 
 export default ProductPage;

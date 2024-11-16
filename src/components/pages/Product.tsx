@@ -7,6 +7,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Loading } from "../common/Loading";
 import { Button } from "../common";
 import { useFilter } from "@/providers/Filters";
+import { formatNumber } from "@/utils/helpers";
 
 export const Product = () => {
   const { documentId } = useParams();
@@ -56,9 +57,9 @@ export const Product = () => {
   }
 
   return (
-    <div className="grid grid-cols-12 gap-24">
+    <div className="grid grid-cols-12 lg:gap-x-24 md:gap-x-10 gap-y-12 container mx-auto">
       {/* Product Image */}
-      <div className="col-span-6 min-h-[30rem] flex items-center justify-center bg-white rounded-tl-[1rem] rounded-br-[1rem] shadow-md">
+      <div className="md:col-span-6 col-span-12 xl:aspect-auto md:aspect-square aspect-auto xl:min-h-[30rem] flex items-center justify-center bg-white rounded-tl-[1rem] rounded-br-[1rem] shadow-md">
         {product.image?.formats?.small?.url ? (
           <Image
             src={product.image.formats.small.url}
@@ -75,7 +76,7 @@ export const Product = () => {
       </div>
 
       {/* Product Details */}
-      <div className="col-span-6 flex flex-col">
+      <div className="md:col-span-6 col-span-12 flex flex-col">
         <h1 className="text-3xl font-bold">{product.name}</h1>
 
         {/* Categories and Color Filters */}
@@ -104,7 +105,7 @@ export const Product = () => {
 
         {/* Price */}
         <p className="mt-10 text-[1.3rem] font-semibold">
-          Price: €{product.price}
+          Price: €{formatNumber(product.price)}
         </p>
 
         {/* Description */}

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Fragment } from "react";
 import { ProductCard as ProductCardType } from "@/types/types";
+import { formatNumber } from "@/utils/helpers";
 
 export const ProductCard = ({ product }: { product: ProductCardType }) => (
   <Link
@@ -26,6 +27,6 @@ export const ProductCard = ({ product }: { product: ProductCardType }) => (
         </Fragment>
       ))}
     </h5>
-    <p className="text-[1.2rem] mt-1">€{product.price}</p>
+    <p className="text-[1.2rem] mt-1">€{formatNumber(product.price)}</p>
   </Link>
 );

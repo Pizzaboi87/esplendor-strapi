@@ -42,3 +42,10 @@ export type ProductDetails = {
     categories: CategoryName[];
     image: Media
 }
+
+export type RelatedProduct = {
+    name: string;
+    documentId: string;
+    price: number;
+    image: Media
+}

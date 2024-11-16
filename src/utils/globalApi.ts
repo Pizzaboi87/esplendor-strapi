@@ -1,6 +1,6 @@
 import { GraphQLClient } from "graphql-request";
-import { GET_CATEGORY_CARDS, GET_FILTERS, GET_PRODUCT, GET_PRODUCT_CARDS } from "./queries";
-import { CategoryCard, CategoryName, ColorName, ProductCard, ProductDetails } from "@/types/types";
+import { GET_CATEGORY_CARDS, GET_FILTERS, GET_PRODUCT, GET_PRODUCT_CARDS, GET_RELATED_PRODUCTS } from "./queries";
+import { CategoryCard, CategoryName, ColorName, ProductCard, ProductDetails, RelatedProduct } from "@/types/types";
 
 const graphqlEndpoint = process.env.NEXT_PUBLIC_API_URL as string;
 
@@ -46,3 +46,9 @@ export const fetchProduct = async (documentId: string) => {
     const data = await gqlFetch<{ product: ProductDetails }>(GET_PRODUCT, { documentId });
     return data.product
 };
+
+// Fetch related products from the API
+export const fetchRelatedProducts = async (documentId: string) => {
+    const data = await gqlFetch<{ product: { related_products: Array<RelatedProduct> } }>(GET_RELATED_PRODUCTS, { documentId });
+    return data.product.related_products
+}
