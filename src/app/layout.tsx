@@ -52,7 +52,7 @@ const RootLayout = ({
 export default RootLayout;
 
 export const metadata: Metadata = {
-  title: "Esplend'or Rings",
+  title: "Esplendor Rings",
   description: "Esplend'or Rings - Where forever begins",
   creator: "Peter Weiser",
 };

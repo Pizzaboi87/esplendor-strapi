@@ -4,13 +4,14 @@ import { Metadata } from "next";
 
 const RecoverPasswordPage = () => <RecoverPassword />;
 
-export default RecoverPasswordPage;
-
 export const metadata: Metadata = {
   title: "Password Recovery",
-  description: "Enter your email address to recover your password.",
+  description:
+    "Enter your email address to recover your password to your Esplendor Rings account.",
   openGraph: mergeOpenGraph({
     title: "Password Recovery",
     url: "/recover-password",
   }),
 };
+
+export default RecoverPasswordPage;

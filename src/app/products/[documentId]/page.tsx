@@ -8,4 +8,14 @@ const ProductPage = () => (
   </section>
 );
 
+export const metadata = {
+  title: "Product Details",
+  description:
+    "Find the perfect ring for your special day with Esplendor Rings.",
+  openGraph: {
+    title: "Esplendor Rings Product Details",
+    url: "/products/",
+  },
+};
+
 export default ProductPage;

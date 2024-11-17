@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .black-to-red {
+    filter: invert(61%) sepia(31%) saturate(2174%) hue-rotate(316deg)
+      brightness(99%) contrast(95%);
+  }
+}
+
 body {
   @apply font-work text-dark-500 bg-background;
 }

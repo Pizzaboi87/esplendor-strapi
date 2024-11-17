@@ -9,10 +9,6 @@ export const headerNavItems = [
     title: "Shop",
     url: "/shop",
   },
-  {
-    title: "Cart",
-    url: "/cart",
-  },
 ];
 
 export const footerNavItems = [

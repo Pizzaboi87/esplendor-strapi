@@ -27,6 +27,11 @@ export const ProductCard = ({ product }: { product: ProductCardType }) => (
         </Fragment>
       ))}
     </h5>
-    <p className="text-[1.2rem] mt-1">€{formatNumber(product.price)}</p>
+    <div className="flex justify-between items-center">
+      <p className="text-[1.2rem] mt-1">€{formatNumber(product.price)}</p>
+      <p className="text-gray-400 text-sm">
+        {product.isInStock ? "In Stock" : "Pre-order"}
+      </p>
+    </div>
   </Link>
 );

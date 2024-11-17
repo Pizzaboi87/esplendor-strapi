@@ -48,7 +48,14 @@ export const SignIn: React.FC = () => {
     <section className="grid grid-cols-1 lg:grid-cols-[1fr_45%] h-screen">
       <div className="hidden lg:block bg-cover bg-center bg-no-repeat bg-[url('/assets/images/login.webp')]">
         <Link href="/" className="inline-block mt-12 ml-8">
-          <Image src="/logo.png" alt="logo" width={250} height={25} />
+          <Image
+            src="/logo.png"
+            alt="logo"
+            width={250}
+            height={25}
+            priority
+            className="w-auto h-auto"
+          />
         </Link>
       </div>
 
@@ -56,15 +63,22 @@ export const SignIn: React.FC = () => {
         href="/"
         className="absolute flex justify-self-center lg:hidden mt-12 mx-auto text-center"
       >
-        <Image src="/logo.png" alt="logo" width={250} height={25} />
+        <Image
+          src="/logo.png"
+          alt="logo"
+          width={250}
+          height={25}
+          priority
+          className="xs:w-auto w-[75%] h-auto xs:mx-0 mx-auto"
+        />
       </Link>
 
       <div className="flex flex-col justify-center items-center p-1 md:p-8 lg:p-0 bg-cover bg-center bg-no-repeat bg-[url('/assets/images/login.webp')] lg:bg-none">
-        <div className="w-full max-w-xl p-8 lg:bg-transparent bg-white bg-opacity-60 backdrop-blur-md rounded-lg md:shadow-none shadow-lg">
-          <h5 className="font-bold text-center mb-6 text-[1.5rem]">
+        <div className="w-full max-w-xl xs:p-8 p-2 lg:bg-transparent bg-white bg-opacity-60 backdrop-blur-md rounded-lg md:shadow-none shadow-lg">
+          <h5 className="font-bold text-center xs:mb-6 mb-2 xs:text-[1.5rem]">
             Welcome to our Webshop!
           </h5>
-          <p className="text-center mb-12">
+          <p className="text-center xs:mb-12 mb-6 xs:text-[1rem] text-[0.8rem]">
             Please sign in to your Esplend'or Account.
           </p>
 
@@ -86,7 +100,12 @@ export const SignIn: React.FC = () => {
               })}
               error={errors.password}
             />
-            <Button type="submit" disabled={isLoading} isLoading={isLoading}>
+            <Button
+              type="submit"
+              disabled={isLoading}
+              isLoading={isLoading}
+              className="xl:w-1/2 w-full"
+            >
               Sign In
             </Button>
           </form>

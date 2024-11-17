@@ -1,3 +1,4 @@
+import { CartProvider } from "./Cart";
 import { FilterProvider } from "./Filters";
 import { QueryProvider } from "./QueryProvider";
 
@@ -6,7 +7,9 @@ export const Providers: React.FC<{
 }> = ({ children }) => {
   return (
     <QueryProvider>
-      <FilterProvider>{children}</FilterProvider>
+      <FilterProvider>
+        <CartProvider>{children}</CartProvider>
+      </FilterProvider>
     </QueryProvider>
   );
 };

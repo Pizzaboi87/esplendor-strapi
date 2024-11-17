@@ -48,7 +48,7 @@ export const Filters = () => {
   });
 
   return (
-    <div className="col-span-3 relative">
+    <div className="xl:col-span-3 col-span-4 relative pl-5 md:pl-0">
       <div className="sticky top-10">
         <h6 className="mb-2 text-[1.1rem]">Product Categories</h6>
         <div className="mb-4">

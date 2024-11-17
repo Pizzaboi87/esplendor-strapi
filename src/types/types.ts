@@ -28,6 +28,7 @@ export type ProductCard = {
     price: number;
     slug: string;
     updatedAt: string;
+    isInStock: boolean;
     image: Media
 }
 

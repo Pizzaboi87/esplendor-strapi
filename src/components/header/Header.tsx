@@ -23,7 +23,8 @@ export const Header = () => {
           alt="logo"
           width={240}
           height={50}
-          className="w-auto h-auto"
+          priority
+          className="xs:w-auto w-[75%] h-auto xs:mx-0 mx-auto"
         />
       </Link>
 

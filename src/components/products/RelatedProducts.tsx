@@ -88,7 +88,8 @@ export const RelatedProducts = () => {
                       alt={product.name}
                       width={300}
                       height={200}
-                      className="object-contain h-full group-hover:scale-125 transition-transform duration-700 ease-in-out"
+                      priority
+                      className="object-contain w-auto h-full group-hover:scale-125 transition-transform duration-700 ease-in-out"
                     />
                   </div>
                   <h5 className="text-lg font-semibold mt-2">
@@ -116,6 +117,23 @@ export const RelatedProducts = () => {
         >
           &#8594;
         </button>
+
+        <div className="md:hidden flex items-center justify-evenly mt-5">
+          <button
+            onClick={() => embla && embla.scrollPrev()}
+            className="bg-white rounded-full p-3 w-16 h-16 shadow-lg z-10"
+            aria-label="Previous slide"
+          >
+            &#8592;
+          </button>
+          <button
+            onClick={() => embla && embla.scrollNext()}
+            className="bg-white rounded-full p-3 w-16 h-16 shadow-lg z-10"
+            aria-label="Next slide"
+          >
+            &#8594;
+          </button>
+        </div>
       </div>
     </div>
   );
