@@ -6,9 +6,10 @@ import { Button } from "../common";
 import { useRouter } from "next/navigation";
 
 export const CartSummary = () => {
-  const { cart, total } = useCart();
   const router = useRouter();
+  const { cart, total } = useCart();
 
+  // Redirect to the checkout page
   const goToCheckout = () => {
     router.push("/checkout");
   };

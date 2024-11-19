@@ -9,6 +9,7 @@ export const BackToShopping = () => {
   const router = useRouter();
   const { resetFilters } = useFilter();
 
+  // Reset filters and navigate to the shop page
   const shopAndReset = () => {
     resetFilters();
     router.push("/shop");

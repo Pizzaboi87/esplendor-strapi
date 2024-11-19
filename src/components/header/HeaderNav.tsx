@@ -5,6 +5,7 @@ import { useCart } from "@/providers/Cart";
 
 export const HeaderNav = () => {
   const { cart } = useCart();
+
   return (
     <ul className="flex flex-wrap px-2 md:px-0 gap-x-8 gap-y-4 items-center md:justify-end justify-center">
       {headerNavItems.map((item, index) => {

@@ -15,7 +15,7 @@ export const CategoryCard = ({ category }: CategoryCardProps) => {
 
   // Handle category selection
   const handleSelect = (categoryId: string) => {
-    setSort("latest");
+    setSort("updatedAt:desc");
     setColorFilters([]);
     setCategoryFilters([categoryId]);
     navigation.push("/shop");

@@ -1,26 +1,33 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import { fetchProduct } from "@/utils/globalApi";
 import { useQuery } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
-import { Loading } from "../common/Loading";
 import { useFilter } from "@/providers/Filters";
 import { formatNumber } from "@/utils/helpers";
 import { useCart } from "@/providers/Cart";
 import { CartButton } from "../cart/CartButton";
+import { Loading } from "../common";
 import "animate.css";
 
 export const Product = () => {
+  const navigation = useRouter();
   const { addToCart, cart, updateQuantity } = useCart();
   const { documentId } = useParams();
-  const navigation = useRouter();
-  const { setCategoryFilters, setColorFilters } = useFilter();
+  const {
+    setCategoryFilters,
+    setColorFilters,
+    setPrice,
+    setSort,
+    setStockStatus,
+  } = useFilter();
 
   const [isZoomed, setIsZoomed] = useState(false);
   const [preloadedImage, setPreloadedImage] = useState<string | null>(null);
 
+  // Zoom toggle handler
   const handleZoomToggle = () => {
     setIsZoomed(!isZoomed);
   };
@@ -45,14 +52,22 @@ export const Product = () => {
     }
   }, [product]);
 
+  // Reset filters
+  const resetFilters = () => {
+    setCategoryFilters([]);
+    setSort("updatedAt:desc");
+    setPrice("price:asc");
+    setStockStatus("all");
+  };
+
   // Event handlers
   const handleFilterSelect = (type: "category" | "color", value: string) => {
     if (type === "category") {
       setCategoryFilters([value]);
-      setColorFilters([]);
+      resetFilters();
     } else {
       setColorFilters([value]);
-      setCategoryFilters([]);
+      resetFilters();
     }
     navigation.push("/shop");
   };
@@ -66,23 +81,26 @@ export const Product = () => {
     );
   }
 
+  // Error handling
   if (error) {
     return (
       <p className="text-red-500">Error loading product: {error.message}</p>
     );
   }
 
+  // No product found
   if (!product) {
     return <p className="text-gray-500">No product found.</p>;
   }
 
+  // Check if product is in cart
   const productInCart = cart.find((item) => item.id === product?.documentId);
 
   return (
     <div className="grid grid-cols-12 lg:gap-x-24 md:gap-x-10 gap-y-12 container mx-auto">
       {/* Product Image */}
       <div
-        className="md:col-span-6 col-span-12 xl:aspect-auto md:aspect-square aspect-auto xl:min-h-[30rem] flex items-center justify-center bg-white rounded-tl-[1rem] rounded-br-[1rem] shadow-md cursor-pointer"
+        className="lg:col-span-6 col-span-12 xl:aspect-auto lg:aspect-square aspect-auto xl:min-h-[30rem] flex items-center justify-center bg-white rounded-tl-[1rem] rounded-br-[1rem] shadow-md cursor-zoom-in"
         onClick={handleZoomToggle}
       >
         {product.image?.formats?.small?.url ? (
@@ -92,7 +110,7 @@ export const Product = () => {
             width={300}
             height={300}
             priority
-            className="w-auto h-[80%] object-contain"
+            className="w-auto lg:h-[80%] object-contain"
           />
         ) : (
           <div className="w-full h-48 bg-gray-200 rounded-lg flex items-center justify-center text-gray-500">
@@ -127,8 +145,18 @@ export const Product = () => {
       )}
 
       {/* Product Details */}
-      <div className="md:col-span-6 col-span-12 flex flex-col">
-        <h1 className="text-3xl font-bold">{product.name}</h1>
+      <div className="lg:col-span-6 col-span-12 flex flex-col">
+        <h1 className="block sm:hidden lg:block xl:hidden text-3xl font-bold leading-relaxed">
+          {product.name.split("-").map((part: string, index: number) => (
+            <Fragment key={index}>
+              {part}
+              {index < product.name.split("-").length - 1 && <br />}
+            </Fragment>
+          ))}
+        </h1>
+        <h1 className="hidden sm:block lg:hidden xl:block text-3xl font-bold">
+          {product.name}
+        </h1>
 
         {/* Categories and Color Filters */}
         <div className="flex items-center mt-5 flex-wrap gap-2">

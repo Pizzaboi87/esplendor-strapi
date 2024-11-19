@@ -16,6 +16,7 @@ export const ProductCard = ({ product }: { product: ProductCardType }) => (
         alt={product.name}
         width={300}
         height={300}
+        priority
         className="w-full h-full object-contain rounded-md group-hover:scale-125 transition-transform duration-700 ease-in-out"
       />
     </div>

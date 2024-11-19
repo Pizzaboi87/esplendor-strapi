@@ -3,7 +3,7 @@ type MessageProps = {
   type?: "error" | "info" | "success";
 };
 
-export const Message: React.FC<MessageProps> = ({ message, type = "info" }) => {
+export const Message = ({ message, type = "info" }: MessageProps) => {
   const backgroundColor =
     type === "error"
       ? "bg-red-100"

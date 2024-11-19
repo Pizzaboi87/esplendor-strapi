@@ -33,6 +33,7 @@ const CartContext = createContext<InitialCartData>({
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
 
+  // Function to add products to the cart
   const addToCart = (product: CartItem) => {
     setCart((prevCart) => {
       const existingProduct = prevCart.find((item) => item.id === product.id);
@@ -47,6 +48,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
+  // Function to update the quantity of a product in the cart
   const updateQuantity = (productId: string, quantity: number) => {
     if (quantity <= 0) {
       setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
@@ -59,6 +61,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  // Calculate the total price of the cart
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (

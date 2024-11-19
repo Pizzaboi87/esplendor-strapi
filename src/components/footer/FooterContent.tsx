@@ -1,6 +1,6 @@
-import { footerNavItems, inclusions } from "@/constants";
 import Image from "next/image";
 import Link from "next/link";
+import { footerNavItems, inclusions } from "@/constants";
 
 export const FooterContent = () => (
   <>

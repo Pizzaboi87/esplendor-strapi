@@ -7,14 +7,14 @@ type ButtonProps = {
   onClick?: () => void;
 };
 
-export const Button: React.FC<ButtonProps> = ({
+export const Button = ({
   type,
   disabled,
   isLoading,
   children,
   className,
   onClick,
-}) => (
+}: ButtonProps) => (
   <button
     type={type}
     disabled={disabled}

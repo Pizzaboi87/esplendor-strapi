@@ -24,11 +24,21 @@ export const GET_FILTERS = `
 `
 
 export const GET_PRODUCT_CARDS = `
-    query GetProductCards($categoryFilters: [String], $colorFilters: [String], $start: Int) {
+    query GetProductCards(
+        $categoryFilters: [String], 
+        $colorFilters: [String], 
+        $start: Int, 
+        $price: String, 
+        $updatedAt: String,
+        $stockStatus: Boolean
+    ){
         products(filters: {
             categories: { name: { in: $categoryFilters } }
             color: { name: { in: $colorFilters } }
-        }, pagination: { start: $start, limit: 12 }) {
+            isInStock: { eq: $stockStatus }
+        }, 
+        sort: [$price $updatedAt], 
+        pagination: { start: $start, limit: 12 }) {
             name
             documentId
             price
@@ -45,11 +55,17 @@ export const GET_PRODUCT_CARDS = `
 `;
 
 export const GET_PRODUCTS_SIZE = `
-    query GetProductsSize($categoryFilters: [String], $colorFilters: [String]) {
+    query GetProductsSize(
+        $categoryFilters: [String], 
+        $colorFilters: [String],
+        $stockStatus: Boolean
+    ) {
         products(filters: {
             categories: { name: { in: $categoryFilters } }
             color: { name: { in: $colorFilters } }
-        }, pagination: {limit: 100}) {
+            isInStock: { eq: $stockStatus }
+        }, 
+        pagination: {limit: 100}) {
             isInStock
         }
     }

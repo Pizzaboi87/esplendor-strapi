@@ -1,5 +1,3 @@
-import React from "react";
-
 interface RadioButtonProps {
   label: string;
   value: string;
@@ -8,19 +6,20 @@ interface RadioButtonProps {
   groupName: string;
 }
 
-export const Radio: React.FC<RadioButtonProps> = ({
+export const Radio = ({
   label,
   value,
   isSelected,
   onRadioChange,
   groupName,
-}) => {
+}: RadioButtonProps) => {
+  // Onchange event handler for radio button
   const handleRadioChange = () => {
     onRadioChange(value);
   };
 
   return (
-    <label className="flex-1 text-center relative cursor-pointer">
+    <label className="flex-1 text-center relative cursor-pointer pt-1">
       <input
         type="radio"
         id={`${groupName}-${value}`}

@@ -13,6 +13,7 @@ import { formatNumber } from "@/utils/helpers";
 export const RelatedProducts = () => {
   const { documentId } = useParams();
 
+  // Fetch related products from the API
   const {
     data: relatedProducts = [],
     error,
@@ -43,6 +44,7 @@ export const RelatedProducts = () => {
     }
   }, [embla, relatedProducts]);
 
+  // Render loading, error, or related products
   if (isLoading) {
     return <p className="text-center">Loading related products...</p>;
   }

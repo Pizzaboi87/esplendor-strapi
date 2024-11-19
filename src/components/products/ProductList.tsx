@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 import { useQueries } from "@tanstack/react-query";
 import { useFilter } from "@/providers/Filters";
 import { ProductCard } from "./ProductCard";
-import { Loading } from "../common/Loading";
 import { getProductsWithSize } from "@/utils/globalApi";
-import { Button } from "../common";
+import { Button, Loading } from "../common";
 
 export const ProductList = () => {
-  const { categoryFilters, colorFilters, sort } = useFilter();
+  const { categoryFilters, colorFilters, price, sort, stockStatus } =
+    useFilter();
   const [products, setProducts] = useState<any[]>([]);
   const [start, setStart] = useState<number>(0);
   const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
@@ -17,19 +17,27 @@ export const ProductList = () => {
 
   // Fetch products and the total number of products
   const [productsSizeQuery, productsQuery] = useQueries({
-    queries: getProductsWithSize(categoryFilters, colorFilters, start),
+    queries: getProductsWithSize(
+      categoryFilters,
+      colorFilters,
+      start,
+      price,
+      sort,
+      stockStatus
+    ),
   });
 
+  // Total number of products
   const totalProducts = productsSizeQuery.data || 0;
   const isLoadingInitial =
     productsSizeQuery.isLoading || productsQuery.isLoading;
   const error = productsSizeQuery.error || productsQuery.error;
 
-  // Reset products and start when filters change
+  // Reset products and start when filters or sort change
   useEffect(() => {
     setProducts([]);
     setStart(0);
-  }, [categoryFilters, colorFilters]);
+  }, [categoryFilters, colorFilters, sort, price, stockStatus]);
 
   // Add new products to the list
   useEffect(() => {
@@ -56,7 +64,7 @@ export const ProductList = () => {
   // Loading state
   if (isLoadingInitial && products.length === 0) {
     return (
-      <div className="col-span-9 pb-24">
+      <div className="xl:col-span-9 col-span-8 xl:pb-24">
         <Loading />
       </div>
     );
@@ -76,17 +84,9 @@ export const ProductList = () => {
       {products.length ? (
         <div className="flex flex-col">
           <div className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-10">
-            {products
-              .sort((a, b) => {
-                if (sort === "oldest") {
-                  return new Date(a.updatedAt) < new Date(b.updatedAt) ? 1 : -1;
-                } else {
-                  return new Date(a.updatedAt) > new Date(b.updatedAt) ? 1 : -1;
-                }
-              })
-              .map((product) => (
-                <ProductCard key={product.documentId} product={product} />
-              ))}
+            {products.map((product) => (
+              <ProductCard key={product.documentId} product={product} />
+            ))}
           </div>
 
           <div

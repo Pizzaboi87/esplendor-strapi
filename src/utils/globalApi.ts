@@ -34,12 +34,18 @@ export const fetchFilters = async () => {
 export const fetchProductCards = async (
     categoryFilters: string[],
     colorFilters: string[],
-    start: number
+    start: number,
+    price: string,
+    updatedAt: string,
+    stockStatus: string
 ): Promise<ProductCard[]> => {
     const variables = {
         categoryFilters: categoryFilters.length > 0 ? categoryFilters : undefined,
         colorFilters: colorFilters.length > 0 ? colorFilters : undefined,
         start,
+        price: price ? price : undefined,
+        updatedAt: updatedAt ? updatedAt : undefined,
+        stockStatus: stockStatus === "inStock" ? true : undefined
     };
 
     const data = await gqlFetch<{ products: ProductCard[] }>(GET_PRODUCT_CARDS, variables);
@@ -49,11 +55,13 @@ export const fetchProductCards = async (
 // Fetch the number of products from the API (meta data is not available in the response)
 export const fetchProductsSize = async (
     categoryFilters: string[],
-    colorFilters: string[]
+    colorFilters: string[],
+    stockStatus: string
 ): Promise<number> => {
     const variables = {
         categoryFilters: categoryFilters.length > 0 ? categoryFilters : undefined,
         colorFilters: colorFilters.length > 0 ? colorFilters : undefined,
+        stockStatus: stockStatus === "inStock" ? true : undefined
     };
 
     const data = await gqlFetch<{ products: Array<{ isInStock: boolean }> }>(
@@ -80,16 +88,19 @@ export const fetchRelatedProducts = async (documentId: string) => {
 export const getProductsWithSize = (
     categoryFilters: string[],
     colorFilters: string[],
-    start: number
+    start: number,
+    price: string,
+    updatedAt: string,
+    stockStatus: string
 ) => {
     return [
         {
-            queryKey: ["productsSize", { categoryFilters, colorFilters }],
-            queryFn: () => fetchProductsSize(categoryFilters, colorFilters),
+            queryKey: ["productsSize", { categoryFilters, colorFilters, stockStatus }],
+            queryFn: () => fetchProductsSize(categoryFilters, colorFilters, stockStatus),
         },
         {
-            queryKey: ["products", { categoryFilters, colorFilters, start }],
-            queryFn: () => fetchProductCards(categoryFilters, colorFilters, start),
+            queryKey: ["products", { categoryFilters, colorFilters, start, price, updatedAt, stockStatus }],
+            queryFn: () => fetchProductCards(categoryFilters, colorFilters, start, price, updatedAt, stockStatus),
         },
     ];
 };

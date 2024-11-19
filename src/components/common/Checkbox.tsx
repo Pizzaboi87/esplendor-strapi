@@ -7,14 +7,15 @@ interface CheckboxProps {
   onClickHandler: (value: string) => void;
 }
 
-export const Checkbox: React.FC<CheckboxProps> = ({
+export const Checkbox = ({
   label,
   value,
   isSelected,
   onClickHandler,
-}) => {
-  const [isChecked, setIsChecked] = useState(isSelected);
+}: CheckboxProps) => {
+  const [isChecked, setIsChecked] = useState<boolean>(isSelected);
 
+  // Handle checkbox change
   const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
     setIsChecked(e.target.checked);
     onClickHandler(value);
@@ -23,7 +24,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   return (
     <>
       <style>{styles}</style>
-      <label className="checkbox-wrapper cursor-pointer flex items-center gap-x-2 w-fit py-2">
+      <label className="checkbox-wrapper cursor-pointer flex items-center gap-x-2 w-fit">
         <input
           type="checkbox"
           checked={isChecked}
@@ -32,8 +33,8 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         />
         <svg
           viewBox="0 0 80 80"
-          height="2em"
-          width="2em"
+          height="1.5em"
+          width="1.5em"
           className="overflow-visible"
         >
           <path
@@ -42,7 +43,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
             className="path checkbox-wrapper--path"
           />
         </svg>
-        <p className="pb-2">{label}</p>
+        <p className="pb-2 text-base">{label}</p>
       </label>
     </>
   );

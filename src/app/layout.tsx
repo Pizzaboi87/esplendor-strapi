@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Aboreto, Work_Sans, Bonheur_Royale } from "next/font/google";
-import "../styles/globals.css";
 import { Header } from "@/components/header/Header";
 import { Footer } from "@/components/footer/Footer";
 import { Providers } from "@/providers";
+import "../styles/globals.css";
 
 const aboreto = Aboreto({
   subsets: ["latin"],

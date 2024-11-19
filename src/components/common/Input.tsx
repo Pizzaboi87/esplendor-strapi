@@ -10,7 +10,7 @@ type InputProps = {
   className?: string;
 };
 
-export const Input: React.FC<InputProps> = ({
+export const Input = ({
   id,
   label,
   type,
@@ -18,7 +18,7 @@ export const Input: React.FC<InputProps> = ({
   error,
   isHided = false,
   className,
-}) => (
+}: InputProps) => (
   <div className={`${className} ${isHided ? "absolute -z-50" : ""}`}>
     <label htmlFor={id} className="block text-sm mb-1">
       {label} <span className="text-sm text-red-500">*</span>
