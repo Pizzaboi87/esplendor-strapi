@@ -6,7 +6,6 @@ import { User } from "@/types/types";
 import { fetchUserByJWT } from "@/utils/globalApi";
 import { jwtDecode } from "jwt-decode";
 import { createContext, useContext, useEffect, useState } from "react";
-import Swal from "sweetalert2";
 
 interface InitialUserData {
   user: User | null;
@@ -86,7 +85,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       } else {
         fetchUserData(jwt);
       }
-    }
+    } // eslint-disable-next-line
   }, []);
 
   // Show loading screen while fetching user data

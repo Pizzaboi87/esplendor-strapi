@@ -13,7 +13,7 @@ export const CartSummary = () => {
 
   // Redirect to the checkout page
   const checkoutHandler = () => {
-    user ? router.push("/checkout") : router.push(`/sign-in?redirect=/cart`);
+    user ? router.push("/checkout") : router.push("/sign-in");
   };
 
   return (

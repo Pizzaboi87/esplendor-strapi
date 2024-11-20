@@ -7,12 +7,12 @@ export const Promotion = () => (
       <h3 className="mb-10">Deal of the Month</h3>
       <p className="leading-8 mb-10 font-light">
         <strong className="font-semibold">
-          Discover the Deal of the Month at Esplend'or!
+          Discover the Deal of the Month at Esplend&apos;or!
         </strong>{" "}
         This month only, explore our most exquisite wedding and engagement rings
         at exceptional prices. Make your special moments unforgettable with a
-        ring that symbolizes eternity. Don't miss out - choose love, choose
-        Esplend'or!
+        ring that symbolizes eternity. Don&apos;t miss out - choose love, choose
+        Esplend&apos;or!
       </p>
 
       <div className="block md:hidden lg:block">

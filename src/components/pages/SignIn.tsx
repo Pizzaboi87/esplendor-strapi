@@ -2,10 +2,9 @@
 
 import Link from "next/link";
 import Image from "next/image";
-
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Button, Input, Message } from "@/components/common";
 import { useUser } from "@/providers/User";
 import { userLogin } from "@/utils/globalApi";
@@ -17,16 +16,10 @@ type FormData = {
 
 export const SignIn = () => {
   const { login } = useUser();
-  const searchParams = useSearchParams();
-  const allParams = searchParams.toString()
-    ? `?${searchParams.toString()}`
-    : "";
-  const redirect = useRef(searchParams.get("redirect"));
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // React Hook Form for form validation
   const {
     register,
     handleSubmit,
@@ -51,9 +44,7 @@ export const SignIn = () => {
         login(result);
         setIsLoading(false);
 
-        redirect?.current
-          ? router.push(redirect.current as string)
-          : router.push("/");
+        router.push("/");
       } catch (err) {
         console.error("Login error:", err);
         setError(
@@ -62,7 +53,7 @@ export const SignIn = () => {
         setIsLoading(false);
       }
     },
-    [login, redirect, router]
+    [login, router]
   );
 
   return (
@@ -100,7 +91,7 @@ export const SignIn = () => {
             Welcome to our Webshop!
           </h5>
           <p className="text-center xs:mb-12 mb-6 xs:text-[1rem] text-[0.8rem]">
-            Please sign in to your Esplend'or Account.
+            Please sign in to your Esplend&apos;or Account.
           </p>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
@@ -133,13 +124,13 @@ export const SignIn = () => {
 
           <div className="flex xs:flex-row flex-col gap-y-6 justify-between mt-6 text-[0.9375rem]">
             <Link
-              href={`/recover-password${allParams}`}
+              href="/recover-password"
               className="text-black hover:underline underline-offset-8"
             >
               Forgot your password?
             </Link>
             <Link
-              href={`/sign-up${allParams}`}
+              href="/sign-up"
               className="text-black hover:underline underline-offset-8"
             >
               Create an account

@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Button, Input, Message } from "@/components/common";
 import { sendForgotPasswordEmail } from "@/utils/globalApi";
 import { SwalMessage } from "../common/SwalMessage";
@@ -14,8 +14,6 @@ type FormData = {
 };
 
 export const RecoverPassword: React.FC = () => {
-  const searchParams = useSearchParams();
-  const redirect = useRef(searchParams.get("redirect"));
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 

@@ -20,7 +20,7 @@ const NotFound = () => (
         Something is missing
       </h3>
       <p className="sm:text-[1.1rem] text-[0.9rem] leading-tighter tracking-wide text-center">
-        We can't seem to find the page you're looking for.{" "}
+        We can&apos;t seem to find the page you&apos;re looking for.{" "}
         <br className="hidden sm:block" />
         Please check the URL or return to the home page.{" "}
         <br className="hidden sm:block" />

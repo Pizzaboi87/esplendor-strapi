@@ -3,9 +3,9 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Button, Input, Message } from "@/components/common";
 import { createAccount } from "@/utils/globalApi";
 import { RegisterForm } from "@/types/types";
@@ -20,8 +20,6 @@ type FormData = {
 
 export const SignUp = () => {
   const { login } = useUser();
-  const searchParams = useSearchParams();
-  const redirect = useRef(searchParams.get("redirect"));
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -55,9 +53,7 @@ export const SignUp = () => {
       login(result);
       setIsLoading(false);
 
-      redirect?.current
-        ? router.push(redirect.current as string)
-        : router.push("/");
+      router.push("/");
     },
     [router, login]
   );
@@ -94,7 +90,7 @@ export const SignUp = () => {
       <div className="flex flex-col justify-center items-center p-1 md:p-8 lg:p-0 bg-cover bg-center bg-no-repeat bg-[url('/assets/images/create.webp')] lg:bg-none">
         <div className="mt-12 sm:mt-0 w-full max-w-xl xs:p-8 p-2 lg:bg-transparent bg-white bg-opacity-60 backdrop-blur-md rounded-lg md:shadow-none shadow-lg">
           <h5 className="font-bold text-center xs:mb-6 mb-2 xs:text-[1.5rem]">
-            Create your Esplend'or Account
+            Create your Esplend&apos;or Account
           </h5>
           <p className="text-center xs:mb-12 mb-6 xs:text-[1rem] text-[0.8rem]">
             Please fill out the form below to create your account.

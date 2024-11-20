@@ -36,7 +36,7 @@ export const FooterContent = () => (
             />
           </Link>
           <p className="text-primary mt-3 text-[0.8rem] sm:text-base">
-            ⓒ 2024 Esplend'or - All rights reserved.
+            ⓒ 2024 Esplend&apos;or - All rights reserved.
           </p>
         </div>
 
