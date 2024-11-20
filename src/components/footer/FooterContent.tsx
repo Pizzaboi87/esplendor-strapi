@@ -24,7 +24,7 @@ export const FooterContent = () => (
     </div>
 
     <div className="bg-black">
-      <div className="container mx-auto normal py-10 flex sm:flex-row flex-col justify-between sm:items-center items-start gap-y-10">
+      <div className="container mx-auto normal py-10 flex md:flex-row flex-col justify-between items-center gap-y-10">
         <div className="">
           <Link href="/">
             <Image
@@ -35,7 +35,7 @@ export const FooterContent = () => (
               className="w-auto h-auto"
             />
           </Link>
-          <p className="text-primary mt-3 text-[0.8rem] sm:text-base">
+          <p className="text-primary mt-3 text-[0.8rem] sm:text-base pl-2 text-center">
             ⓒ 2024 Esplend&apos;or - All rights reserved.
           </p>
         </div>

@@ -33,6 +33,7 @@ const RootLayout = ({
       <head>
         <link rel="icon" href="/favicon.ico" sizes="32x32" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
       <body
         className={`${aboreto.variable} ${work.variable} ${bonheur_royale.variable}`}
@@ -55,4 +56,33 @@ export const metadata: Metadata = {
   title: "Esplendor Rings",
   description: "Esplend'or Rings - Where forever begins",
   creator: "Peter Weiser",
+  metadataBase: new URL("https://esplendor-rings.vercel.app"),
+  openGraph: {
+    type: "website",
+    siteName: "Esplendor Rings",
+    title: "Esplendor Rings",
+    description: "Wedding and engagement rings by Esplendor Rings",
+    url: "https://esplendor-rings.vercel.app",
+    images: [
+      {
+        url: "/web-image.webp",
+        width: 1200,
+        height: 630,
+        alt: "Esplendor Rings - Wedding and Engagement Rings",
+      },
+    ],
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Esplendor Rings",
+    description: "Wedding and engagement rings by Esplendor Rings",
+    creator: "@weiser_peter",
+    images: [
+      {
+        url: "/web-image.webp",
+        alt: "Esplendor Rings - Wedding and Engagement Rings",
+      },
+    ],
+  },
 };

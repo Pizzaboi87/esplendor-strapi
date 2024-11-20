@@ -70,7 +70,7 @@ export const RecoverPassword: React.FC = () => {
 
       <Link
         href="/"
-        className="absolute flex justify-self-center lg:hidden mt-12 mx-auto text-center"
+        className="absolute flex justify-self-center lg:hidden sm:mt-12 mt-3 mx-auto text-center"
       >
         <Image
           src="/logo.png"

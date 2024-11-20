@@ -1,5 +1,5 @@
 import { GraphQLClient } from "graphql-request";
-import { CREATE_ACCOUNT, FORGOT_PASSWORD, GET_CATEGORY_CARDS, GET_FILTERS, GET_PRODUCT, GET_PRODUCT_CARDS, GET_PRODUCTS_SIZE, GET_RELATED_PRODUCTS, GET_USER_BY_JWT, USER_LOGIN } from "./queries";
+import { CREATE_ACCOUNT, FORGOT_PASSWORD, GET_CATEGORY_CARDS, GET_FILTERS, GET_PRODUCT, GET_PRODUCT_CARDS, GET_PRODUCTS_SIZE, GET_RELATED_PRODUCTS, GET_USER_BY_JWT, RESET_PASSWORD, USER_LOGIN } from "./queries";
 import { CategoryCard, CategoryName, ColorName, ProductCard, ProductDetails, RegisterForm, RelatedProduct, User } from "@/types/types";
 
 const graphqlEndpoint = process.env.NEXT_PUBLIC_API_URL as string;
@@ -124,7 +124,7 @@ export const getProductsWithSize = (
 export const createAccount = async (formInput: RegisterForm): Promise<User | string> => {
     const variables = {
         input: {
-            username: formInput.fullName,
+            username: formInput.userName,
             email: formInput.email,
             password: formInput.password,
         },
@@ -208,5 +208,24 @@ export const sendForgotPasswordEmail = async (email: string) => {
         }
     } catch (error: any) {
         console.log("Error sending forgot password email:", error);
+    }
+}
+
+// Reset password function
+export const resetPassword = async (password: string, passwordConfirmation: string, code: string) => {
+    const variables = {
+        password,
+        passwordConfirmation,
+        code,
+    }
+
+    try {
+        const result = await gqlFetch<{ resetPassword: { jwt: string; user: { email: string } } }>(RESET_PASSWORD, variables);
+
+        if (result.resetPassword) {
+            return result.resetPassword;
+        }
+    } catch (error: any) {
+        console.log("Error resetting password:", error);
     }
 }

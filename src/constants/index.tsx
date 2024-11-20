@@ -1,4 +1,9 @@
-export const noHeaderFooterUrls = ["/sign-up", "/sign-in", "/recover-password"];
+export const noHeaderFooterUrls = [
+  "/sign-up",
+  "/sign-in",
+  "/recover-password",
+  "/password-reset",
+];
 
 export const headerNavItems = [
   {

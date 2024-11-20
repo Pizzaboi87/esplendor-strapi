@@ -60,7 +60,7 @@ export type User = {
 }
 
 export type RegisterForm = {
-    fullName: string;
+    userName: string;
     email: string;
     password: string;
     passwordRepeat: string;

@@ -28,7 +28,7 @@ export const Categories = () => {
 
   return (
     <section className="container mx-auto mt-24">
-      <div className="flex justify-between mb-12">
+      <div className="flex flex-col sm:flex-row gap-y-5 justify-between mb-12">
         <h3>Shop by Categories</h3>
         <p
           onClick={() => handleViewAll()}

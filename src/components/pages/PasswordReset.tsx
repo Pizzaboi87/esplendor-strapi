@@ -1,69 +1,71 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import Image from "next/image";
-
+import { useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
+import { resetPassword } from "@/utils/globalApi";
 import { Button, Input, Message } from "@/components/common";
-import { createAccount } from "@/utils/globalApi";
-import { RegisterForm } from "@/types/types";
-import { useUser } from "@/providers/User";
 
 type FormData = {
-  userName: string;
-  email: string;
   password: string;
-  passwordRepeat: string;
+  passwordConfirmation: string;
 };
 
-export const SignUp = () => {
-  const { login } = useUser();
-  const router = useRouter();
+const PasswordResetContent = () => {
+  const searchParams = useSearchParams();
+  const code = searchParams.get("code");
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // React Hook Form for form validation
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
 
-  // Form submit function
   const onSubmit = useCallback(
-    async (data: RegisterForm) => {
-      if (data.password !== data.passwordRepeat) {
-        setError("Passwords do not match. Please try again.");
+    async (data: FormData) => {
+      if (!code) {
+        setError("Invalid or missing code.");
         return;
       }
 
-      setIsLoading(true);
-      setError(null);
+      try {
+        setIsLoading(true);
+        setError(null);
+        setSuccess(null);
 
-      const result = await createAccount(data);
+        const result = await resetPassword(
+          data.password,
+          data.passwordConfirmation,
+          code
+        );
 
-      if (typeof result === "string") {
-        setError(result);
+        if (result) {
+          setSuccess("Password reset successfully. You can now log in.");
+        } else {
+          setError("Failed to reset password. Please try again.");
+        }
+      } catch (err) {
+        console.error("Error resetting password:", err);
+        setError("An unexpected error occurred. Please try again.");
+      } finally {
         setIsLoading(false);
-        return;
       }
-
-      login(result);
-      setIsLoading(false);
-
-      router.push("/");
     },
-    [router, login]
+    [code]
   );
 
   return (
     <section className="grid grid-cols-1 lg:grid-cols-[1fr_45%] h-screen">
-      <div className="hidden lg:block bg-cover bg-center bg-no-repeat bg-[url('/assets/images/create.webp')]">
+      <div className="hidden lg:block bg-cover bg-center bg-no-repeat bg-[url('/assets/images/reset.webp')]">
         <Link href="/" className="inline-block mt-12 ml-8">
           <Image
-            src="/logo-white.png"
+            src="/logo.png"
             alt="logo"
             width={250}
             height={25}
@@ -78,7 +80,7 @@ export const SignUp = () => {
         className="absolute flex justify-self-center lg:hidden sm:mt-12 mt-3 mx-auto text-center"
       >
         <Image
-          src="/logo-white.png"
+          src="/logo.png"
           alt="logo"
           width={250}
           height={25}
@@ -87,36 +89,22 @@ export const SignUp = () => {
         />
       </Link>
 
-      <div className="flex flex-col justify-center items-center p-1 md:p-8 lg:p-0 bg-cover bg-center bg-no-repeat bg-[url('/assets/images/create.webp')] lg:bg-none">
-        <div className="mt-12 sm:mt-0 w-full max-w-xl xs:p-8 p-2 lg:bg-transparent bg-white bg-opacity-60 backdrop-blur-md rounded-lg md:shadow-none shadow-lg">
+      <div className="flex flex-col justify-center items-center p-1 md:p-8 lg:p-0 bg-cover bg-center bg-no-repeat bg-[url('/assets/images/reset.webp')] lg:bg-none">
+        <div className="w-full max-w-xl xs:p-8 p-2 lg:bg-transparent bg-white bg-opacity-60 backdrop-blur-md rounded-lg md:shadow-none shadow-lg">
           <h5 className="font-bold text-center xs:mb-6 mb-2 xs:text-[1.5rem]">
-            Create your Esplend&apos;or Account
+            Reset Your Password
           </h5>
           <p className="text-center xs:mb-12 mb-6 xs:text-[1rem] text-[0.8rem]">
-            Please fill out the form below to create your account.
+            Enter your new password to restore access to your account.
           </p>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
             {error && <Message message={error} type="error" />}
-            <Input
-              id="username"
-              label="Username"
-              type="text"
-              register={register("userName", {
-                required: "Userame is required",
-              })}
-              error={errors.userName}
-            />
-            <Input
-              id="email"
-              label="Email Address"
-              type="email"
-              register={register("email", { required: "Email is required" })}
-              error={errors.email}
-            />
+            {success && <Message message={success} type="success" />}
+
             <Input
               id="password"
-              label="Password"
+              label="New Password"
               type="password"
               register={register("password", {
                 required: "Password is required",
@@ -124,13 +112,13 @@ export const SignUp = () => {
               error={errors.password}
             />
             <Input
-              id="passwordRepeat"
-              label="Repeat Password"
+              id="passwordConfirmation"
+              label="Confirm Password"
               type="password"
-              register={register("passwordRepeat", {
-                required: "Password repeat is required",
+              register={register("passwordConfirmation", {
+                required: "Password confirmation is required",
               })}
-              error={errors.passwordRepeat}
+              error={errors.passwordConfirmation}
             />
             <Button
               type="submit"
@@ -138,12 +126,12 @@ export const SignUp = () => {
               isLoading={isLoading}
               className="xl:w-1/2 w-full"
             >
-              Create Account
+              Reset Password
             </Button>
           </form>
 
           <div className="flex xs:flex-row flex-col gap-y-6 justify-start gap-x-2 mt-6">
-            <p className="text-[0.9375rem]">Already have an account?</p>
+            <p className="text-[0.9375rem]">Did you reset your password?</p>
             <Link
               href="/sign-in"
               className="text-black hover:underline underline-offset-8 text-[0.9375rem]"
@@ -156,3 +144,11 @@ export const SignUp = () => {
     </section>
   );
 };
+
+// Dynamically load the PasswordResetContent component
+export const PasswordReset = dynamic(
+  () => Promise.resolve(PasswordResetContent),
+  {
+    ssr: false,
+  }
+);

@@ -152,3 +152,22 @@ export const FORGOT_PASSWORD = `
         }
     }
 `;
+
+export const RESET_PASSWORD = `
+    mutation ResetPassword(
+        $password: String!, 
+        $passwordConfirmation: String!, 
+        $code: String!
+    ) {
+        resetPassword(
+            password: $password, 
+            passwordConfirmation: $passwordConfirmation, 
+            code: $code) {
+                jwt
+                user {
+                    email
+                    username
+                }
+            }
+    }
+`;

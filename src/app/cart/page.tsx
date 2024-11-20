@@ -1,4 +1,5 @@
 import { Cart } from "@/components/pages/Cart";
+import { mergeOpenGraph } from "@/utils/mergeMetaData";
 
 const CartPage = () => (
   <section className="container mx-auto">
@@ -9,10 +10,10 @@ const CartPage = () => (
 export const metadata = {
   title: "Esplend'or Webshop Cart",
   description: "Cart page for the Esplendor Rings Webshop.",
-  openGraph: {
+  openGraph: mergeOpenGraph({
     title: "Esplendor Rings Webshop Cart",
     url: "/cart",
-  },
+  }),
 };
 
 export default CartPage;

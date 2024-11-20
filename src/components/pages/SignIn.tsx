@@ -73,7 +73,7 @@ export const SignIn = () => {
 
       <Link
         href="/"
-        className="absolute flex justify-self-center lg:hidden mt-12 mx-auto text-center"
+        className="absolute flex justify-self-center lg:hidden sm:mt-12 mt-3 mx-auto text-center"
       >
         <Image
           src="/logo.png"
@@ -122,7 +122,7 @@ export const SignIn = () => {
             </Button>
           </form>
 
-          <div className="flex xs:flex-row flex-col gap-y-6 justify-between mt-6 text-[0.9375rem]">
+          <div className="flex sm:flex-row flex-col gap-y-6 justify-between mt-6 text-[0.9375rem]">
             <Link
               href="/recover-password"
               className="text-black hover:underline underline-offset-8"
