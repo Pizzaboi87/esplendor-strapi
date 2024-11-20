@@ -7,8 +7,6 @@ const AccountPage = () => (
   </section>
 );
 
-export default AccountPage;
-
 export const metadata = {
   title: "Account Page",
   description: "Account page for Esplendor Rings registered customers.",
@@ -17,3 +15,5 @@ export const metadata = {
     url: "/account",
   }),
 };
+
+export default AccountPage;

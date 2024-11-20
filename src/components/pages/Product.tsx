@@ -110,7 +110,7 @@ export const Product = () => {
             width={300}
             height={300}
             priority
-            className="w-auto lg:h-[80%] object-contain"
+            className="w-auto lg:h-[80%] h-auto object-contain"
           />
         ) : (
           <div className="w-full h-48 bg-gray-200 rounded-lg flex items-center justify-center text-gray-500">
@@ -138,6 +138,7 @@ export const Product = () => {
             alt="close"
             width={36}
             height={36}
+            priority
             className="absolute top-5 right-5 cursor-pointer"
             onClick={handleZoomToggle}
           />

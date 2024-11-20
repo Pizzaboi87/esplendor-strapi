@@ -46,7 +46,7 @@ export const HeaderNav = () => {
         >
           <Image
             src="/assets/icons/cart.svg"
-            alt="Cart"
+            alt="cart-icon"
             width={36}
             height={36}
             priority

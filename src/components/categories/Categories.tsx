@@ -29,7 +29,9 @@ export const Categories = () => {
   return (
     <section className="container mx-auto mt-24">
       <div className="flex flex-col sm:flex-row gap-y-5 justify-between mb-12">
-        <h3>Shop by Categories</h3>
+        <h2 className="md:text-[2rem] md:leading-[2.5rem] text-[1.625rem] leading-[2rem]">
+          Shop by Categories
+        </h2>
         <p
           onClick={() => handleViewAll()}
           className="text-black hover:underline underline-offset-8 cursor-pointer"

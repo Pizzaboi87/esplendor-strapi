@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 interface CartItem {
   id: string;
@@ -16,7 +16,6 @@ interface InitialCartData {
   addToCart: (product: CartItem) => void;
   removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
-  resetCart: () => void;
   total: number;
 }
 
@@ -26,14 +25,30 @@ const CartContext = createContext<InitialCartData>({
   addToCart: () => {},
   removeFromCart: () => {},
   updateQuantity: () => {},
-  resetCart: () => {},
   total: 0,
 });
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [isHydrated, setIsHydrated] = useState<boolean>(false);
 
-  // Function to add products to the cart
+  // Cart hydration from localStorage
+  useEffect(() => {
+    const savedCart = localStorage.getItem("cart");
+    if (savedCart) {
+      setCart(JSON.parse(savedCart));
+    }
+    setIsHydrated(true);
+  }, []);
+
+  // Cart persistence to localStorage
+  useEffect(() => {
+    if (isHydrated) {
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
+  }, [cart, isHydrated]);
+
+  // Add product to cart
   const addToCart = (product: CartItem) => {
     setCart((prevCart) => {
       const existingProduct = prevCart.find((item) => item.id === product.id);
@@ -48,7 +63,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
-  // Function to update the quantity of a product in the cart
+  // Update product quantity in cart
   const updateQuantity = (productId: string, quantity: number) => {
     if (quantity <= 0) {
       setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
@@ -61,7 +76,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  // Calculate the total price of the cart
+  // Calculate total price
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
@@ -73,11 +88,10 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         removeFromCart: (id) =>
           setCart((prevCart) => prevCart.filter((item) => item.id !== id)),
         updateQuantity,
-        resetCart: () => setCart([]),
         total,
       }}
     >
-      {children}
+      {isHydrated ? children : null}
     </CartContext.Provider>
   );
 };

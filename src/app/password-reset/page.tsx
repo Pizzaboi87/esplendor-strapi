@@ -4,8 +4,6 @@ import { Metadata } from "next";
 
 const PaswordResetPage = () => <PasswordReset />;
 
-export default PaswordResetPage;
-
 export const metadata: Metadata = {
   title: "Password Reset",
   description: "Reset your password to restore your Esplendor Rings account.",
@@ -14,3 +12,5 @@ export const metadata: Metadata = {
     url: "/password-reset",
   }),
 };
+
+export default PaswordResetPage;
