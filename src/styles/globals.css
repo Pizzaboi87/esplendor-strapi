@@ -77,3 +77,19 @@ input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0px 1000px rgb(220, 220, 220) inset;
   transition: background-color 5000s ease-in-out 0s;
 }
+
+/* SweetAlert2 custom styles */
+.swal2-confirm {
+  background-color: #000 !important;
+  box-shadow: none !important;
+  border-radius: 0.5rem !important;
+  width: 5rem !important;
+
+  &:hover {
+    background-color: #000000cc !important;
+  }
+}
+
+.swal2-popup {
+  border-radius: 2rem 0 2rem 0 !important;
+}

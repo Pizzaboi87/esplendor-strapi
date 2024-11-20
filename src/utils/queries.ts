@@ -111,3 +111,44 @@ export const GET_RELATED_PRODUCTS = `
         }
     }
 `;
+
+export const CREATE_ACCOUNT = `
+    mutation RegisterUser($input: UsersPermissionsRegisterInput!) {
+        register(input: $input) {
+            jwt
+            user {
+                username
+                email
+            }
+        }
+    }
+`;
+
+export const USER_LOGIN = `
+    mutation LoginUser($input: UsersPermissionsLoginInput!) {
+        login(input: $input) {
+            jwt
+            user {
+                username
+                email
+            }
+        }
+    }
+`;
+
+export const GET_USER_BY_JWT = `
+    query GetUserByJWT {
+        me {
+            username
+            email
+        }
+    }
+`;
+
+export const FORGOT_PASSWORD = `
+    mutation ForgotPassword($email: String!) {
+        forgotPassword(email: $email) {
+            ok
+        }
+    }
+`;

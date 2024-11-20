@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import Image from "next/image";
-
 import { useCallback, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button, Input, Message } from "@/components/common";
+import { sendForgotPasswordEmail } from "@/utils/globalApi";
+import { SwalMessage } from "../common/SwalMessage";
 
 type FormData = {
   email: string;
@@ -24,18 +25,31 @@ export const RecoverPassword: React.FC = () => {
     formState: { errors, isSubmitting },
   } = useForm<FormData>();
 
+  // Submit the form
   const onSubmit = useCallback(
     async (data: FormData) => {
       try {
-        // TODO: Create a password recovery request
-        console.log("Password recovery request for:", data.email);
         setError(null);
 
-        router.push("/");
-      } catch (_) {
-        setError(
-          "An error occurred while processing your request. Please try again."
-        );
+        // Send the password recovery email
+        const isSuccess = await sendForgotPasswordEmail(data.email);
+
+        if (isSuccess) {
+          SwalMessage({
+            title: "Password Recovery Email",
+            message:
+              "An email has been sent to your email address with instructions to recover your password.",
+          }).then(() => {
+            router.push("/");
+          });
+        } else {
+          setError(
+            "An error occurred while sending the password recovery email. Please try again."
+          );
+        }
+      } catch (error) {
+        console.error("Error during password recovery:", error);
+        setError("An unexpected error occurred. Please try again later.");
       }
     },
     [router]

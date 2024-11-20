@@ -7,13 +7,16 @@ import { useCallback, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button, Input, Message } from "@/components/common";
+import { useUser } from "@/providers/User";
+import { userLogin } from "@/utils/globalApi";
 
 type FormData = {
   email: string;
   password: string;
 };
 
-export const SignIn: React.FC = () => {
+export const SignIn = () => {
+  const { login } = useUser();
   const searchParams = useSearchParams();
   const allParams = searchParams.toString()
     ? `?${searchParams.toString()}`
@@ -21,27 +24,45 @@ export const SignIn: React.FC = () => {
   const redirect = useRef(searchParams.get("redirect"));
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
+  // React Hook Form for form validation
   const {
     register,
     handleSubmit,
-    formState: { errors, isLoading },
+    formState: { errors },
   } = useForm<FormData>();
 
+  // Form submit function
   const onSubmit = useCallback(
     async (data: FormData) => {
       try {
-        // TODO: Create a login request function
-        console.log("Logging in with:", data);
-        if (redirect?.current) router.push(redirect.current as string);
-        else router.push("/");
-      } catch (_) {
+        setIsLoading(true);
+        setError(null);
+
+        const result = await userLogin(data.email, data.password);
+
+        if (typeof result === "string") {
+          setError(result);
+          setIsLoading(false);
+          return;
+        }
+
+        login(result);
+        setIsLoading(false);
+
+        redirect?.current
+          ? router.push(redirect.current as string)
+          : router.push("/");
+      } catch (err) {
+        console.error("Login error:", err);
         setError(
           "There was an error with the credentials provided. Please try again."
         );
+        setIsLoading(false);
       }
     },
-    [router]
+    [login, redirect, router]
   );
 
   return (

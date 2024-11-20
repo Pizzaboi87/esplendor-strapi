@@ -50,3 +50,18 @@ export type RelatedProduct = {
     price: number;
     image: Media
 }
+
+export type User = {
+    jwt: string;
+    user: {
+        username: string;
+        email: string;
+    }
+}
+
+export type RegisterForm = {
+    fullName: string;
+    email: string;
+    password: string;
+    passwordRepeat: string;
+}

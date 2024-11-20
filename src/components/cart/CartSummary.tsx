@@ -4,14 +4,16 @@ import { useCart } from "@/providers/Cart";
 import { formatNumber } from "@/utils/helpers";
 import { Button } from "../common";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/providers/User";
 
 export const CartSummary = () => {
   const router = useRouter();
+  const { user } = useUser();
   const { cart, total } = useCart();
 
   // Redirect to the checkout page
-  const goToCheckout = () => {
-    router.push("/checkout");
+  const checkoutHandler = () => {
+    user ? router.push("/checkout") : router.push(`/sign-in?redirect=/cart`);
   };
 
   return (
@@ -41,9 +43,9 @@ export const CartSummary = () => {
           <Button
             type="button"
             className="xl:mt-4 mt-10 xl:w-[97.5%] md:w-1/2 w-full xl:mx-auto"
-            onClick={goToCheckout}
+            onClick={checkoutHandler}
           >
-            Proceed to Checkout
+            {user ? "Proceed to Checkout" : "Sign in to Checkout"}
           </Button>
         </div>
       ) : null}

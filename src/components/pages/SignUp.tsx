@@ -7,6 +7,9 @@ import { useCallback, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button, Input, Message } from "@/components/common";
+import { createAccount } from "@/utils/globalApi";
+import { RegisterForm } from "@/types/types";
+import { useUser } from "@/providers/User";
 
 type FormData = {
   fullName: string;
@@ -15,36 +18,48 @@ type FormData = {
   passwordRepeat: string;
 };
 
-export const SignUp: React.FC = () => {
+export const SignUp = () => {
+  const { login } = useUser();
   const searchParams = useSearchParams();
   const redirect = useRef(searchParams.get("redirect"));
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
+  // React Hook Form for form validation
   const {
     register,
     handleSubmit,
-    formState: { errors, isLoading },
+    formState: { errors },
   } = useForm<FormData>();
 
+  // Form submit function
   const onSubmit = useCallback(
-    async (data: FormData) => {
+    async (data: RegisterForm) => {
       if (data.password !== data.passwordRepeat) {
         setError("Passwords do not match. Please try again.");
         return;
       }
-      try {
-        // TODO: Create a new account request function
-        console.log("Creating account with:", data);
-        if (redirect?.current) router.push(redirect.current as string);
-        else router.push("/");
-      } catch (_) {
-        setError(
-          "There was an error with the credentials provided. Please try again."
-        );
+
+      setIsLoading(true);
+      setError(null);
+
+      const result = await createAccount(data);
+
+      if (typeof result === "string") {
+        setError(result);
+        setIsLoading(false);
+        return;
       }
+
+      login(result);
+      setIsLoading(false);
+
+      redirect?.current
+        ? router.push(redirect.current as string)
+        : router.push("/");
     },
-    [router]
+    [router, login]
   );
 
   return (
@@ -96,30 +111,12 @@ export const SignUp: React.FC = () => {
               })}
               error={errors.fullName}
             />
-            {/* Hidden field to avoid autocomplete */}
-            <Input
-              id="email"
-              label="Email Address"
-              type="email"
-              register={register("email", { required: "Email is required" })}
-              isHided
-            />
             <Input
               id="email"
               label="Email Address"
               type="email"
               register={register("email", { required: "Email is required" })}
               error={errors.email}
-            />
-            {/* Hidden field to avoid autocomplete */}
-            <Input
-              id="password"
-              label="Password"
-              type="password"
-              register={register("password", {
-                required: "Password is required",
-              })}
-              isHided
             />
             <Input
               id="password"
