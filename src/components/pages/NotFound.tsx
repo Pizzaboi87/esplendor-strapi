@@ -1,9 +1,10 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/common";
-import { Metadata } from "next";
 
-const NotFound = () => (
+export const NotFound = () => (
   <section className="container mx-auto flex flex-col lg:grid grid-cols-12 md:px-12 px-2 lg:pt-40 md:pt-24 pt-12 md:pb-60 pb-24">
     <div className="col-span-6 h-full flex items-center">
       <Image
@@ -11,6 +12,7 @@ const NotFound = () => (
         alt="404"
         width={500}
         height={500}
+        priority
         className="lg:w-full md:w-3/4 sm:w-3/5 w-full mx-auto mb-12 md:mb-0 h-auto col-span-5"
       />
     </div>
@@ -32,10 +34,3 @@ const NotFound = () => (
     </div>
   </section>
 );
-
-export default NotFound;
-
-export const metadata: Metadata = {
-  title: "Page Not Found",
-  description: "Error 404: Page Not Found",
-};

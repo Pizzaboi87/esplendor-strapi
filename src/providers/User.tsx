@@ -85,7 +85,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       } else {
         fetchUserData(jwt);
       }
-    } // eslint-disable-next-line
+    }
   }, []);
 
   // Show loading screen while fetching user data

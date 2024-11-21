@@ -18,26 +18,49 @@ export const headerNavItems = [
 
 export const footerNavItems = [
   {
-    label: "Facebook",
+    title: "Facebook",
     url: "https://www.facebook.com",
     icon: "/assets/icons/facebook.svg",
   },
   {
-    label: "Instagram",
+    title: "Instagram",
     url: "https://www.instagram.com",
     icon: "/assets/icons/instagram.svg",
   },
   {
-    label: "YouTube",
+    title: "YouTube",
     url: "https://www.youtube.com",
     icon: "/assets/icons/youtube.svg",
+  },
+];
+
+export const accountNavItems = [
+  {
+    title: "Personal Details",
+    url: "/account/details",
+    icon: "/assets/icons/user-details.svg",
+  },
+  {
+    title: "Previous Orders",
+    url: "/account/orders",
+    icon: "/assets/icons/orders.svg",
+  },
+  {
+    title: "Ordered Items",
+    url: "/account/items",
+    icon: "/assets/icons/items.svg",
+  },
+  {
+    title: "Wishlist",
+    url: "/account/wishlist",
+    icon: "/assets/icons/wishlist.svg",
   },
 ];
 
 export const inclusions = [
   {
     title: "Free Shipping",
-    description: "Free shipping for order above €150",
+    description: "Free shipping for every order",
     icon: "/assets/icons/shipping.svg",
   },
   {

@@ -11,7 +11,7 @@ export const HomeHero = () => (
       priority
       className="md:rounded-tl-[2rem] md:rounded-br-[2rem] sm:min-h-0 min-h-[20rem] object-cover"
     />
-    <div className="absolute top-1/2 transform md:translate-x-24 xs:translate-x-10 translate-x-4 xs:-translate-y-1/2">
+    <div className="absolute top-1/2 transform md:translate-x-24 xs:translate-x-10 translate-x-4 sm:-translate-y-1/2">
       <h1 className="lg:text-[4.5rem] md:text-[3rem] xs:text-[2rem] text-[1.5rem] font-bold">
         Esplend&apos;or
       </h1>
