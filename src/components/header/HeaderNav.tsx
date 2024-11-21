@@ -13,7 +13,7 @@ export const HeaderNav = () => {
     <ul
       className={`${
         user
-          ? "gap-x-4 gap-y-4 px-0 justify-evenly"
+          ? "ml-10 gap-x-4 gap-y-4 px-0 justify-evenly"
           : "gap-x-0 gap-y-2 px-4 justify-between"
       } flex flex-wrap md:px-0 xs:gap-x-8 items-center md:justify-end`}
     >

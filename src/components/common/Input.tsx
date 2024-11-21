@@ -5,6 +5,7 @@ type InputProps = {
   label: string;
   type: "text" | "email" | "password";
   register: UseFormRegisterReturn;
+  placeholder?: string;
   error?: FieldError;
   isHided?: boolean;
   className?: string;
@@ -15,6 +16,7 @@ export const Input = ({
   label,
   type,
   register,
+  placeholder,
   error,
   isHided = false,
   className,
@@ -26,6 +28,7 @@ export const Input = ({
     <input
       type={type}
       {...register}
+      placeholder={placeholder ?? ""}
       className="w-full px-3 py-[0.625rem] border border-gray-400 bg-gray-50 rounded-md focus:outline-none focus:border-black"
     />
     {error && <p className="mt-1 text-sm text-red-600">{error.message}</p>}

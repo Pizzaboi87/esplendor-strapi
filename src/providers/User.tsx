@@ -2,21 +2,26 @@
 
 import { Loading } from "@/components/common";
 import { SwalMessage } from "@/components/common/SwalMessage";
-import { User } from "@/types/types";
+import { User, UserObj } from "@/types/types";
 import { fetchUserByJWT } from "@/utils/globalApi";
 import { jwtDecode } from "jwt-decode";
+import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 
 interface InitialUserData {
   user: User | null;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
-  login: (user: User) => void;
+  jwt: string | null;
+  setJwt: React.Dispatch<React.SetStateAction<string | null>>;
+  login: (userObj: UserObj) => void;
   logout: () => void;
 }
 
 const INITIAL_USER_DATA = {
   user: null,
   setUser: () => {},
+  jwt: null,
+  setJwt: () => {},
   login: () => {},
   logout: () => {},
 };
@@ -28,22 +33,24 @@ interface JwtPayload {
 const UserContext = createContext<InitialUserData>(INITIAL_USER_DATA);
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
+  const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
+  const [jwt, setJwt] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // Login function
-  const login = (user: User) => {
-    setUser(user);
-    localStorage.setItem("jwt", user.jwt);
+  const login = (userObj: UserObj) => {
+    setUser(userObj.user);
+    setJwt(userObj.jwt);
+    localStorage.setItem("jwt", userObj.jwt);
   };
 
-  // Logout function
   const logout = () => {
     setUser(null);
+    setJwt(null);
     localStorage.removeItem("jwt");
+    router.push("/");
   };
 
-  // Check if token is expired
   const isTokenExpired = (token: string) => {
     try {
       const { exp } = jwtDecode<JwtPayload>(token);
@@ -54,14 +61,18 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  // Fetch user data by JWT
   const fetchUserData = async (jwt: string) => {
     setIsLoading(true);
     try {
       const userData = await fetchUserByJWT(jwt);
       if (userData) {
-        setUser({ ...userData, jwt });
+        setUser(userData);
+        setJwt(jwt);
       } else {
+        SwalMessage({
+          title: "Authentication Failed",
+          message: "Please log in again.",
+        });
         logout();
       }
     } catch (error) {
@@ -72,7 +83,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  // Check if user is logged in
   useEffect(() => {
     const jwt = localStorage.getItem("jwt");
     if (jwt) {
@@ -85,10 +95,9 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       } else {
         fetchUserData(jwt);
       }
-    }
+    } // eslint-disable-next-line
   }, []);
 
-  // Show loading screen while fetching user data
   if (isLoading) {
     return (
       <div className="inset-0 h-screen w-screen flex items-center justify-center">
@@ -98,7 +107,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <UserContext.Provider value={{ user, setUser, login, logout }}>
+    <UserContext.Provider value={{ user, setUser, jwt, setJwt, login, logout }}>
       {children}
     </UserContext.Provider>
   );

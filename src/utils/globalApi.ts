@@ -1,6 +1,6 @@
 import { GraphQLClient } from "graphql-request";
 import { CREATE_ACCOUNT, FORGOT_PASSWORD, GET_CATEGORY_CARDS, GET_FILTERS, GET_PRODUCT, GET_PRODUCT_CARDS, GET_PRODUCTS_SIZE, GET_RELATED_PRODUCTS, GET_USER_BY_JWT, RESET_PASSWORD, USER_LOGIN } from "./queries";
-import { CategoryCard, CategoryName, ColorName, ProductCard, ProductDetails, RegisterForm, RelatedProduct, User } from "@/types/types";
+import { CategoryCard, CategoryName, ColorName, ProductCard, ProductDetails, RegisterForm, RelatedProduct, User, UserObj } from "@/types/types";
 
 const graphqlEndpoint = process.env.NEXT_PUBLIC_API_URL as string;
 
@@ -121,7 +121,7 @@ export const getProductsWithSize = (
 };
 
 // Create an account using the API
-export const createAccount = async (formInput: RegisterForm): Promise<User | string> => {
+export const createAccount = async (formInput: RegisterForm): Promise<UserObj | string> => {
     const variables = {
         input: {
             username: formInput.userName,
@@ -153,7 +153,7 @@ export const createAccount = async (formInput: RegisterForm): Promise<User | str
 };
 
 // Login using the API
-export const userLogin = async (email: string, password: string): Promise<User | string> => {
+export const userLogin = async (email: string, password: string): Promise<UserObj | string> => {
     const variables = {
         input: {
             identifier: email,
@@ -162,7 +162,7 @@ export const userLogin = async (email: string, password: string): Promise<User |
     };
 
     try {
-        const result = await gqlFetch<{ login: { jwt: string; user: { username: string; email: string } } }>(
+        const result = await gqlFetch<{ login: { jwt: string; user: User } }>(
             USER_LOGIN,
             variables
         );

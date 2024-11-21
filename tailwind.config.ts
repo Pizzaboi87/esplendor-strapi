@@ -48,10 +48,15 @@ export default {
           '0%': { transform: 'rotate(0deg)' },
           '100%': { transform: 'rotate(360deg)' },
         },
+        rollOnce: {
+          '0%': { transform: 'rotateY(0deg)' },
+          '100%': { transform: 'rotateY(360deg)' },
+        }
       },
       animation: {
         pulseStrong: 'pulseStrong 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         loadingSpinner: 'loadingSpinner 5s linear infinite',
+        rollOnce: 'rollOnce 0.5s linear',
       },
     }
   },

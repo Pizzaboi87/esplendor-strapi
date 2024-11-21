@@ -24,7 +24,7 @@ export const Header = () => {
           width={240}
           height={50}
           priority
-          className="xs:w-auto w-[75%] h-auto xs:mx-0 mx-auto"
+          className="sm:w-auto w-[75%] h-auto sm:mx-0 mx-auto"
         />
       </Link>
 

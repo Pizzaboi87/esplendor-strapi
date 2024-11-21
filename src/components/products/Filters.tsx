@@ -76,10 +76,10 @@ export const Filters = () => {
 
   return (
     <div className="xl:col-span-3 col-span-4 relative pl-5 md:pl-0 min-w-[20rem]">
-      <div className="sticky top-10 sm:grid grid-cols-2 flex md:flex flex-col gap-x-5 sm:px-10 md:px-0">
+      <div className="sticky top-5 sm:grid grid-cols-2 flex md:flex flex-col gap-x-5 sm:px-10 md:px-0">
         <div>
           <h6 className="mb-2 text-base">Product Categories</h6>
-          <div className="mb-4">
+          <div className="mb-3 flex flex-col gap-y-1">
             {isLoading
               ? renderLoadingSkeletons(6)
               : error
@@ -95,7 +95,7 @@ export const Filters = () => {
           <hr className="border-t border-gray-300 mb-4 mr-[30%]" />
 
           <h6 className="mb-2 text-base">Colors</h6>
-          <div className="mb-3">
+          <div className="mb-3 flex flex-col gap-y-1">
             {isLoading
               ? renderLoadingSkeletons(3)
               : error

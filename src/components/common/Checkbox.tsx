@@ -33,8 +33,8 @@ export const Checkbox = ({
         />
         <svg
           viewBox="0 0 80 80"
-          height="1.5em"
-          width="1.5em"
+          height="1.75em"
+          width="1.75em"
           className="overflow-visible"
         >
           <path
@@ -43,7 +43,7 @@ export const Checkbox = ({
             className="path checkbox-wrapper--path"
           />
         </svg>
-        <p className="pb-2 text-base">{label}</p>
+        <p className="pb-2 text-[1.1rem]">{label}</p>
       </label>
     </>
   );

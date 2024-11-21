@@ -93,3 +93,20 @@ input:-webkit-autofill {
 .swal2-popup {
   border-radius: 2rem 0 2rem 0 !important;
 }
+
+/* React Datepicker custom styles */
+.react-datepicker__header {
+  @apply !bg-[#1e1e1e];
+}
+
+.react-datepicker__day-name {
+  @apply !text-white;
+}
+
+.react-datepicker__day--selected {
+  @apply !bg-black;
+}
+
+.react-datepicker__portal {
+  @apply !bg-[#FFFAF3DD];
+}

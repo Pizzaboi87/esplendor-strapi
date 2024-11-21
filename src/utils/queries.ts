@@ -131,6 +131,12 @@ export const USER_LOGIN = `
             user {
                 username
                 email
+                firstName
+                lastName
+                mobilePhone
+                homePhone
+                birthDate
+                country
             }
         }
     }
@@ -141,6 +147,12 @@ export const GET_USER_BY_JWT = `
         me {
             username
             email
+            firstName
+            lastName
+            mobilePhone
+            homePhone
+            birthDate
+            country
         }
     }
 `;

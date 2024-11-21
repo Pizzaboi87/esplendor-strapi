@@ -52,11 +52,19 @@ export type RelatedProduct = {
 }
 
 export type User = {
+    username: string;
+    email: string;
+    firstName?: string;
+    lastName?: string;
+    mobilePhone?: string;
+    homePhone?: string;
+    birthDate?: string;
+    country?: string;
+}
+
+export type UserObj = {
     jwt: string;
-    user: {
-        username: string;
-        email: string;
-    }
+    user: User;
 }
 
 export type RegisterForm = {

@@ -37,22 +37,22 @@ export const footerNavItems = [
 export const accountNavItems = [
   {
     title: "Personal Details",
-    url: "/account/details",
+    tabIndex: 0,
     icon: "/assets/icons/user-details.svg",
   },
   {
     title: "Previous Orders",
-    url: "/account/orders",
+    tabIndex: 1,
     icon: "/assets/icons/orders.svg",
   },
   {
     title: "Ordered Items",
-    url: "/account/items",
+    tabIndex: 2,
     icon: "/assets/icons/items.svg",
   },
   {
     title: "Wishlist",
-    url: "/account/wishlist",
+    tabIndex: 3,
     icon: "/assets/icons/wishlist.svg",
   },
 ];
@@ -105,4 +105,24 @@ export const categories = [
     title: "Wedding Rings",
     image: "/assets/categories/wedding.webp",
   },
+];
+
+export const years = Array.from(
+  { length: 100 },
+  (_, i) => new Date().getFullYear() - i
+);
+
+export const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
