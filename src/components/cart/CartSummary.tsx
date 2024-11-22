@@ -1,30 +1,37 @@
 "use client";
 
+import Link from "next/link";
 import { useCart } from "@/providers/Cart";
 import { Button, CheckoutButton, SummarySheet } from "../common";
-import { useRouter } from "next/navigation";
 import { useUser } from "@/providers/User";
 
-export const CartSummary = () => {
-  const router = useRouter();
+interface CartSummaryProps {
+  isSomeFieldEmpty: boolean | null;
+}
+
+export const CartSummary = ({ isSomeFieldEmpty }: CartSummaryProps) => {
   const { user } = useUser();
   const { cart, total } = useCart();
 
   return (
     <>
       {cart.length ? (
-        <div className="col-span-4 flex flex-col sticky top-5 h-fit">
+        <div className="flex flex-col h-fit">
           <SummarySheet total={total} />
-          {user ? (
+          {user && !isSomeFieldEmpty ? (
             <CheckoutButton />
-          ) : (
-            <Button
-              type="button"
-              className="xl:mt-4 mt-10 xl:w-[97.5%] md:w-1/2 w-full xl:mx-auto"
-              onClick={() => router.push("/sign-in")}
+          ) : user ? null : (
+            <Link
+              href="/sign-in"
+              className="xl:w-full md:w-1/2 w-full md:self-end"
             >
-              Sign in to Checkout
-            </Button>
+              <Button
+                type="button"
+                className="xl:mt-4 mt-10 xl:w-[97.5%] w-full xl:mx-auto"
+              >
+                Sign in to Checkout
+              </Button>
+            </Link>
           )}
         </div>
       ) : null}

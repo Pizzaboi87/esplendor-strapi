@@ -1,3 +1,5 @@
+import { User } from "@/types/types";
+
 export const noHeaderFooterUrls = [
   "/sign-up",
   "/sign-in",
@@ -125,4 +127,13 @@ export const months = [
   "October",
   "November",
   "December",
+];
+
+export const addressFields: (keyof User)[] = [
+  "firstName",
+  "lastName",
+  "country",
+  "city",
+  "address",
+  "zipCode",
 ];

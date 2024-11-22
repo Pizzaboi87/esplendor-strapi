@@ -46,9 +46,9 @@ export const Account = () => {
   };
 
   return (
-    <div className="grid grid-cols-12 gap-x-5">
+    <div className="grid grid-cols-12 lg:gap-x-5 pb-10">
       <AccountNav {...{ setSelectedTab }} />
-      <div className="md:col-span-9 col-span-12 p-5">{renderTabContent()}</div>
+      {renderTabContent()}
     </div>
   );
 };

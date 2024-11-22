@@ -4,12 +4,14 @@ import getStripe from "@/utils/get-stripe";
 import { useCart } from "@/providers/Cart";
 import { useState } from "react";
 import { Button } from "./Button";
+import { useUser } from "@/providers/User";
 
 export const CheckoutButton = () => {
   const { cart } = useCart();
+  const { user, jwt } = useUser();
   const [loading, setLoading] = useState<boolean>(false);
 
-  // Create a Checkout Session with the selected items
+  // Handle function for the checkout button
   const handleClick = async () => {
     setLoading(true);
     try {
@@ -18,16 +20,24 @@ export const CheckoutButton = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ items: cart }),
+        body: JSON.stringify({
+          items: cart,
+          address: user?.address,
+          city: user?.city,
+          country: user?.country,
+          zipCode: user?.zipCode,
+          userId: user?.id,
+          jwt: jwt,
+        }),
       });
 
       if (!response.ok) {
         throw new Error("Failed to create checkout session");
       }
 
-      const { id } = await response.json();
+      const { stripeSessionId } = await response.json();
       const stripe = await getStripe();
-      await stripe?.redirectToCheckout({ sessionId: id });
+      await stripe?.redirectToCheckout({ sessionId: stripeSessionId });
     } catch (error) {
       console.error("Error:", error);
     } finally {

@@ -119,6 +119,7 @@ export const CREATE_ACCOUNT = `
             user {
                 username
                 email
+                id
             }
         }
     }
@@ -137,6 +138,10 @@ export const USER_LOGIN = `
                 homePhone
                 birthDate
                 country
+                address
+                city
+                zipCode
+                id
             }
         }
     }
@@ -153,6 +158,10 @@ export const GET_USER_BY_JWT = `
             homePhone
             birthDate
             country
+            address
+            city
+            zipCode
+            id
         }
     }
 `;
@@ -171,15 +180,46 @@ export const RESET_PASSWORD = `
         $passwordConfirmation: String!, 
         $code: String!
     ) {
-        resetPassword(
-            password: $password, 
-            passwordConfirmation: $passwordConfirmation, 
-            code: $code) {
-                jwt
-                user {
-                    email
-                    username
-                }
+    resetPassword(
+        password: $password, 
+        passwordConfirmation: $passwordConfirmation, 
+        code: $code) {
+            jwt
+            user {
+                email
+                username
             }
+        }
     }
 `;
+
+export const UPDATE_USER = `
+    mutation UpdateUsersPermissionsUser(
+        $updateUsersPermissionsUserId: ID!, 
+        $data: UsersPermissionsUserInput!
+    ) {
+        updateUsersPermissionsUser(id: $updateUsersPermissionsUserId, data: $data) {
+            data {
+                birthDate
+                country
+                email
+                firstName
+                homePhone
+                lastName
+                mobilePhone
+                username
+                address
+                city
+                zipCode
+            }
+        }
+    }
+`;
+
+export const CREATE_ORDER = `
+mutation CreateOrder($input: OrderInput!) {
+  createOrder(data: $input) {
+    updatedAt
+  }
+}
+`

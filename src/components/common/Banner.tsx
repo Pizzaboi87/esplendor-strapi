@@ -24,6 +24,7 @@ const ImagePart = ({ isReverse, image }: ImageProps) => (
     alt="banner-image"
     width={400}
     height={400}
+    priority
     className={`${
       isReverse ? "rounded-br-2xl" : "rounded-tl-2xl"
     } xl:col-span-3 md:col-span-6 lg:col-span-5 col-span-12 w-full aspect-square h-full`}

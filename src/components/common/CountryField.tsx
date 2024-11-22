@@ -15,7 +15,7 @@ type CountryFieldProps = {
   className?: string;
 };
 
-export const CountryField: React.FC<CountryFieldProps> = ({
+export const CountryField = ({
   id,
   label,
   control,
@@ -25,7 +25,7 @@ export const CountryField: React.FC<CountryFieldProps> = ({
   isHided = false,
   isRequired = true,
   className,
-}) => {
+}: CountryFieldProps) => {
   const options = useMemo(() => countryList().getData(), []);
 
   return (

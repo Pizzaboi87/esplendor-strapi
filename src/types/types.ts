@@ -52,6 +52,7 @@ export type RelatedProduct = {
 }
 
 export type User = {
+    id: string;
     username: string;
     email: string;
     firstName?: string;
@@ -60,6 +61,9 @@ export type User = {
     homePhone?: string;
     birthDate?: string;
     country?: string;
+    address?: string;
+    city?: string;
+    zipCode?: string;
 }
 
 export type UserObj = {

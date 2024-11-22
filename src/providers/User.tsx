@@ -5,7 +5,7 @@ import { SwalMessage } from "@/components/common/SwalMessage";
 import { User, UserObj } from "@/types/types";
 import { fetchUserByJWT } from "@/utils/globalApi";
 import { jwtDecode } from "jwt-decode";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 
 interface InitialUserData {
@@ -15,6 +15,7 @@ interface InitialUserData {
   setJwt: React.Dispatch<React.SetStateAction<string | null>>;
   login: (userObj: UserObj) => void;
   logout: () => void;
+  fetchUserData: (jwt: string) => void;
 }
 
 const INITIAL_USER_DATA = {
@@ -24,6 +25,7 @@ const INITIAL_USER_DATA = {
   setJwt: () => {},
   login: () => {},
   logout: () => {},
+  fetchUserData: () => {},
 };
 
 interface JwtPayload {
@@ -34,6 +36,7 @@ const UserContext = createContext<InitialUserData>(INITIAL_USER_DATA);
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
+  const location = usePathname();
   const [user, setUser] = useState<User | null>(null);
   const [jwt, setJwt] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -98,7 +101,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     } // eslint-disable-next-line
   }, []);
 
-  if (isLoading) {
+  if (isLoading && location !== "/account") {
     return (
       <div className="inset-0 h-screen w-screen flex items-center justify-center">
         <Loading />
@@ -107,7 +110,9 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <UserContext.Provider value={{ user, setUser, jwt, setJwt, login, logout }}>
+    <UserContext.Provider
+      value={{ user, setUser, jwt, setJwt, login, logout, fetchUserData }}
+    >
       {children}
     </UserContext.Provider>
   );

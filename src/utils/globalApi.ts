@@ -1,5 +1,5 @@
 import { GraphQLClient } from "graphql-request";
-import { CREATE_ACCOUNT, FORGOT_PASSWORD, GET_CATEGORY_CARDS, GET_FILTERS, GET_PRODUCT, GET_PRODUCT_CARDS, GET_PRODUCTS_SIZE, GET_RELATED_PRODUCTS, GET_USER_BY_JWT, RESET_PASSWORD, USER_LOGIN } from "./queries";
+import { CREATE_ACCOUNT, CREATE_ORDER, FORGOT_PASSWORD, GET_CATEGORY_CARDS, GET_FILTERS, GET_PRODUCT, GET_PRODUCT_CARDS, GET_PRODUCTS_SIZE, GET_RELATED_PRODUCTS, GET_USER_BY_JWT, RESET_PASSWORD, UPDATE_USER, USER_LOGIN } from "./queries";
 import { CategoryCard, CategoryName, ColorName, ProductCard, ProductDetails, RegisterForm, RelatedProduct, User, UserObj } from "@/types/types";
 
 const graphqlEndpoint = process.env.NEXT_PUBLIC_API_URL as string;
@@ -131,7 +131,7 @@ export const createAccount = async (formInput: RegisterForm): Promise<UserObj | 
     };
 
     try {
-        const result = await gqlFetch<{ register: { jwt: string; user: { username: string; email: string } } }>(
+        const result = await gqlFetch<{ register: { jwt: string; user: { username: string; email: string; id: string } } }>(
             CREATE_ACCOUNT,
             variables
         );
@@ -229,3 +229,68 @@ export const resetPassword = async (password: string, passwordConfirmation: stri
         console.log("Error resetting password:", error);
     }
 }
+
+// Update user information
+export const updateUser = async (
+    id: string,
+    data: Record<string, any>,
+    jwt: string
+): Promise<Record<string, any> | string> => {
+    const variables = {
+        updateUsersPermissionsUserId: id,
+        data,
+    };
+
+    try {
+        const result = await gqlAuthFetch<{
+            updateUsersPermissionsUser: { data: Record<string, any> };
+        }>(UPDATE_USER, variables, jwt);
+
+        if (!result || !result.updateUsersPermissionsUser) {
+            return "Failed to update user.";
+        }
+
+        return result.updateUsersPermissionsUser.data;
+    } catch (error: any) {
+        console.log("Error updating user:", error);
+
+        if (error.response?.errors) {
+            return error.response.errors.map((err: any) => err.message).join(", ");
+        }
+
+        return "An unknown error occurred.";
+    }
+};
+
+// Create an order and store it in the database
+export const createOrder = async (
+    jwt: string,
+    orderData: Record<string, any>
+): Promise<Record<string, any> | string> => {
+    const variables = {
+        input: orderData,
+    };
+
+    try {
+        const result = await gqlAuthFetch<{ createOrder: { order: Record<string, any> } }>(
+            CREATE_ORDER,
+            variables,
+            jwt
+        );
+
+        if (!result || !result.createOrder) {
+            return "Failed to create order.";
+        }
+
+        return result.createOrder.order;
+    } catch (error: any) {
+        console.log("Error creating order:", error);
+
+        if (error.response?.errors) {
+            return error.response.errors.map((err: any) => err.message).join(", ");
+        }
+
+        return "An unknown error occurred.";
+    }
+};
+
