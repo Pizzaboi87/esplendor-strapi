@@ -71,6 +71,7 @@ export const Personal = () => {
       }
     } catch (error) {
       setError("Failed to update user information.");
+      console.log(error);
     } finally {
       setIsLoading(false);
     }

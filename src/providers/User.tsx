@@ -41,12 +41,14 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [jwt, setJwt] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  // Login function
   const login = (userObj: UserObj) => {
     setUser(userObj.user);
     setJwt(userObj.jwt);
     localStorage.setItem("jwt", userObj.jwt);
   };
 
+  // Logout function
   const logout = () => {
     setUser(null);
     setJwt(null);
@@ -54,6 +56,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     router.push("/");
   };
 
+  // Check if token is expired
   const isTokenExpired = (token: string) => {
     try {
       const { exp } = jwtDecode<JwtPayload>(token);
@@ -64,6 +67,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  // Fetch user data by JWT
   const fetchUserData = async (jwt: string) => {
     setIsLoading(true);
     try {
@@ -86,6 +90,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  // Check if user is logged in
   useEffect(() => {
     const jwt = localStorage.getItem("jwt");
     if (jwt) {
@@ -101,6 +106,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     } // eslint-disable-next-line
   }, []);
 
+  // Show loading spinner
   if (isLoading && location !== "/account") {
     return (
       <div className="inset-0 h-screen w-screen flex items-center justify-center">
