@@ -8,12 +8,14 @@ import { useRouter } from "next/navigation";
 import { Button, Input, Message } from "@/components/common";
 import { sendForgotPasswordEmail } from "@/utils/globalApi";
 import { SwalMessage } from "../common/SwalMessage";
+import { useScrollToTop } from "@/utils/useScrollToTop";
 
 type FormData = {
   email: string;
 };
 
 export const RecoverPassword: React.FC = () => {
+  useScrollToTop();
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 

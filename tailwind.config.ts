@@ -24,10 +24,13 @@ export default {
         "terciary": "rgb(140, 110, 99)",
         "black-bg": "rgb(45,45,45)",
         "dark-gray-bg": "rgb(55,55,55)",
-        "deep-gray-bg": "rgb((50,57,61)"
+        "deep-gray-bg": "rgb((50,57,61)",
+        "light-rose": "rgb(250, 225, 225)",
+        "dark-rose": "rgb(250, 198, 198)"
       },
       screens: {
         "xs": "380px",
+        "2xs": "260px"
       },
       container: {
         center: true,

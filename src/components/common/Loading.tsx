@@ -8,7 +8,7 @@ export const Loading = () => (
       width={400}
       height={400}
       priority
-      className="w-[18rem] h-[18rem] animate-loadingSpinner"
+      className="sm:w-[18rem] w-[12rem] sm:h-[18rem] h-[12rem] animate-loadingSpinner"
     />
     <h1 className="font-bonheur_royale font-light tracking-widest">
       loading...

@@ -1,8 +1,11 @@
+"use client";
+
 import { useUser } from "@/providers/User";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { SwalMessage } from "../common/SwalMessage";
 import { updateUser } from "@/utils/globalApi";
+import { useScrollToTop } from "@/utils/useScrollToTop";
 import {
   Button,
   CountryField,
@@ -25,6 +28,7 @@ interface PersonalForm {
 }
 
 export const Personal = () => {
+  useScrollToTop();
   const { user, jwt, fetchUserData } = useUser();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -117,6 +121,7 @@ export const Personal = () => {
             label="Mobile Number"
             control={control}
             name="mobilePhone"
+            rules={{ required: "Mobile Number is required" }}
             error={errors.mobilePhone}
             className="w-full"
           />
@@ -126,7 +131,8 @@ export const Personal = () => {
             label="Home Number"
             control={control}
             name="homePhone"
-            isRequired={false}
+            rules={{ required: false }}
+            error={errors.homePhone}
             className="w-full"
           />
         </div>
@@ -137,6 +143,7 @@ export const Personal = () => {
             label="Birth Date"
             control={control}
             name="birthDate"
+            rules={{ required: "Birth Date is required" }}
             error={errors.birthDate}
             className="w-full"
           />
@@ -146,6 +153,7 @@ export const Personal = () => {
             label="Country"
             control={control}
             name="country"
+            rules={{ required: "Country is required" }}
             error={errors.country}
             className="w-full"
           />

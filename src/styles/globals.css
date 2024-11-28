@@ -9,6 +9,10 @@
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   @apply font-work text-dark-500 bg-background;
 }
@@ -109,4 +113,40 @@ input:-webkit-autofill {
 
 .react-datepicker__portal {
   @apply !bg-[#FFFAF3DD];
+}
+
+.rose-gold {
+  @apply bg-gradient-to-br from-light-rose via-rose-50 to-dark-rose;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5),
+    0 0 20px rgba(255, 192, 203, 0.3);
+}
+
+.yellow-gold {
+  @apply bg-gradient-to-br from-yellow-100 via-yellow-50 to-yellow-200;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5),
+    0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.white-gold {
+  @apply bg-gradient-to-br from-gray-200 via-gray-50 to-gray-300;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5),
+    0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.rose-gold-card {
+  @apply bg-gradient-to-br from-light-rose via-rose-50 to-light-rose;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5),
+    0 0 20px rgba(255, 192, 203, 0.3);
+}
+
+.yellow-gold-card {
+  @apply bg-gradient-to-br from-yellow-100 via-yellow-50 to-yellow-100;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5),
+    0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.white-gold-card {
+  @apply bg-gradient-to-br from-gray-200 via-gray-50 to-gray-200;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5),
+    0 0 20px rgba(255, 255, 255, 0.3);
 }

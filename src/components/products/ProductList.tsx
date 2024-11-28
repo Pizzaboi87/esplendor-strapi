@@ -6,8 +6,10 @@ import { useFilter } from "@/providers/Filters";
 import { ProductCard } from "./ProductCard";
 import { getProductsWithSize } from "@/utils/globalApi";
 import { Button, Loading } from "../common";
+import { useScrollToTop } from "@/utils/useScrollToTop";
 
 export const ProductList = () => {
+  useScrollToTop();
   const { categoryFilters, colorFilters, price, sort, stockStatus } =
     useFilter();
   const [products, setProducts] = useState<any[]>([]);

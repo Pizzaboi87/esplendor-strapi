@@ -16,6 +16,17 @@ export type Media = {
     }
 }
 
+export type PurchasedItem = {
+    documentId: string;
+    image: {
+        formats: {
+            [key: string]: {
+                url: string;
+            }
+        }
+    }
+}
+
 export type CategoryCard = {
     name: string;
     documentId: string;
@@ -76,4 +87,66 @@ export type RegisterForm = {
     email: string;
     password: string;
     passwordRepeat: string;
+}
+
+export type Product = {
+    documentId: string;
+    name: string;
+    price: number;
+    color: { name: string };
+    image: { formats: { thumbnail: { url: string } } };
+}
+
+export type Order = {
+    orderID: string;
+    firstName: string;
+    lastName: string;
+    address: string;
+    city: string;
+    zipCode: string;
+    country: string;
+    date: string;
+    price: number;
+    products: Product[];
+    quantity: { [key: string]: number }[];
+}
+
+export type Rank = "rose" | "yellow" | "white" | "newby"
+
+export type Highlight = {
+    title: string;
+    product: {
+        name: string;
+        documentId: string;
+        image: {
+            formats: {
+                [key: string]: {
+                    url: string;
+                }
+            }
+        }
+    }
+}
+
+export type ArticleType = {
+    title: string;
+    author: string;
+    updatedAt: string;
+    content: any[];
+    excerpt: string;
+    images: {
+        formats: {
+            medium: {
+                url: string
+            }
+        }
+    }[];
+    documentId?: string;
+    coverImage?: {
+        formats: {
+            [key: string]: {
+                url: string
+            }
+        }
+    };
 }

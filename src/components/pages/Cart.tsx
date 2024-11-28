@@ -10,8 +10,10 @@ import { useCart } from "@/providers/Cart";
 import { useUser } from "@/providers/User";
 import { User } from "@/types/types";
 import { addressFields } from "@/constants";
+import { useScrollToTop } from "@/utils/useScrollToTop";
 
 export const Cart = () => {
+  useScrollToTop();
   const router = useRouter();
   const { cart } = useCart();
   const { user } = useUser();

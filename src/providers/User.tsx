@@ -5,7 +5,7 @@ import { SwalMessage } from "@/components/common/SwalMessage";
 import { User, UserObj } from "@/types/types";
 import { fetchUserByJWT } from "@/utils/globalApi";
 import { jwtDecode } from "jwt-decode";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 
 interface InitialUserData {
@@ -16,9 +16,11 @@ interface InitialUserData {
   login: (userObj: UserObj) => void;
   logout: () => void;
   fetchUserData: (jwt: string) => void;
+  isLoading: boolean;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const INITIAL_USER_DATA = {
+const INITIAL_USER_DATA: InitialUserData = {
   user: null,
   setUser: () => {},
   jwt: null,
@@ -26,6 +28,8 @@ const INITIAL_USER_DATA = {
   login: () => {},
   logout: () => {},
   fetchUserData: () => {},
+  isLoading: false,
+  setIsLoading: () => {},
 };
 
 interface JwtPayload {
@@ -36,7 +40,6 @@ const UserContext = createContext<InitialUserData>(INITIAL_USER_DATA);
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
-  const location = usePathname();
   const [user, setUser] = useState<User | null>(null);
   const [jwt, setJwt] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -50,10 +53,15 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Logout function
   const logout = () => {
-    setUser(null);
-    setJwt(null);
-    localStorage.removeItem("jwt");
     router.push("/");
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setUser(null);
+      setJwt(null);
+      localStorage.removeItem("jwt");
+      setIsLoading(false);
+    }, 500);
   };
 
   // Check if token is expired
@@ -107,7 +115,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   // Show loading spinner
-  if (isLoading && location !== "/account") {
+  if (isLoading) {
     return (
       <div className="inset-0 h-screen w-screen flex items-center justify-center">
         <Loading />
@@ -117,11 +125,27 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <UserContext.Provider
-      value={{ user, setUser, jwt, setJwt, login, logout, fetchUserData }}
+      value={{
+        user,
+        setUser,
+        jwt,
+        setJwt,
+        login,
+        logout,
+        fetchUserData,
+        isLoading,
+        setIsLoading,
+      }}
     >
       {children}
     </UserContext.Provider>
   );
 };
 
-export const useUser = () => useContext(UserContext);
+export const useUser = () => {
+  const context = useContext(UserContext);
+  if (context === undefined) {
+    throw new Error("useUser must be used within a UserProvider");
+  }
+  return context;
+};

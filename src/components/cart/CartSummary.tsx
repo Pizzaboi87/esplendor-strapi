@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useCart } from "@/providers/Cart";
 import { Button, CheckoutButton, SummarySheet } from "../common";
 import { useUser } from "@/providers/User";
+import { useRank } from "@/providers/Rank";
 
 interface CartSummaryProps {
   isSomeFieldEmpty: boolean | null;
@@ -12,12 +13,13 @@ interface CartSummaryProps {
 export const CartSummary = ({ isSomeFieldEmpty }: CartSummaryProps) => {
   const { user } = useUser();
   const { cart, total } = useCart();
+  const { discount } = useRank();
 
   return (
     <>
       {cart.length ? (
         <div className="flex flex-col h-fit">
-          <SummarySheet total={total} />
+          <SummarySheet {...{ discount, total }} />
           {user && !isSomeFieldEmpty ? (
             <CheckoutButton />
           ) : user ? null : (

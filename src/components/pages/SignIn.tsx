@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { Button, Input, Message } from "@/components/common";
 import { useUser } from "@/providers/User";
 import { userLogin } from "@/utils/globalApi";
+import { useScrollToTop } from "@/utils/useScrollToTop";
 
 type FormData = {
   email: string;
@@ -15,6 +16,7 @@ type FormData = {
 };
 
 export const SignIn = () => {
+  useScrollToTop();
   const { login } = useUser();
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);

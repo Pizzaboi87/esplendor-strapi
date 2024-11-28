@@ -39,22 +39,22 @@ export const footerNavItems = [
 export const accountNavItems = [
   {
     title: "Personal Details",
-    tabIndex: 0,
+    url: "/account/personal",
     icon: "/assets/icons/user-details.svg",
   },
   {
     title: "Previous Orders",
-    tabIndex: 1,
+    url: "/account/orders",
     icon: "/assets/icons/orders.svg",
   },
   {
-    title: "Ordered Items",
-    tabIndex: 2,
+    title: "Golden Loyalty",
+    url: "/account/loyalty",
     icon: "/assets/icons/items.svg",
   },
   {
     title: "Wishlist",
-    tabIndex: 3,
+    url: "/account/wishlist",
     icon: "/assets/icons/wishlist.svg",
   },
 ];

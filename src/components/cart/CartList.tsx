@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/providers/Cart";
 import { formatNumber } from "@/utils/helpers";
-import { Fragment } from "react";
+import { TwoLinesName } from "../common";
 
 export const CartList = () => {
   const { cart, updateQuantity, removeFromCart } = useCart();
@@ -33,12 +33,7 @@ export const CartList = () => {
             <div className="flex flex-col gap-y-2">
               <Link href={`/products/${item.id}`}>
                 <p className="md:text-lg sm:text-[0.9rem] text-base font-semibold leading-tight hover:text-black/50 transition-all duration-300 ease-in-out">
-                  {item.name.split("-").map((part: string, index: number) => (
-                    <Fragment key={index}>
-                      {part}
-                      {index < item.name.split("-").length - 1 && <br />}
-                    </Fragment>
-                  ))}
+                  <TwoLinesName name={item.name} />
                 </p>
               </Link>
               <p className="text-gray-500 xs:block hidden">€{item.price}</p>

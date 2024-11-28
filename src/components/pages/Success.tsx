@@ -4,8 +4,10 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Banner } from "../common";
 import { useCart } from "@/providers/Cart";
 import { useEffect } from "react";
+import { useScrollToTop } from "@/utils/useScrollToTop";
 
 export const Success = () => {
+  useScrollToTop();
   const searchParams = useSearchParams();
   const session_id = searchParams.get("session_id");
 

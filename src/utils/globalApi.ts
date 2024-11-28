@@ -1,6 +1,6 @@
 import { GraphQLClient } from "graphql-request";
-import { CREATE_ACCOUNT, CREATE_ORDER, FORGOT_PASSWORD, GET_CATEGORY_CARDS, GET_FILTERS, GET_PRODUCT, GET_PRODUCT_CARDS, GET_PRODUCTS_SIZE, GET_RELATED_PRODUCTS, GET_USER_BY_JWT, RESET_PASSWORD, UPDATE_USER, USER_LOGIN } from "./queries";
-import { CategoryCard, CategoryName, ColorName, ProductCard, ProductDetails, RegisterForm, RelatedProduct, User, UserObj } from "@/types/types";
+import { CREATE_ACCOUNT, CREATE_ORDER, FORGOT_PASSWORD, GET_ARTICLE, GET_ARTICLES, GET_CATEGORY_CARDS, GET_FILTERS, GET_HIGHLIGHTS, GET_ORDERS_BY_JWT, GET_PRODUCT, GET_PRODUCT_CARDS, GET_PRODUCTS_SIZE, GET_PURCHASED_PRODUCTS, GET_RELATED_PRODUCTS, GET_USER_BY_JWT, RESET_PASSWORD, UPDATE_USER, USER_LOGIN } from "./queries";
+import { ArticleType, CategoryCard, CategoryName, ColorName, Highlight, Order, ProductCard, ProductDetails, PurchasedItem, RegisterForm, RelatedProduct, User, UserObj } from "@/types/types";
 
 const graphqlEndpoint = process.env.NEXT_PUBLIC_API_URL as string;
 
@@ -294,3 +294,64 @@ export const createOrder = async (
     }
 };
 
+// Fetch orders by JWT
+export const fetchOrdersByJWT = async (jwt: string): Promise<Order[]> => {
+    try {
+        const data = await gqlAuthFetch<{ orders: Order[] }>(
+            GET_ORDERS_BY_JWT,
+            {},
+            jwt
+        );
+
+        return data.orders;
+    } catch (error) {
+        console.log("Failed to fetch orders by JWT:", error);
+        return [];
+    }
+};
+
+// Fetch all quantity of products from all orders
+export const fetchAllQuantity = async (jwt: string) => {
+    const data = await fetchOrdersByJWT(jwt);
+    const quantity = data.map((order) => order.quantity).flat();
+    const allQuantity = quantity.reduce((acc, curr) => {
+        for (const key in curr) {
+            if (acc[key]) {
+                acc[key] += curr[key];
+            } else {
+                acc[key] = curr[key];
+            }
+        }
+        return acc;
+    }, {} as Record<string, number>);
+
+    return allQuantity;
+}
+
+// Fetch all purchased products by id-s
+export const fetchPurchasedProducts = async (documentIds: string[]) => {
+    const data = await gqlFetch<{ products: Array<PurchasedItem> }>(
+        GET_PURCHASED_PRODUCTS,
+        { documentIds }
+    );
+
+    return data.products;
+}
+
+// Fetch highlighted products
+export const fetchHighlightedProducts = async () => {
+    const data = await gqlFetch<{ highlights: Array<Highlight> }>(GET_HIGHLIGHTS, { start: 0 });
+    return data.highlights;
+}
+
+// Fetch all articles
+export const fetchArticles = async () => {
+    const data = await gqlFetch<{ articles: Array<ArticleType> }>(GET_ARTICLES);
+    return data.articles;
+}
+
+// Fetch an article by id
+export const fetchArticle = async (documentId: string) => {
+    const data = await gqlFetch<{ article: ArticleType }>(GET_ARTICLE, { documentId });
+    return data.article;
+}

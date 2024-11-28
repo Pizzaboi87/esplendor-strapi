@@ -12,6 +12,7 @@ type PhoneFieldProps = {
   isHided?: boolean;
   isRequired?: boolean;
   className?: string;
+  rules?: Record<string, unknown>;
 };
 
 export const PhoneField = ({
@@ -21,6 +22,7 @@ export const PhoneField = ({
   name,
   placeholder,
   error,
+  rules,
   isHided = false,
   isRequired = true,
   className,
@@ -32,6 +34,7 @@ export const PhoneField = ({
     <Controller
       name={name}
       control={control}
+      rules={rules}
       render={({ field: { onChange, value } }) => (
         <PhoneInput
           country={"us"}

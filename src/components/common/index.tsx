@@ -1,6 +1,7 @@
 "use client";
 
 import { Banner } from "./Banner";
+import { BannerSmall } from "./BannerSmall";
 import { Button } from "./Button";
 import { Checkbox } from "./Checkbox";
 import { CheckoutButton } from "./CheckoutButton";
@@ -14,9 +15,11 @@ import { PhoneField } from "./PhoneField";
 import { Radio } from "./Radio";
 import { RadioGroup } from "./RadioGroup";
 import { SummarySheet } from "./SummarySheet";
+import { TwoLinesName } from "./TwoLinesName";
 
 export {
   Banner,
+  BannerSmall,
   Button,
   Checkbox,
   CheckoutButton,
@@ -30,4 +33,5 @@ export {
   Radio,
   RadioGroup,
   SummarySheet,
+  TwoLinesName,
 };

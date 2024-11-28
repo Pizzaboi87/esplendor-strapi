@@ -1,11 +1,7 @@
 import { Account } from "@/components/pages/Account";
 import { mergeOpenGraph } from "@/utils/mergeMetaData";
 
-const AccountPage = () => (
-  <section className="container mx-auto">
-    <Account />
-  </section>
-);
+const AccountPage = () => <Account />;
 
 export const metadata = {
   title: "Account Page",

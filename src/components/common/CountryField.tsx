@@ -13,6 +13,7 @@ type CountryFieldProps = {
   isHided?: boolean;
   isRequired?: boolean;
   className?: string;
+  rules?: Record<string, unknown>;
 };
 
 export const CountryField = ({
@@ -22,6 +23,7 @@ export const CountryField = ({
   name,
   placeholder,
   error,
+  rules,
   isHided = false,
   isRequired = true,
   className,
@@ -36,6 +38,7 @@ export const CountryField = ({
       <Controller
         name={name}
         control={control}
+        rules={rules}
         render={({ field: { onChange, value } }) => (
           <Select
             inputId={id}

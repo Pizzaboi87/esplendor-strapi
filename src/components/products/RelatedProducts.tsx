@@ -7,8 +7,9 @@ import useEmblaCarousel from "embla-carousel-react";
 import { fetchRelatedProducts } from "@/utils/globalApi";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
-import { Fragment, useEffect } from "react";
+import { useEffect } from "react";
 import { formatNumber } from "@/utils/helpers";
+import { TwoLinesName } from "../common";
 
 export const RelatedProducts = () => {
   const { documentId } = useParams();
@@ -95,14 +96,7 @@ export const RelatedProducts = () => {
                     />
                   </div>
                   <h5 className="text-lg font-semibold mt-2">
-                    {product.name
-                      .split("-")
-                      .map((part: string, idx: number) => (
-                        <Fragment key={idx}>
-                          {part}
-                          {idx < product.name.split("-").length - 1 && <br />}
-                        </Fragment>
-                      ))}
+                    <TwoLinesName name={product.name} />
                   </h5>
                   <p className="text-[1.2rem] mt-1">
                     €{formatNumber(product.price)}

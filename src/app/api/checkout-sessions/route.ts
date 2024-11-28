@@ -9,7 +9,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const { items, userId, address, city, country, zipCode, jwt } = body;
+        const { items, userId, address, city, country, zipCode, firstName, lastName, jwt } = body;
 
         // If the request body is invalid, return an error
         if (!items || !Array.isArray(items)) {
@@ -59,6 +59,8 @@ export async function POST(req: Request) {
 
         // Create the order data to store in the database
         const orderData = {
+            firstName: firstName,
+            lastName: lastName,
             address: address,
             city: city,
             country: country,
@@ -67,7 +69,9 @@ export async function POST(req: Request) {
             date: new Date().toISOString(),
             orderID: session.id,
             products: items.map((item) => item.id),
-            user: userId,
+            quantity: items.map((item) => ({
+                [item.id]: item.quantity,
+            })),
         };
 
         const orderResponse = await createOrder(jwt, orderData);

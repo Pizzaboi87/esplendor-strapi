@@ -10,6 +10,7 @@ import { Button, Input, Message } from "@/components/common";
 import { createAccount } from "@/utils/globalApi";
 import { RegisterForm } from "@/types/types";
 import { useUser } from "@/providers/User";
+import { useScrollToTop } from "@/utils/useScrollToTop";
 
 type FormData = {
   userName: string;
@@ -19,6 +20,7 @@ type FormData = {
 };
 
 export const SignUp = () => {
+  useScrollToTop();
   const { login } = useUser();
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);

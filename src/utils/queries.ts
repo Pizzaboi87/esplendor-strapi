@@ -199,27 +199,117 @@ export const UPDATE_USER = `
         $data: UsersPermissionsUserInput!
     ) {
         updateUsersPermissionsUser(id: $updateUsersPermissionsUserId, data: $data) {
-            data {
-                birthDate
-                country
-                email
-                firstName
-                homePhone
-                lastName
-                mobilePhone
-                username
-                address
-                city
-                zipCode
-            }
+            birthDate
+            country
+            email
+            firstName
+            homePhone
+            lastName
+            mobilePhone
+            username
+            address
+            city
+            zipCode
         }
     }
 `;
 
 export const CREATE_ORDER = `
-mutation CreateOrder($input: OrderInput!) {
-  createOrder(data: $input) {
-    updatedAt
-  }
-}
+    mutation CreateOrder($input: OrderInput!) {
+        createOrder(data: $input) {
+            updatedAt
+        }
+    }
+`
+
+export const GET_ORDERS_BY_JWT = `
+    query GetOrdersByJWT {
+        orders {
+            firstName
+            lastName
+            address
+            city
+            country
+            zipCode
+            date
+            orderID
+            price
+            quantity
+            products {
+                color {
+                    name
+                }
+                image {
+                    formats
+                }
+                name
+                price
+                documentId
+            }
+        }
+    }
+`;
+
+export const GET_ALL_QUANTITY = `
+    query Quantities {
+        orders {
+            quantity
+        }
+    }
+`;
+
+export const GET_PURCHASED_PRODUCTS = `
+    query Products($documentIds: [ID]) {
+        products(filters: { documentId: { in: $documentIds } }) {
+            documentId
+            image {
+                formats
+            }
+        }
+    }
+`;
+
+export const GET_HIGHLIGHTS = `
+    query Highlights {
+        highlights {
+            title
+            product {
+                name
+                documentId
+                image {
+                    formats
+                }
+            }
+        }
+    }
+`
+
+export const GET_ARTICLES = `
+    query Articles {
+        articles {
+            excerpt
+            slug
+            title
+            documentId
+            coverImage {
+                formats
+            }
+        }
+    }
+`
+
+export const GET_ARTICLE = `
+    query Article($documentId: ID!) {
+        article(documentId: $documentId) {
+            author
+            content
+            updatedAt
+            excerpt
+            images {
+                formats
+            }
+            slug
+            title
+        }
+    }
 `

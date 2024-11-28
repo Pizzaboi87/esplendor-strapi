@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect, Fragment } from "react";
+import { useState, useEffect } from "react";
 import { fetchProduct } from "@/utils/globalApi";
 import { useQuery } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
@@ -9,10 +9,12 @@ import { useFilter } from "@/providers/Filters";
 import { formatNumber } from "@/utils/helpers";
 import { useCart } from "@/providers/Cart";
 import { CartButton } from "../cart/CartButton";
-import { Loading } from "../common";
+import { Loading, TwoLinesName } from "../common";
+import { useScrollToTop } from "@/utils/useScrollToTop";
 import "animate.css";
 
 export const Product = () => {
+  useScrollToTop();
   const navigation = useRouter();
   const { addToCart, cart, updateQuantity } = useCart();
   const { documentId } = useParams();
@@ -148,12 +150,7 @@ export const Product = () => {
       {/* Product Details */}
       <div className="lg:col-span-6 col-span-12 flex flex-col">
         <h1 className="block sm:hidden lg:block xl:hidden text-3xl font-bold leading-relaxed">
-          {product.name.split("-").map((part: string, index: number) => (
-            <Fragment key={index}>
-              {part}
-              {index < product.name.split("-").length - 1 && <br />}
-            </Fragment>
-          ))}
+          <TwoLinesName name={product.name} />
         </h1>
         <h1 className="hidden sm:block lg:hidden xl:block text-3xl font-bold">
           {product.name}

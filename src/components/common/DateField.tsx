@@ -15,6 +15,7 @@ type DateFieldProps = {
   isHided?: boolean;
   isRequired?: boolean;
   className?: string;
+  rules?: Record<string, unknown>;
 };
 
 export const DateField = ({
@@ -24,6 +25,7 @@ export const DateField = ({
   name,
   placeholder,
   error,
+  rules,
   isHided = false,
   isRequired = true,
   className,
@@ -50,6 +52,7 @@ export const DateField = ({
       <Controller
         name={name}
         control={control}
+        rules={rules}
         render={({ field: { onChange, value } }) => (
           <DatePicker
             id={id}

@@ -1,6 +1,7 @@
 import { CartProvider } from "./Cart";
 import { FilterProvider } from "./Filters";
 import { QueryProvider } from "./QueryProvider";
+import { RankProvider } from "./Rank";
 import { UserProvider } from "./User";
 
 export const Providers: React.FC<{
@@ -10,7 +11,9 @@ export const Providers: React.FC<{
     <QueryProvider>
       <UserProvider>
         <FilterProvider>
-          <CartProvider>{children}</CartProvider>
+          <RankProvider>
+            <CartProvider>{children}</CartProvider>
+          </RankProvider>
         </FilterProvider>
       </UserProvider>
     </QueryProvider>

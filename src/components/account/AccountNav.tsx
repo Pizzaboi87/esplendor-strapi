@@ -1,40 +1,38 @@
 import Image from "next/image";
-import { Button, MenuButton } from "../common";
+import { Button } from "../common";
 import { useUser } from "@/providers/User";
 import { accountNavItems } from "@/constants";
 import { useState } from "react";
+import { AccountHeader } from "./AccountHeader";
+import { useRank } from "@/providers/Rank";
+import { useRouter } from "next/navigation";
 
-interface NavProps {
-  setSelectedTab: React.Dispatch<React.SetStateAction<number>>;
-}
-
-export const AccountNav = ({ setSelectedTab }: NavProps) => {
+export const AccountNav = () => {
+  const router = useRouter();
   const { user, logout } = useUser();
+  const { rank } = useRank();
   const { username, email } = user || {};
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  // Select tab and close nav
-  const selectTab = (tabIndex: number) => {
-    setSelectedTab(tabIndex);
-    setTimeout(() => {
-      setIsOpen(false);
-    }, 500);
+  // Selecting the menu option
+  const selectMenu = (url: string) => {
+    router.push(url);
+    setIsOpen(false);
   };
 
   return (
     <nav
-      className={`${
-        isOpen ? "h-[32rem]" : "h-[4.5rem] lg:h-[32rem]"
-      } 2xl:col-span-3 lg:col-span-4 md:col-span-7 col-span-12 max-h-fit xl:sticky top-5 mb-10 relative flex flex-col gap-y-5 bg-white p-5 shadow-md rounded-tl-xl rounded-br-xl overflow-hidden transition-all duration-500 ease-in-out`}
+      className={`${isOpen ? "h-[32rem]" : "h-[4.5rem] lg:h-[32rem]"} ${
+        rank === "newby"
+          ? "bg-white"
+          : rank === "rose"
+          ? "rose-gold"
+          : rank === "yellow"
+          ? "yellow-gold"
+          : "white-gold"
+      } 2xl:col-span-3 lg:col-span-4 md:col-span-7 col-span-12 max-h-fit lg:sticky top-5 lg:mb-5 mb-16 relative flex flex-col gap-y-5 p-5 shadow-md rounded-tl-xl rounded-br-xl overflow-hidden transition-all duration-500 ease-in-out`}
     >
-      <h5 className="xs:text-[1.6rem] text-[1.35rem] pt-1 mb-5 flex gap-2">
-        <span className="xs:inline hidden">Personal</span>
-        <span className="xs:hidden inline">My</span> Account
-      </h5>
-
-      <div className="absolute sm:right-10 right-5 lg:hidden block">
-        <MenuButton {...{ isOpen, setIsOpen }} />
-      </div>
+      <AccountHeader isOpen={isOpen} setIsOpen={setIsOpen} />
       <div className="flex gap-x-5 mb-10">
         <Image
           src="/assets/icons/user.svg"
@@ -54,7 +52,7 @@ export const AccountNav = ({ setSelectedTab }: NavProps) => {
           <li
             key={item.title}
             className="flex gap-x-5 items-center w-fit cursor-pointer group"
-            onClick={() => selectTab(item.tabIndex)}
+            onClick={() => selectMenu(item.url)}
           >
             <Image
               src={item.icon}

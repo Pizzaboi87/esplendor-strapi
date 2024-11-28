@@ -8,6 +8,7 @@ import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { resetPassword } from "@/utils/globalApi";
 import { Button, Input, Message } from "@/components/common";
+import { useScrollToTop } from "@/utils/useScrollToTop";
 
 type FormData = {
   password: string;
@@ -15,6 +16,7 @@ type FormData = {
 };
 
 const PasswordResetContent = () => {
+  useScrollToTop();
   const searchParams = useSearchParams();
   const code = searchParams.get("code");
   const [error, setError] = useState<string | null>(null);

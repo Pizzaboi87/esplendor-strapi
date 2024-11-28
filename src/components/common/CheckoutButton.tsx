@@ -27,6 +27,8 @@ export const CheckoutButton = () => {
           country: user?.country,
           zipCode: user?.zipCode,
           userId: user?.id,
+          firstName: user?.firstName,
+          lastName: user?.lastName,
           jwt: jwt,
         }),
       });
