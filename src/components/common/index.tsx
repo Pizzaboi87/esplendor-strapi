@@ -15,6 +15,7 @@ import { PhoneField } from "./PhoneField";
 import { Radio } from "./Radio";
 import { RadioGroup } from "./RadioGroup";
 import { SummarySheet } from "./SummarySheet";
+import { TextArea } from "./TextArea";
 import { TwoLinesName } from "./TwoLinesName";
 
 export {
@@ -33,5 +34,6 @@ export {
   Radio,
   RadioGroup,
   SummarySheet,
+  TextArea,
   TwoLinesName,
 };

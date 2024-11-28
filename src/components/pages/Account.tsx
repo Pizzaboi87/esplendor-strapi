@@ -15,7 +15,7 @@ export const Account = () => {
     <div className="h-full 2xl:col-span-9 lg:col-span-8 col-span-12 md:p-5">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-semibold mb-6">
-          Welcome back{user?.firstName ? " " + user.firstName : ""}!
+          Welcome back{user?.firstName ? ", " + user.firstName : ""}!
         </h1>
         <Highlight />
         <WhyChoose />

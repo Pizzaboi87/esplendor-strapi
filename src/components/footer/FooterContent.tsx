@@ -35,9 +35,23 @@ export const FooterContent = () => (
               className="w-auto h-auto"
             />
           </Link>
-          <p className="text-primary mt-3 text-[0.8rem] sm:text-base pl-2 text-center">
+          <p className="text-primary text-[0.8rem] sm:text-base pl-2 mt-5">
             ⓒ 2024 Esplend&apos;or - All rights reserved.
           </p>
+          <div className="flex flex-col sm:flex-row justify-between sm:gap-x-10 md:gap-x-5 lg:gap-x-10 bg-black sm:space-y-0 space-y-2 px-2 mt-5">
+            <Link href="/" className="text-primary text-[0.8rem] sm:text-base">
+              Terms and Conditions
+            </Link>
+            <Link href="/" className="text-primary text-[0.8rem] sm:text-base">
+              Privacy Policy
+            </Link>
+            <Link
+              href="/contact"
+              className="text-primary text-[0.8rem] sm:text-base"
+            >
+              Contact Us
+            </Link>
+          </div>
         </div>
 
         <div className="px-2 flex sm:gap-x-24 gap-x-10 items-center justify-between">

@@ -73,7 +73,7 @@ const Article = () => {
         return (
           <div
             key={`image-${index}`}
-            className={`my-5 mx-auto w-full sm:w-1/2 lg:w-1/3 ${
+            className={`sm:my-5 mt-5 mb-12 mx-auto w-full sm:w-1/2 lg:w-1/3 ${
               index % 2 === 0 ? "float-right ml-10" : "float-left mr-10"
             } cursor-zoom-in`}
             onClick={() => handleZoomToggle(block.url)}
@@ -111,6 +111,10 @@ const Article = () => {
               {block.children.map((child: any, childIndex: number) =>
                 child.bold ? (
                   <strong key={childIndex}>{child.text}</strong>
+                ) : child.italic ? (
+                  <span key={childIndex} className="italic">
+                    {child.text}
+                  </span>
                 ) : (
                   child.text
                 )
@@ -121,9 +125,9 @@ const Article = () => {
           return (
             <ul
               key={`list-${index}`}
-              className={`list-${
-                block.format === "unordered" ? "disc" : "decimal"
-              } list-inside mb-4 text-lg`}
+              className={`${
+                block.format === "unordered" ? "list-disc" : "list-decimal"
+              } sm:list-inside list-outside mb-4 text-lg pl-5`}
             >
               {block.children.map((listItem: any, listItemIndex: number) => (
                 <li key={listItemIndex}>{listItem.children[0].text}</li>
@@ -137,10 +141,10 @@ const Article = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 pt-8 pb-24 bg-white rounded-lg shadow-lg">
+    <div className="container mx-auto sm:px-4 px-3 pt-8 pb-24 bg-white rounded-lg shadow-lg">
       {/* Title and Metadata */}
       <header className="text-center mb-8">
-        <h1 className="text-4xl font-bold mb-4">{title}</h1>
+        <h1 className="text-3xl font-bold mb-4">{title}</h1>
         <p className="text-sm text-gray-600">
           By <span className="font-semibold">{author}</span> |{" "}
           {new Date(updatedAt).toLocaleDateString()}

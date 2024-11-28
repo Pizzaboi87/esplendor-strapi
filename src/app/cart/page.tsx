@@ -8,7 +8,7 @@ const CartPage = () => (
 );
 
 export const metadata = {
-  title: "Esplend'or Webshop Cart",
+  title: "Your Cart",
   description: "Cart page for the Esplendor Rings Webshop.",
   openGraph: mergeOpenGraph({
     title: "Esplendor Rings Webshop Cart",

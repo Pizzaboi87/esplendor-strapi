@@ -2,8 +2,11 @@ import Link from "next/link";
 import { fetchArticles } from "@/utils/globalApi";
 import { useQuery } from "@tanstack/react-query";
 import { BannerSmall, Button } from "../common";
+import { useWindowWidth } from "@/utils/useWindowWidth";
 
 export const Articles = () => {
+  const windowWidth = useWindowWidth();
+
   // Fetch articles data
   const { data, isLoading } = useQuery({
     queryKey: ["articles"],
@@ -45,7 +48,7 @@ export const Articles = () => {
             message={article.excerpt}
             imageUrl={article.coverImage?.formats.small.url || ""}
             imageAlt={article.title}
-            isReversed={index % 2 === 0}
+            isReversed={index % 2 === 0 || windowWidth < 640}
             buttonComponent={
               <Link href={`/articles/${article.documentId}`}>
                 <Button type="button">Read Article</Button>
