@@ -21,26 +21,30 @@ export const CheckoutButton = ({ reducedAmount }: CheckoutButtonProps) => {
   const handleClick = async () => {
     setLoading(true);
     try {
+      const body = {
+        items: cart,
+        address: user?.address,
+        city: user?.city,
+        country: user?.country,
+        zipCode: user?.zipCode,
+        userId: user?.id,
+        firstName: user?.firstName,
+        lastName: user?.lastName,
+        jwt: jwt,
+        coupon: activeCoupon?.stripeID || null,
+        couponId: activeCoupon?.documentId || null,
+        discount: activeCoupon?.stripeID ? null : stripeID || null,
+        reducedAmount,
+      };
+
+      console.log("Sending checkout body:", JSON.stringify(body, null, 2));
+
       const response = await fetch("/api/checkout-sessions", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          items: cart,
-          address: user?.address,
-          city: user?.city,
-          country: user?.country,
-          zipCode: user?.zipCode,
-          userId: user?.id,
-          firstName: user?.firstName,
-          lastName: user?.lastName,
-          jwt: jwt,
-          coupon: activeCoupon?.stripeID || null,
-          couponId: activeCoupon?.documentId || null,
-          discount: activeCoupon?.stripeID ? null : stripeID || null,
-          reducedAmount,
-        }),
+        body: JSON.stringify(body),
       });
 
       if (!response.ok) {

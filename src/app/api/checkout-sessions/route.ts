@@ -21,10 +21,10 @@ export async function POST(req: Request) {
             coupon,
             couponId,
             discount,
-            reducedAmount
+            reducedAmount,
         } = body;
 
-        // If the request body is invalid, return an error
+        // Validate the request body
         if (!items || !Array.isArray(items)) {
             return NextResponse.json(
                 { error: "Invalid cart data" },
@@ -32,7 +32,6 @@ export async function POST(req: Request) {
             );
         }
 
-        // If the user ID or JWT is missing, return an error
         if (!userId || !jwt) {
             return NextResponse.json(
                 { error: "User ID and JWT are required" },
@@ -53,7 +52,7 @@ export async function POST(req: Request) {
             quantity: item.quantity,
         }));
 
-        // Assemble discounts array
+        // Prepare the discounts array
         const discounts = [];
         if (coupon) {
             discounts.push({ coupon });
@@ -61,11 +60,11 @@ export async function POST(req: Request) {
             discounts.push({ coupon: discount });
         }
 
-        // Create the checkout session
+        // Create the Stripe Checkout session
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ["card"],
             line_items: lineItems,
-            discounts: discounts.length > 0 ? discounts : undefined,
+            ...(discounts.length > 0 && { discounts }), // Add discounts only if present
             mode: "payment",
             success_url: `${req.headers.get(
                 "origin"
@@ -82,7 +81,7 @@ export async function POST(req: Request) {
                 zipCode,
                 firstName,
                 lastName,
-                couponId
+                ...(couponId && { couponId }), // Add couponId only if present
             },
         });
 
