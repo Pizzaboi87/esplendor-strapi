@@ -1,6 +1,5 @@
 import Stripe from "stripe";
 import { NextResponse } from "next/server";
-import { createOrder } from "@/utils/globalApi";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
     apiVersion: "2024-10-28.acacia",
@@ -9,7 +8,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const { items, userId, address, city, country, zipCode, firstName, lastName, jwt } = body;
+        const { items, userId, address, city, country, zipCode, firstName, lastName, jwt, coupon, discount } = body;
 
         // If the request body is invalid, return an error
         if (!items || !Array.isArray(items)) {
@@ -40,44 +39,39 @@ export async function POST(req: Request) {
             quantity: item.quantity,
         }));
 
+        // Assemble discounts array
+        const discounts = [];
+        if (coupon) {
+            discounts.push({ coupon });
+        } else if (discount) {
+            discounts.push({ coupon: discount });
+        }
+
         // Create the checkout session
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ["card"],
             line_items: lineItems,
+            discounts: discounts.length > 0 ? discounts : undefined,
             mode: "payment",
             success_url: `${req.headers.get(
                 "origin"
             )}/success?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${req.headers.get("origin")}/cart`,
+            metadata: {
+                items: JSON.stringify(items),
+                userId,
+                jwt,
+                address,
+                city,
+                country,
+                zipCode,
+                firstName,
+                lastName,
+            },
         });
 
-        // Calculate the total price of the order
-        const totalPrice = items.reduce(
-            (total, item) => total + item.price * item.quantity,
-            0
-        );
-
-        // Create the order data to store in the database
-        const orderData = {
-            firstName: firstName,
-            lastName: lastName,
-            address: address,
-            city: city,
-            country: country,
-            zipCode: zipCode,
-            price: totalPrice,
-            date: new Date().toISOString(),
-            orderID: session.id,
-            products: items.map((item) => item.id),
-            quantity: items.map((item) => ({
-                [item.id]: item.quantity,
-            })),
-        };
-
-        const orderResponse = await createOrder(jwt, orderData);
-
-        // Return the checkout session ID and order data
-        return NextResponse.json({ stripeSessionId: session.id, order: orderResponse });
+        // Return the checkout session ID
+        return NextResponse.json({ stripeSessionId: session.id });
     } catch (err: any) {
         console.error("Error in checkout session:", err);
         return NextResponse.json(

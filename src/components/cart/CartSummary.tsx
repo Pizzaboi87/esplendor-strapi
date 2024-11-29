@@ -13,13 +13,13 @@ interface CartSummaryProps {
 export const CartSummary = ({ isSomeFieldEmpty }: CartSummaryProps) => {
   const { user } = useUser();
   const { cart, total } = useCart();
-  const { discount } = useRank();
+  const { discount, rank } = useRank();
 
   return (
     <>
       {cart.length ? (
         <div className="flex flex-col h-fit">
-          <SummarySheet {...{ discount, total }} />
+          <SummarySheet {...{ discount, rank, total }} />
           {user && !isSomeFieldEmpty ? (
             <CheckoutButton />
           ) : user ? null : (

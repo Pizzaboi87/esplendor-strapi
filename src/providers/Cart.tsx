@@ -1,5 +1,6 @@
 "use client";
 
+import { CouponType } from "@/types/types";
 import { createContext, useContext, useEffect, useState } from "react";
 
 interface CartItem {
@@ -13,6 +14,8 @@ interface CartItem {
 interface InitialCartData {
   cart: CartItem[];
   setCart: React.Dispatch<React.SetStateAction<CartItem[]>>;
+  activeCoupon: CouponType;
+  setActiveCoupon: React.Dispatch<React.SetStateAction<CouponType>>;
   addToCart: (product: CartItem) => void;
   removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
@@ -22,6 +25,8 @@ interface InitialCartData {
 const CartContext = createContext<InitialCartData>({
   cart: [],
   setCart: () => {},
+  activeCoupon: { code: "", value: 0, stripeID: "", isActive: false },
+  setActiveCoupon: () => {},
   addToCart: () => {},
   removeFromCart: () => {},
   updateQuantity: () => {},
@@ -31,6 +36,12 @@ const CartContext = createContext<InitialCartData>({
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isHydrated, setIsHydrated] = useState<boolean>(false);
+  const [activeCoupon, setActiveCoupon] = useState<CouponType>({
+    code: "",
+    value: 0,
+    stripeID: "",
+    isActive: false,
+  });
 
   // Cart hydration from localStorage
   useEffect(() => {
@@ -84,6 +95,8 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       value={{
         cart,
         setCart,
+        activeCoupon,
+        setActiveCoupon,
         addToCart,
         removeFromCart: (id) =>
           setCart((prevCart) => prevCart.filter((item) => item.id !== id)),

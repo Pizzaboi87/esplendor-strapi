@@ -75,6 +75,14 @@ export type User = {
     address?: string;
     city?: string;
     zipCode?: string;
+    discount?: {
+        name: string;
+        value: number;
+        stripeID: string;
+    }
+    used_coupons?: {
+        code: string;
+    }[] | [];
 }
 
 export type UserObj = {
@@ -156,3 +164,10 @@ export type FormValues = {
     email: string;
     message: string;
 };
+
+export type CouponType = {
+    code: string;
+    isActive: boolean;
+    stripeID: string;
+    value: number;
+}

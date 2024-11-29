@@ -1,6 +1,6 @@
 import { GraphQLClient } from "graphql-request";
-import { CREATE_ACCOUNT, CREATE_ORDER, FORGOT_PASSWORD, GET_ARTICLE, GET_ARTICLES, GET_CATEGORY_CARDS, GET_FILTERS, GET_HIGHLIGHTS, GET_ORDERS_BY_JWT, GET_PRODUCT, GET_PRODUCT_CARDS, GET_PRODUCTS_SIZE, GET_PURCHASED_PRODUCTS, GET_RELATED_PRODUCTS, GET_USER_BY_JWT, RESET_PASSWORD, UPDATE_USER, USER_LOGIN } from "./queries";
-import { ArticleType, CategoryCard, CategoryName, ColorName, Highlight, Order, ProductCard, ProductDetails, PurchasedItem, RegisterForm, RelatedProduct, User, UserObj } from "@/types/types";
+import { CHECK_COUPON, CREATE_ACCOUNT, CREATE_ORDER, FORGOT_PASSWORD, GET_ARTICLE, GET_ARTICLES, GET_CATEGORY_CARDS, GET_FILTERS, GET_HIGHLIGHTS, GET_ORDERS_BY_JWT, GET_PRODUCT, GET_PRODUCT_CARDS, GET_PRODUCTS_SIZE, GET_PURCHASED_PRODUCTS, GET_RELATED_PRODUCTS, GET_USER_BY_JWT, RESET_PASSWORD, UPDATE_USER, USER_LOGIN } from "./queries";
+import { ArticleType, CategoryCard, CategoryName, ColorName, CouponType, Highlight, Order, ProductCard, ProductDetails, PurchasedItem, RegisterForm, RelatedProduct, User, UserObj } from "@/types/types";
 
 const graphqlEndpoint = process.env.NEXT_PUBLIC_API_URL as string;
 
@@ -28,7 +28,6 @@ export const gqlAuthFetch = async <T>(
 
     return graphqlClient.request<T>(query, variables);
 };
-
 
 // Fetch category cards from the API
 export const fetchCategoryCards = async () => {
@@ -354,4 +353,20 @@ export const fetchArticles = async () => {
 export const fetchArticle = async (documentId: string) => {
     const data = await gqlFetch<{ article: ArticleType }>(GET_ARTICLE, { documentId });
     return data.article;
+}
+
+// Check if coupon is valid
+export const checkCoupon = async (couponCode: string, jwt: string) => {
+    try {
+        const data = await gqlAuthFetch<{ coupon: CouponType }>(
+            CHECK_COUPON,
+            { code: couponCode.toUpperCase() },
+            jwt
+        );
+
+        return data.coupon;
+    } catch (error) {
+        console.log("Error checking coupon:", error);
+        return "Invalid coupon";
+    }
 }

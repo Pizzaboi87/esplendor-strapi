@@ -83,11 +83,12 @@ input:-webkit-autofill {
 }
 
 /* SweetAlert2 custom styles */
-.swal2-confirm {
+.swal2-confirm,
+.swal2-deny {
   background-color: #000 !important;
   box-shadow: none !important;
   border-radius: 0.5rem !important;
-  width: 5rem !important;
+  min-width: 5rem !important;
 
   &:hover {
     background-color: #000000cc !important;

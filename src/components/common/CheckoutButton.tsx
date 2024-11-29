@@ -5,11 +5,16 @@ import { useCart } from "@/providers/Cart";
 import { useState } from "react";
 import { Button } from "./Button";
 import { useUser } from "@/providers/User";
+import { useRank } from "@/providers/Rank";
 
 export const CheckoutButton = () => {
-  const { cart } = useCart();
+  const { cart, activeCoupon } = useCart();
   const { user, jwt } = useUser();
+  const { stripeID } = useRank();
   const [loading, setLoading] = useState<boolean>(false);
+
+  console.log("stripeID: ", stripeID);
+  console.log("activeCoupon: ", activeCoupon?.stripeID);
 
   // Handle function for the checkout button
   const handleClick = async () => {
@@ -30,6 +35,8 @@ export const CheckoutButton = () => {
           firstName: user?.firstName,
           lastName: user?.lastName,
           jwt: jwt,
+          coupon: activeCoupon?.stripeID || null,
+          discount: activeCoupon?.stripeID ? null : stripeID || null,
         }),
       });
 

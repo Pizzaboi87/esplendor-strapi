@@ -4,6 +4,7 @@ type ButtonProps = {
   type: "button" | "submit" | "reset";
   disabled?: boolean;
   isLoading?: boolean;
+  isShort?: boolean;
   children: React.ReactNode;
   className?: string;
   onClick?: () => void;
@@ -13,6 +14,7 @@ export const Button = ({
   type,
   disabled = false,
   isLoading = false,
+  isShort = false,
   children,
   className = "",
   onClick,
@@ -31,6 +33,12 @@ export const Button = ({
         <span className="sr-only">Loading...</span>
       </div>
     )}
-    <span>{isLoading ? "Please wait..." : children}</span>
+    <span>
+      {isLoading && isShort
+        ? "Loading"
+        : isLoading
+        ? "Please wait..."
+        : children}
+    </span>
   </button>
 );

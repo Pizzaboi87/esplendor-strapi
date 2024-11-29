@@ -142,6 +142,14 @@ export const USER_LOGIN = `
                 city
                 zipCode
                 id
+                discount {
+                    name
+                    value
+                    stripeID
+                }
+                used_coupons {
+                    code
+                }
             }
         }
     }
@@ -162,6 +170,14 @@ export const GET_USER_BY_JWT = `
             city
             zipCode
             id
+            discount {
+                name
+                value
+                stripeID
+            }
+            used_coupons {
+                code
+            }
         }
     }
 `;
@@ -310,6 +326,17 @@ export const GET_ARTICLE = `
             }
             slug
             title
+        }
+    }
+`
+
+export const CHECK_COUPON = `
+    query CheckCoupon($code: String!) {
+        coupon(code: $code) {
+            code
+            isActive
+            value
+            stripeID
         }
     }
 `
