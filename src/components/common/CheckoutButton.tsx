@@ -7,14 +7,15 @@ import { Button } from "./Button";
 import { useUser } from "@/providers/User";
 import { useRank } from "@/providers/Rank";
 
-export const CheckoutButton = () => {
+interface CheckoutButtonProps {
+  reducedAmount: number;
+}
+
+export const CheckoutButton = ({ reducedAmount }: CheckoutButtonProps) => {
   const { cart, activeCoupon } = useCart();
   const { user, jwt } = useUser();
   const { stripeID } = useRank();
   const [loading, setLoading] = useState<boolean>(false);
-
-  console.log("stripeID: ", stripeID);
-  console.log("activeCoupon: ", activeCoupon?.stripeID);
 
   // Handle function for the checkout button
   const handleClick = async () => {
@@ -36,7 +37,9 @@ export const CheckoutButton = () => {
           lastName: user?.lastName,
           jwt: jwt,
           coupon: activeCoupon?.stripeID || null,
+          couponId: activeCoupon?.documentId || null,
           discount: activeCoupon?.stripeID ? null : stripeID || null,
+          reducedAmount,
         }),
       });
 

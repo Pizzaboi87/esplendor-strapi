@@ -25,7 +25,13 @@ interface InitialCartData {
 const CartContext = createContext<InitialCartData>({
   cart: [],
   setCart: () => {},
-  activeCoupon: { code: "", value: 0, stripeID: "", isActive: false },
+  activeCoupon: {
+    code: "",
+    value: 0,
+    stripeID: "",
+    isActive: false,
+    documentId: "",
+  },
   setActiveCoupon: () => {},
   addToCart: () => {},
   removeFromCart: () => {},
@@ -41,6 +47,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     value: 0,
     stripeID: "",
     isActive: false,
+    documentId: "",
   });
 
   // Cart hydration from localStorage

@@ -8,7 +8,21 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const { items, userId, address, city, country, zipCode, firstName, lastName, jwt, coupon, discount } = body;
+        const {
+            items,
+            userId,
+            address,
+            city,
+            country,
+            zipCode,
+            firstName,
+            lastName,
+            jwt,
+            coupon,
+            couponId,
+            discount,
+            reducedAmount
+        } = body;
 
         // If the request body is invalid, return an error
         if (!items || !Array.isArray(items)) {
@@ -59,6 +73,7 @@ export async function POST(req: Request) {
             cancel_url: `${req.headers.get("origin")}/cart`,
             metadata: {
                 items: JSON.stringify(items),
+                reducedAmount,
                 userId,
                 jwt,
                 address,
@@ -67,6 +82,7 @@ export async function POST(req: Request) {
                 zipCode,
                 firstName,
                 lastName,
+                couponId
             },
         });
 

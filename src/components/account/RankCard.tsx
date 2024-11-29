@@ -13,8 +13,8 @@ export const RankCard = ({ imageURL, imageID, index }: RankCardProps) => (
       index > 5
         ? "white-gold-card"
         : index > 2
-        ? "yellow-gold-card"
-        : "rose-gold-card"
+        ? "rose-gold-card"
+        : "yellow-gold-card"
     } ${
       index === 8
         ? "2xl:col-span-4 col-span-12 mx-auto 2xl:w-full sm:w-1/2 w-full"

@@ -1,20 +1,21 @@
 import { formatNumber } from "@/utils/helpers";
 import { CouponInput } from "../cart/CouponInput";
 import { useUser } from "@/providers/User";
-import { useCart } from "@/providers/Cart";
+import { useRank } from "@/providers/Rank";
 
 interface SummarySheetProps {
   total: number;
-  discount: number;
-  rank: string;
+  discountAmount: number;
+  couponAmount: number;
 }
 
-export const SummarySheet = ({ total, discount, rank }: SummarySheetProps) => {
+export const SummarySheet = ({
+  total,
+  discountAmount,
+  couponAmount,
+}: SummarySheetProps) => {
   const { user } = useUser();
-  const { activeCoupon } = useCart();
-
-  const couponAmount = (activeCoupon?.value as number) * total;
-  const discountAmount = couponAmount ? 0 : discount * total;
+  const { rank } = useRank();
 
   return (
     <div className=" bg-white h-fit p-8 shadow-md rounded-tl-2xl rounded-br-2xl">

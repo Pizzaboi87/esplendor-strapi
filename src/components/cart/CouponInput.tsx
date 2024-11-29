@@ -90,6 +90,7 @@ export const CouponInput = () => {
               value: 0,
               stripeID: "",
               isActive: false,
+              documentId: "",
             });
           }
         });

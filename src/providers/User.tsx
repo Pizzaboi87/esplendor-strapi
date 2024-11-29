@@ -44,14 +44,13 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [jwt, setJwt] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // Login function
+  // Login and logout functions
   const login = (userObj: UserObj) => {
     setUser(userObj.user);
     setJwt(userObj.jwt);
     localStorage.setItem("jwt", userObj.jwt);
   };
 
-  // Logout function
   const logout = () => {
     router.push("/");
     setIsLoading(true);
@@ -98,7 +97,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  // Check if user is logged in
+  // Check if token is expired on page load
   useEffect(() => {
     const jwt = localStorage.getItem("jwt");
     if (jwt) {
@@ -114,7 +113,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     } // eslint-disable-next-line
   }, []);
 
-  // Show loading spinner
+  // Loading screen
   if (isLoading) {
     return (
       <div className="inset-0 h-screen w-screen flex items-center justify-center">

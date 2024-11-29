@@ -226,6 +226,14 @@ export const UPDATE_USER = `
             address
             city
             zipCode
+            discount {
+                name
+                value
+                stripeID
+            }
+            used_coupons {
+                code
+            }
         }
     }
 `;
@@ -333,6 +341,7 @@ export const GET_ARTICLE = `
 export const CHECK_COUPON = `
     query CheckCoupon($code: String!) {
         coupon(code: $code) {
+            documentId
             code
             isActive
             value

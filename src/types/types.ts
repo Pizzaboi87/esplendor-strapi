@@ -166,6 +166,7 @@ export type FormValues = {
 };
 
 export type CouponType = {
+    documentId: string;
     code: string;
     isActive: boolean;
     stripeID: string;

@@ -12,16 +12,22 @@ interface CartSummaryProps {
 
 export const CartSummary = ({ isSomeFieldEmpty }: CartSummaryProps) => {
   const { user } = useUser();
-  const { cart, total } = useCart();
-  const { discount, rank } = useRank();
+  const { cart, total, activeCoupon } = useCart();
+  const { discount } = useRank();
+
+  // Calculate the reduced amount based on the coupon or discount
+  const couponAmount = (activeCoupon.value as number) * total;
+  const discountAmount = couponAmount ? 0 : discount * total;
 
   return (
     <>
       {cart.length ? (
         <div className="flex flex-col h-fit">
-          <SummarySheet {...{ discount, rank, total }} />
+          <SummarySheet {...{ total, discountAmount, couponAmount }} />
           {user && !isSomeFieldEmpty ? (
-            <CheckoutButton />
+            <CheckoutButton
+              reducedAmount={couponAmount ? couponAmount : discountAmount}
+            />
           ) : user ? null : (
             <Link
               href="/sign-in"
