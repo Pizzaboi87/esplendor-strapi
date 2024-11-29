@@ -34,10 +34,8 @@ export const CheckoutButton = ({ reducedAmount }: CheckoutButtonProps) => {
         coupon: activeCoupon?.stripeID || null,
         couponId: activeCoupon?.documentId || null,
         discount: activeCoupon?.stripeID ? null : stripeID || null,
-        reducedAmount,
+        reducedAmount: reducedAmount,
       };
-
-      console.log("Sending checkout body:", JSON.stringify(body, null, 2));
 
       const response = await fetch("/api/checkout-sessions", {
         method: "POST",

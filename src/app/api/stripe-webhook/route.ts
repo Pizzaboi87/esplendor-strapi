@@ -44,6 +44,9 @@ export async function POST(req: Request) {
             0
         );
 
+        // Create number from string or falsy value
+        const discountPrice = parseFloat(discount as string) || 0;
+
         // Create order data
         const orderData = {
             firstName,
@@ -53,7 +56,7 @@ export async function POST(req: Request) {
             country,
             zipCode,
             price: totalPrice,
-            discount: discount || null,
+            discount: discountPrice,
             date: new Date().toISOString(),
             orderID: session.id,
             products: items.map((item: { id: string }) => item.id),
