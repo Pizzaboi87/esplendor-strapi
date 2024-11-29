@@ -52,7 +52,6 @@ export async function POST(req: Request) {
             city,
             country,
             zipCode,
-            userId,
             price: totalPrice,
             discount: discount || null,
             date: new Date().toISOString(),
