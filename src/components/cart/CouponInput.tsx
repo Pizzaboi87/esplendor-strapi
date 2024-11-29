@@ -119,7 +119,11 @@ export const CouponInput = () => {
 
   // Handle form submission and coupon code check
   const onSubmit = (data: { coupon: string }) => {
-    if (user?.used_coupons?.some((coupon) => coupon.code === data.coupon)) {
+    if (
+      user?.used_coupons?.some(
+        (coupon) => coupon.code === data.coupon.toUpperCase()
+      )
+    ) {
       SwalMessage({
         title: "Used Coupon",
         message: "You have already used this coupon code.",

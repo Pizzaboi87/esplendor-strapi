@@ -32,7 +32,7 @@ export const Success = () => {
           firstButtonText="Return to Home"
           firstOnClick={() => router.push("/")}
           secondButtonText="View Orders"
-          secondOnClick={() => router.push("/orders")}
+          secondOnClick={() => router.push("/account/orders")}
         />
       ) : (
         <Banner

@@ -259,6 +259,7 @@ export const GET_ORDERS_BY_JWT = `
             orderID
             price
             quantity
+            discount
             products {
                 color {
                     name

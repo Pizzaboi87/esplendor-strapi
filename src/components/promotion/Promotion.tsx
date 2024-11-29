@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Counter } from "./Counter";
 
 export const Promotion = () => (
-  <section className="container mx-auto normal md:grid md:grid-cols-12 flex flex-col my-24">
+  <div className="container mx-auto normal md:grid md:grid-cols-12 flex flex-col my-24">
     <div className="md:col-span-6">
       <h3 className="mb-10">Deal of the Month</h3>
       <p className="leading-8 mb-10 font-light">
@@ -33,5 +33,5 @@ export const Promotion = () => (
     <div className="hidden md:block lg:hidden col-span-12">
       <Counter />
     </div>
-  </section>
+  </div>
 );

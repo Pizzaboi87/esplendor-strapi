@@ -1,7 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
+import { Button } from "../common";
+import { useRouter } from "next/navigation";
 
 const StatBox = ({ label, value }: { label: string; value: number }) => (
   <li className="py-4 xl:px-6 px-4 border border-1 rounded-md">
@@ -11,6 +12,7 @@ const StatBox = ({ label, value }: { label: string; value: number }) => (
 );
 
 export const Counter = () => {
+  const router = useRouter();
   const [time, setTime] = useState({
     days: 0,
     hours: 0,
@@ -62,15 +64,19 @@ export const Counter = () => {
         <StatBox label="Minutes" value={time.minutes} />
         <StatBox label="Seconds" value={time.seconds} />
       </ul>
+      <div className="flex sm:flex-row flex-col justify-between w-full xl:gap-10 lg:gap-4 sm:gap-4 gap-10 mb-10">
+        <Button
+          type="button"
+          onClick={() => router.push("/shop")}
+          className="sm:w-[95%] w-full h-12"
+        >
+          Shop Now
+        </Button>
 
-      <Link
-        href="/shop"
-        className="lg:text-[1.5rem] flex justify-center md:justify-normal text-base tracking-widest font-[300] text-work uppercase text-white"
-      >
-        <button className="px-4 lg:py-4 py-[0.625rem] w-full sm:w-[50%] md:w-auto mb-10 md:mb-0 uppercase rounded-md bg-black hover:bg-black/75">
-          Shop now
-        </button>
-      </Link>
+        <div className="border-1 border w-full h-12 rounded-md flex items-center justify-center">
+          <p className="font-bold text-center">Use this code: XMAS2024</p>
+        </div>
+      </div>
     </>
   );
 };

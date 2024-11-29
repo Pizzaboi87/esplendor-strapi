@@ -115,6 +115,7 @@ export type Order = {
     country: string;
     date: string;
     price: number;
+    discount: number;
     products: Product[];
     quantity: { [key: string]: number }[];
 }

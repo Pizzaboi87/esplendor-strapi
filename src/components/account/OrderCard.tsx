@@ -38,9 +38,25 @@ export const OrderCard = ({ order }: { order: Order }) => {
           </p>
         </div>
 
-        <div className="flex xs:flex-row flex-col justify-between xs:items-center">
-          <p className="font-semibold">Total Price:</p>
-          <p className="text-lg font-bold">€{order.price.toFixed(2)}</p>
+        <div className="flex flex-col space-y-2">
+          <div className="flex 2xs:flex-row flex-col justify-between xs:items-center">
+            <p>Total Price:</p>
+            <p>€{order.price.toFixed(2)}</p>
+          </div>
+
+          <div className="flex 2xs:flex-row flex-col justify-between xs:items-center">
+            <p>Discount:</p>
+            <p>€{order.discount.toFixed(2)}</p>
+          </div>
+
+          <hr className="border-t border-gray-200" />
+
+          <div className="flex 2xs:flex-row flex-col justify-between xs:items-center">
+            <p className="font-semibold">Final Price:</p>
+            <p className="text-lg font-bold">
+              €{(order.price - order.discount).toFixed(2)}
+            </p>
+          </div>
         </div>
 
         <button
