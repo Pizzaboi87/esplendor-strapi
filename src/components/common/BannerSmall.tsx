@@ -25,11 +25,13 @@ export const BannerSmall = ({
   const components = [
     <div
       key="text"
-      className="xl:col-span-9 col-span-8 flex flex-col items-center justify-center gap-y-8 xs:p-5 px-2 py-10"
+      className="xl:col-span-9 col-span-8 flex flex-col items-center justify-center xl:gap-y-8 sm:gap-y-4 gap-y-8 xs:p-5 px-2 py-10 sm:py-4 lg:py-0"
     >
       <div className="flex flex-col gap-y-3 text-center">
-        <h4 className="text-center">{title}</h4>
-        <p>{message}</p>
+        <h4 className="text-center lg:text-[1.5rem] xl:text-[1.875rem] text-[1.375rem]">
+          {title}
+        </h4>
+        <p className="xl:text-[1.1rem] text-base">{message}</p>
       </div>
       {buttonComponent ? (
         buttonComponent

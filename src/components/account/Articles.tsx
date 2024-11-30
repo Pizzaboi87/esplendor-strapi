@@ -48,10 +48,12 @@ export const Articles = () => {
             message={article.excerpt}
             imageUrl={article.coverImage?.formats.small.url || ""}
             imageAlt={article.title}
-            isReversed={index % 2 === 0 || windowWidth < 640}
+            isReversed={windowWidth < 640}
             buttonComponent={
               <Link href={`/articles/${article.documentId}`}>
-                <Button type="button">Read Article</Button>
+                <Button type="button" className="">
+                  Read Article
+                </Button>
               </Link>
             }
           />

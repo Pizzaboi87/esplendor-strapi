@@ -59,26 +59,26 @@ export const accountNavItems = [
   },
 ];
 
-export const inclusions = [
+export const upperFooterIcons = [
   {
     title: "Free Shipping",
     description: "Free shipping for every order",
-    icon: "/assets/icons/shipping.svg",
+    icon: "/assets/icons/gift.svg",
   },
   {
-    title: "Money Guarantee",
-    description: "Within 30 days for an exchange",
-    icon: "/assets/icons/money.svg",
+    title: "Secure Payment",
+    description: "Trusted payment gateway",
+    icon: "/assets/icons/shield.svg",
   },
   {
     title: "Online Support",
     description: "24 hours a day, 7 days a week",
-    icon: "/assets/icons/support.svg",
+    icon: "/assets/icons/chat.svg",
   },
   {
-    title: "Flexible Payment",
-    description: "Pay with multiple credit cards",
-    icon: "/assets/icons/payment.svg",
+    title: "Premium Materials",
+    description: "High-quality stones and gold",
+    icon: "/assets/icons/gem-fill.svg",
   },
 ];
 
