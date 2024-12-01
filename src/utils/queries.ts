@@ -125,6 +125,14 @@ export const CREATE_ACCOUNT = `
     }
 `;
 
+export const CREATE_CART = `
+    mutation CreateCart($input: CartInput!) {
+        createCart(data: $input) {
+            createdAt
+        }
+    }
+`;
+
 export const USER_LOGIN = `
     mutation LoginUser($input: UsersPermissionsLoginInput!) {
         login(input: $input) {
@@ -271,6 +279,23 @@ export const GET_ORDERS_BY_JWT = `
                 price
                 documentId
             }
+        }
+    }
+`;
+
+export const GET_CART_BY_JWT = `
+    query GetCartByJWT {
+        carts {
+            cart_items
+            documentId
+        }
+    }
+`;
+
+export const UPDATE_CART = `
+    mutation UpdateCart($documentId: ID!, $data: CartInput!) {
+        updateCart(documentId: $documentId, data: $data) {
+            cart_items
         }
     }
 `;

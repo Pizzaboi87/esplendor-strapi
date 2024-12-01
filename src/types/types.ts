@@ -173,3 +173,16 @@ export type CouponType = {
     stripeID: string;
     value: number;
 }
+
+export type CartItem = {
+    id: string;
+    name: string;
+    price: number;
+    quantity: number;
+    image: string;
+}
+
+export type CartObj = {
+    documentId: string;
+    cart_items: CartItem[]
+}

@@ -6,7 +6,7 @@ import { useUser } from "@/providers/User";
 import { Button } from "../common";
 
 export const HeaderNav = () => {
-  const { cart } = useCart();
+  const { cart, isUpdateLoading: isLoading } = useCart();
   const { user } = useUser();
 
   return (
@@ -34,18 +34,26 @@ export const HeaderNav = () => {
           Account
         </Link>
       ) : null}
-      <li className="w-10 h-10 relative mb-2 group">
-        <p className="group-hover:scale-0 transition-all duration-500 ease-in-out absolute text-dark-500 inline left-1/2 -translate-x-1/2 -top-3 font-bold">
+      <li className={`${isLoading ? "" : "group"} w-10 h-10 relative mb-2`}>
+        <p
+          className={`${
+            isLoading ? "hidden" : ""
+          } group-hover:scale-0 transition-all duration-500 ease-in-out absolute text-dark-500 inline left-1/2 -translate-x-1/2 -top-3 font-bold`}
+        >
           {cart.length > 0
             ? cart.reduce((total, item) => total + item.quantity, 0)
             : ""}
         </p>
         <Link
-          href="/cart"
+          href={isLoading ? "#" : "/cart"}
           className="w-full h-full flex items-end justify-center"
         >
           <Image
-            src="/assets/icons/cart.svg"
+            src={
+              isLoading
+                ? "/assets/icons/download.svg"
+                : "/assets/icons/cart.svg"
+            }
             alt="cart-icon"
             width={36}
             height={36}

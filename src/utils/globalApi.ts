@@ -1,6 +1,6 @@
 import { GraphQLClient } from "graphql-request";
-import { CHECK_COUPON, CREATE_ACCOUNT, CREATE_ORDER, FORGOT_PASSWORD, GET_ARTICLE, GET_ARTICLES, GET_CATEGORY_CARDS, GET_FILTERS, GET_HIGHLIGHTS, GET_ORDERS_BY_JWT, GET_PRODUCT, GET_PRODUCT_CARDS, GET_PRODUCTS_SIZE, GET_PURCHASED_PRODUCTS, GET_RELATED_PRODUCTS, GET_USER_BY_JWT, RESET_PASSWORD, UPDATE_USER, USER_LOGIN } from "./queries";
-import { ArticleType, CategoryCard, CategoryName, ColorName, CouponType, Highlight, Order, ProductCard, ProductDetails, PurchasedItem, RegisterForm, RelatedProduct, User, UserObj } from "@/types/types";
+import { CHECK_COUPON, CREATE_ACCOUNT, CREATE_CART, CREATE_ORDER, FORGOT_PASSWORD, GET_ARTICLE, GET_ARTICLES, GET_CART_BY_JWT, GET_CATEGORY_CARDS, GET_FILTERS, GET_HIGHLIGHTS, GET_ORDERS_BY_JWT, GET_PRODUCT, GET_PRODUCT_CARDS, GET_PRODUCTS_SIZE, GET_PURCHASED_PRODUCTS, GET_RELATED_PRODUCTS, GET_USER_BY_JWT, RESET_PASSWORD, UPDATE_CART, UPDATE_USER, USER_LOGIN } from "./queries";
+import { ArticleType, CartItem, CartObj, CategoryCard, CategoryName, ColorName, CouponType, Highlight, Order, ProductCard, ProductDetails, PurchasedItem, RegisterForm, RelatedProduct, User, UserObj } from "@/types/types";
 
 const graphqlEndpoint = process.env.NEXT_PUBLIC_API_URL as string;
 
@@ -139,9 +139,48 @@ export const createAccount = async (formInput: RegisterForm): Promise<UserObj | 
             return "Invalid response from server.";
         }
 
+        // Create new cart
+        const cartResult = await createCart(result.register.jwt);
+
+        if (typeof cartResult === "string") {
+            console.error("Failed to create cart:", cartResult);
+            return "Account created, but cart creation failed.";
+        }
+
         return result.register;
     } catch (error: any) {
         console.log("Error creating account:", error);
+
+        if (error.response?.errors) {
+            return error.response.errors.map((err: any) => err.message).join(", ");
+        }
+
+        return "An unknown error occurred.";
+    }
+};
+
+// Create a cart using the API
+export const createCart = async (jwt: string): Promise<Record<string, any> | string> => {
+    const variables = {
+        input: {
+            cart_items: [],
+        },
+    };
+
+    try {
+        const result = await gqlAuthFetch<{ createCart: { data: Record<string, any> } }>(
+            CREATE_CART,
+            variables,
+            jwt
+        );
+
+        if (!result || !result.createCart) {
+            return "Failed to create cart.";
+        }
+
+        return result.createCart.data;
+    } catch (error: any) {
+        console.log("Error creating cart:", error);
 
         if (error.response?.errors) {
             return error.response.errors.map((err: any) => err.message).join(", ");
@@ -306,6 +345,46 @@ export const fetchOrdersByJWT = async (jwt: string): Promise<Order[]> => {
     } catch (error) {
         console.log("Failed to fetch orders by JWT:", error);
         return [];
+    }
+};
+
+// Fetch cart by JWT
+export const fetchCartByJWT = async (jwt: string): Promise<CartObj> => {
+    try {
+        const data = await gqlAuthFetch<{ carts: Array<CartObj> }>(
+            GET_CART_BY_JWT,
+            {},
+            jwt
+        );
+
+        return data.carts[0]
+    } catch (error) {
+        console.log("Failed to fetch orders by JWT:", error);
+        return { documentId: "", cart_items: [] };
+    }
+};
+
+export const updateCart = async (
+    jwt: string,
+    documentId: string,
+    cartItems: CartItem[]
+): Promise<void> => {
+    const variables = {
+        documentId,
+        data: {
+            cart_items: cartItems,
+        },
+    };
+
+    try {
+        await gqlAuthFetch(
+            UPDATE_CART,
+            variables,
+            jwt
+        );
+    } catch (error) {
+        console.error("Failed to update cart on server:", error);
+        throw new Error("Could not update cart.");
     }
 };
 
