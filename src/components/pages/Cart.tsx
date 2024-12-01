@@ -44,7 +44,7 @@ export const Cart = () => {
           </div>
         </div>
       ) : (
-        <div className="col-span-12 flex items-center justify-center h-80">
+        <div className="col-span-12 flex items-center justify-center h-80 mb-24">
           <p className="text-2xl">Your cart is empty.</p>
         </div>
       )}

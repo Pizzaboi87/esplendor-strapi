@@ -42,15 +42,7 @@ export const Orders = () => {
   }
 
   // Error handling
-  if (error) {
-    return (
-      <div className="pb-24 h-full 2xl:col-span-9 lg:col-span-8 col-span-12 p-5 flex items-center justify-center">
-        <p className="text-red-500">
-          An unexpected error occured: {error?.message}
-        </p>
-      </div>
-    );
-  }
+  if (error) throw new Error("Error during fetching orders");
 
   return (
     <div className="h-full 2xl:col-span-9 lg:col-span-8 col-span-12 sm:p-5">

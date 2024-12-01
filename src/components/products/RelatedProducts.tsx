@@ -15,11 +15,7 @@ export const RelatedProducts = () => {
   const { documentId } = useParams();
 
   // Fetch related products from the API
-  const {
-    data: relatedProducts = [],
-    error,
-    isLoading,
-  } = useQuery({
+  const { data: relatedProducts = [], error } = useQuery({
     queryKey: ["relatedProducts", documentId],
     queryFn: () => fetchRelatedProducts(documentId as string),
     enabled: !!documentId,
@@ -45,20 +41,8 @@ export const RelatedProducts = () => {
     }
   }, [embla, relatedProducts]);
 
-  // Render loading, error, or related products
-  if (isLoading) {
-    return <p className="text-center">Loading related products...</p>;
-  }
-
-  if (error) {
-    return <p className="text-center text-red-500">Error loading products.</p>;
-  }
-
-  if (!relatedProducts.length) {
-    return (
-      <p className="text-center text-gray-500">No related products found.</p>
-    );
-  }
+  // Error handling
+  if (error) throw new Error("Error during fetching related products");
 
   return (
     <div className="w-full lg:px-12 my-24">

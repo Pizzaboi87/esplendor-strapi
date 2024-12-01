@@ -24,7 +24,7 @@ export const CartButton = ({
     }`}
   >
     {quantity > 0 ? (
-      <div className="xl:w-1/2 lg:w-full md:w-1/2 w-full mx-auto sm:mx-0 rounded-md flex items-center justify-between gap-x-[0.1rem] animate__animated animate__pulse">
+      <div className="w-full mx-auto sm:mx-0 rounded-md flex items-center justify-between gap-x-[0.1rem] animate__animated animate__pulse">
         <button
           onClick={onRemove}
           disabled={disabled}
@@ -51,7 +51,7 @@ export const CartButton = ({
       <button
         onClick={onAdd}
         disabled={disabled}
-        className="xl:w-1/2 lg:w-full md:w-1/2 w-full mx-auto sm:mx-0 uppercase bg-black text-white py-[0.625rem] px-4 rounded-md hover:bg-black/80 focus:outline-none disabled:opacity-50 transition-colors disabled:cursor-not-allowed animate__animated animate__fadeIn"
+        className="w-full mx-auto sm:mx-0 uppercase bg-black text-white py-[0.625rem] px-4 rounded-md hover:bg-black/80 focus:outline-none disabled:opacity-50 transition-colors disabled:cursor-not-allowed animate__animated animate__fadeIn"
       >
         Add to Cart
       </button>

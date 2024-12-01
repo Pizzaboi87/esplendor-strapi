@@ -21,10 +21,10 @@ export const Header = () => {
         <Image
           src="/logo.png"
           alt="logo"
-          width={240}
-          height={50}
+          width={200}
+          height={200}
           priority
-          className="sm:w-auto w-[75%] h-auto sm:mx-0 mx-auto"
+          className="sm:w-auto w-[75%] h-auto sm:mx-0 mx-auto object-contain"
         />
       </Link>
 

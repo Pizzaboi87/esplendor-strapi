@@ -3,9 +3,8 @@
 import { useState, useEffect } from "react";
 import { useQueries } from "@tanstack/react-query";
 import { useFilter } from "@/providers/Filters";
-import { ProductCard } from "./ProductCard";
 import { getProductsWithSize } from "@/utils/globalApi";
-import { Button, Loading } from "../common";
+import { Button, Loading, ProductCard } from "../common";
 import { useScrollToTop } from "@/utils/useScrollToTop";
 
 export const ProductList = () => {
@@ -73,13 +72,7 @@ export const ProductList = () => {
   }
 
   // Error state
-  if (error) {
-    return (
-      <p className="text-red-500">
-        Error loading products: {error.message || "Unknown error"}
-      </p>
-    );
-  }
+  if (error) throw new Error("Error fetching products");
 
   return (
     <div className="xl:col-span-9 col-span-8">

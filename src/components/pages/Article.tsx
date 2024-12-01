@@ -83,7 +83,8 @@ const Article = () => {
               alt={`Article Image ${index}`}
               width={400}
               height={400}
-              className="rounded-lg shadow-lg object-cover"
+              priority
+              className="w-auto h-auto rounded-lg shadow-lg object-cover"
             />
           </div>
         );
@@ -168,9 +169,10 @@ const Article = () => {
           <Image
             src={zoomedImage}
             alt="Zoomed Image"
-            width={800}
-            height={800}
-            className="object-contain rounded-lg animate__animated animate__zoomIn"
+            width={1000}
+            height={1000}
+            priority
+            className="h-[60vh] w-auto object-contain rounded-lg animate__animated animate__zoomIn"
           />
           <Image
             src="/assets/icons/close.svg"

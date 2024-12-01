@@ -2,16 +2,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { ProductCard as ProductCardType } from "@/types/types";
 import { formatNumber } from "@/utils/helpers";
-import { TwoLinesName } from "../common";
+import { TwoLinesName } from "./TwoLinesName";
 
 export const ProductCard = ({ product }: { product: ProductCardType }) => (
   <Link
     href={`/products/${product.documentId}`}
     passHref
     target="_blank"
-    className="bg-white p-4 rounded-xl shadow-md w-full flex flex-col justify-between min-h-[22rem] group"
+    className="bg-white p-4 rounded-xl shadow-md w-full flex flex-col justify-between h-[22.5rem] group overflow-hidden"
   >
-    <div className="w-full h-48 overflow-hidden">
+    <div className="w-full h-48 mt-2">
       <Image
         src={product.image.formats.small.url}
         alt={product.name}

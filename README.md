@@ -1,37 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+### Esplend'or Rings
 
-## Getting Started
+[Esplend'or Rings](https://esplendor-rings.vercel.app) is a premium webshop specializing in engagement and wedding rings. It delivers an elegant shopping experience with modern features and responsive design.
 
-First, run the development server:
+#### Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Wishlist**: Save favorite products for quick access.
+- **Cart Synchronization**:
+  - Registered users: cart content is stored on the server.
+  - Guest users: cart is managed via localStorage.
+- **Exclusive Articles**: Registered users can access premium articles.
+- **Featured Offers**: Highlighted promotions and exclusive deals.
+- **Membership Program**: Special benefits for loyal customers.
+- **Coupons**: Support for discounts and promotions.
+- **Stripe Payment Integration**: Secure and fast online payments.
+- **Advanced Filters**:
+  - Filter by categories, colors, and stock availability.
+- **Order History**: View past orders in the user dashboard.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#### Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+##### Frontend
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Framework**: [Next.js](https://nextjs.org/)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Data Handling**: GraphQL
+- **Libraries**:
+  - React Query
+  - Stripe.js
+  - React Hook Form
+  - SweetAlert2
+  - EmailJS
+  - React Date Picker
+  - React Phone Input 2
+  - React Select
+  - Embla Carousel
 
-## Learn More
+##### Backend
 
-To learn more about Next.js, take a look at the following resources:
+- **CMS**: [Strapi](https://strapi.io/) with TypeScript
+- **Database**: PostgreSQL [Aiven](https://aiven.io/)
+- **Media Storage**: [Cloudinary](https://cloudinary.com/)
+- **Custom Implementations**:
+  - Privacy Handlers: Users can only view and edit their own data, with field-level restrictions.
+  - Custom Controllers: Built to extend Strapi’s default functionalities.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### Usage of the project
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+##### Frontend
 
-## Deploy on Vercel
+The frontend source code is located in this repository. It can be managed with the following scripts:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+###### Installation
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# esplendor-strapi
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/Pizzaboi87/esplendor-strapi.git
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+- **Development**: Start the development server:
+
+  ```bash
+  npm run dev
+  ```
+
+- **Production**: Build and start the production server:
+
+  ```bash
+  npm run build
+  npm start
+  ```
+
+##### Backend Code
+
+The backend source code can be found here: [Esplend'or Strapi Backend](https://github.com/Pizzaboi87/esplendor-strapi-backend).
+
+#### Contribution
+
+Feel free to contribute to this project by submitting pull requests or opening issues for bug fixes or feature requests. Your contributions are highly appreciated!

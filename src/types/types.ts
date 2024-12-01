@@ -37,7 +37,6 @@ export type ProductCard = {
     name: string;
     documentId: string;
     price: number;
-    slug: string;
     updatedAt: string;
     isInStock: boolean;
     image: Media
@@ -83,6 +82,7 @@ export type User = {
     used_coupons?: {
         code: string;
     }[] | [];
+    wishlist?: ProductCard[] | [];
 }
 
 export type UserObj = {

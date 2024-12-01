@@ -16,6 +16,7 @@ export const UpperFooter = () => (
               width={50}
               height={50}
               priority
+              className="object-contain h-auto w-[85%]"
             />
           </div>
 

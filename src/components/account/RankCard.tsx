@@ -51,7 +51,7 @@ export const RankCard = ({ imageURL, imageID, index }: RankCardProps) => (
             width={200}
             height={200}
             priority
-            className="mx-auto opacity-30 absolute bottom-2 left-0 right-0"
+            className="w-[75%] h-auto mx-auto opacity-30 absolute bottom-2 left-0 right-0"
           />
         </>
       )}

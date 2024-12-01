@@ -2,8 +2,8 @@
 
 import { Loading } from "@/components/common";
 import { SwalMessage } from "@/components/common/SwalMessage";
-import { User, UserObj } from "@/types/types";
-import { fetchUserByJWT } from "@/utils/globalApi";
+import { ProductCard, User, UserObj } from "@/types/types";
+import { fetchUserByJWT, updateUser } from "@/utils/globalApi";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
@@ -18,6 +18,10 @@ interface InitialUserData {
   fetchUserData: (jwt: string) => void;
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  wishList: ProductCard[];
+  setWishList: React.Dispatch<React.SetStateAction<ProductCard[]>>;
+  addItemToWishList: (product: ProductCard) => void;
+  removeItemFromWishList: (product: ProductCard) => void;
 }
 
 const INITIAL_USER_DATA: InitialUserData = {
@@ -30,6 +34,10 @@ const INITIAL_USER_DATA: InitialUserData = {
   fetchUserData: () => {},
   isLoading: false,
   setIsLoading: () => {},
+  wishList: [],
+  setWishList: () => {},
+  addItemToWishList: () => {},
+  removeItemFromWishList: () => {},
 };
 
 interface JwtPayload {
@@ -42,11 +50,13 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [jwt, setJwt] = useState<string | null>(null);
+  const [wishList, setWishList] = useState<ProductCard[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // Login and logout functions
   const login = (userObj: UserObj) => {
     setUser(userObj.user);
+    setWishList(userObj.user.wishlist || []);
     setJwt(userObj.jwt);
     localStorage.setItem("jwt", userObj.jwt);
   };
@@ -57,6 +67,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
     setTimeout(() => {
       setUser(null);
+      setWishList([]);
       setJwt(null);
       localStorage.removeItem("jwt");
       setIsLoading(false);
@@ -81,6 +92,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       const userData = await fetchUserByJWT(jwt);
       if (userData) {
         setUser(userData);
+        setWishList(userData.wishlist || []);
         setJwt(jwt);
       } else {
         SwalMessage({
@@ -113,6 +125,50 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     } // eslint-disable-next-line
   }, []);
 
+  // Add item to wishlist
+  const addItemToWishList = async (product: ProductCard) => {
+    setWishList((prev) => {
+      if (prev.some((p) => p.documentId === product.documentId)) {
+        return prev;
+      }
+
+      const updatedWishlist = [...prev, product];
+
+      if (user && jwt) {
+        try {
+          // Sync updated wishlist with the server
+          const serverWishlist = updatedWishlist.map((p) => p.documentId);
+          updateUser(user.id.toString(), { wishlist: serverWishlist }, jwt);
+        } catch (error) {
+          console.error("Error updating wishlist on server:", error);
+        }
+      }
+
+      return updatedWishlist;
+    });
+  };
+
+  // Remove item from wishlist
+  const removeItemFromWishList = async (product: ProductCard) => {
+    setWishList((prev) => {
+      const updatedWishlist = prev.filter(
+        (p) => p.documentId !== product.documentId
+      );
+
+      if (user && jwt) {
+        try {
+          // Sync updated wishlist with the server
+          const serverWishlist = updatedWishlist.map((p) => p.documentId);
+          updateUser(user.id.toString(), { wishlist: serverWishlist }, jwt);
+        } catch (error) {
+          console.error("Error updating wishlist on server:", error);
+        }
+      }
+
+      return updatedWishlist;
+    });
+  };
+
   // Loading screen
   if (isLoading) {
     return (
@@ -134,6 +190,10 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         fetchUserData,
         isLoading,
         setIsLoading,
+        wishList,
+        setWishList,
+        addItemToWishList,
+        removeItemFromWishList,
       }}
     >
       {children}

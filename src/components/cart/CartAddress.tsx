@@ -23,7 +23,7 @@ export const CartAddress = ({ isSomeFieldEmpty }: CartAddressProps) => {
       {isSomeFieldEmpty ? (
         <>
           <h2 className="text-lg font-semibold">Shipping Address</h2>
-          <Link href="/account">
+          <Link href="/account/personal">
             <Button type="button" className="w-full">
               Add Address
             </Button>

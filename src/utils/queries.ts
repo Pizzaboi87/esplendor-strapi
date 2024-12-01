@@ -41,8 +41,7 @@ export const GET_PRODUCT_CARDS = `
         pagination: { start: $start, limit: 12 }) {
             name
             documentId
-            price
-            slug
+            price            
             updatedAt
             isInStock
             image {
@@ -158,6 +157,18 @@ export const USER_LOGIN = `
                 used_coupons {
                     code
                 }
+                wishlist {
+                    name
+                    documentId
+                    price
+                    updatedAt
+                    isInStock
+                    image {
+                        name
+                        documentId
+                        formats
+                    }
+                }
             }
         }
     }
@@ -185,6 +196,18 @@ export const GET_USER_BY_JWT = `
             }
             used_coupons {
                 code
+            }
+            wishlist {
+                name
+                documentId
+                price
+                updatedAt
+                isInStock
+                image {
+                    name
+                    documentId
+                    formats
+                }
             }
         }
     }
@@ -223,14 +246,14 @@ export const UPDATE_USER = `
         $data: UsersPermissionsUserInput!
     ) {
         updateUsersPermissionsUser(id: $updateUsersPermissionsUserId, data: $data) {
-            birthDate
-            country
+            username
             email
             firstName
-            homePhone
             lastName
             mobilePhone
-            username
+            homePhone
+            birthDate
+            country
             address
             city
             zipCode
@@ -241,6 +264,18 @@ export const UPDATE_USER = `
             }
             used_coupons {
                 code
+            }
+            wishlist {
+                name
+                documentId
+                price
+                updatedAt
+                isInStock
+                image {
+                    name
+                    documentId
+                    formats
+                }
             }
         }
     }
@@ -338,7 +373,6 @@ export const GET_ARTICLES = `
     query Articles {
         articles {
             excerpt
-            slug
             title
             documentId
             coverImage {
@@ -355,11 +389,10 @@ export const GET_ARTICLE = `
             content
             updatedAt
             excerpt
+            title
             images {
                 formats
             }
-            slug
-            title
         }
     }
 `
