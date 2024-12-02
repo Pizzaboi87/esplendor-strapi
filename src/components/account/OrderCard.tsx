@@ -98,7 +98,6 @@ export const OrderCard = ({ order }: { order: Order }) => {
               >
                 <Link
                   href={`/products/${product.documentId}`}
-                  target="_blank"
                   className="w-fit"
                 >
                   <Image

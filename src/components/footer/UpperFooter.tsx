@@ -20,7 +20,7 @@ export const UpperFooter = () => (
             />
           </div>
 
-          <div className="text-center text-dark-500 space-y-2">
+          <div className="xs:text-center text-dark-500 space-y-2">
             <h5 className="md:text-[1.5rem]">{inclusion.title}</h5>
             <p className="text-base">{inclusion.description}</p>
           </div>

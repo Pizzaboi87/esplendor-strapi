@@ -70,6 +70,8 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       setWishList([]);
       setJwt(null);
       localStorage.removeItem("jwt");
+      localStorage.removeItem("cart");
+      localStorage.removeItem("cartId");
       setIsLoading(false);
     }, 500);
   };

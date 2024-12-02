@@ -52,12 +52,12 @@ export const Contact = () => {
   };
 
   return (
-    <div className="flex flex-col xl:mx-0 lg:mx-32 xl:grid grid-cols-12 gap-x-10 rounded-tl-2xl rounded-br-2xl overflow-hidden">
+    <div className="flex flex-col xl:mx-0 lg:mx-32 xl:grid grid-cols-12 sm:gap-x-10 rounded-tl-2xl rounded-br-2xl overflow-hidden">
       <div className="col-span-6 pb-10">
         <form
           ref={formRef}
           onSubmit={handleSubmit(onSubmit)}
-          className="bg-white xs:p-12 p-6 shadow-md rounded-tl-2xl h-full"
+          className="bg-white sm:p-12 p-6 shadow-md rounded-tl-2xl h-full"
         >
           <h5 className="font-bold text-center xs:mb-6 mb-2 xs:text-[1.5rem]">
             Get in Touch!

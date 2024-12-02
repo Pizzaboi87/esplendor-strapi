@@ -15,7 +15,8 @@ interface ProductActionsProps {
 
 export const ProductActions = ({ product }: ProductActionsProps) => {
   const { addToCart, updateQuantity, cart } = useCart();
-  const { wishList, addItemToWishList, removeItemFromWishList } = useUser();
+  const { jwt, wishList, addItemToWishList, removeItemFromWishList } =
+    useUser();
 
   const productInCart = cart.find((item) => item.id === product.documentId);
   const productInWishList = wishList.some(
@@ -46,7 +47,7 @@ export const ProductActions = ({ product }: ProductActionsProps) => {
       <CartButton
         quantity={productInCart ? productInCart.quantity : 0}
         disabled={!product.isInStock}
-        className="w-full"
+        className={jwt ? "w-full" : "xl:w-1/2 lg:w-full sm:w-1/2 w-full"}
         onAdd={() =>
           addToCart({
             id: product.documentId,
@@ -64,13 +65,15 @@ export const ProductActions = ({ product }: ProductActionsProps) => {
       />
 
       {/* Add to Wishlist */}
-      <SecondaryButton
-        type="button"
-        className="w-full"
-        onClick={handleWishlistClick}
-      >
-        {productInWishList ? "Remove from Wishlist" : "Add to Wishlist"}
-      </SecondaryButton>
+      {jwt ? (
+        <SecondaryButton
+          type="button"
+          className="w-full"
+          onClick={handleWishlistClick}
+        >
+          {productInWishList ? "Remove from Wishlist" : "Add to Wishlist"}
+        </SecondaryButton>
+      ) : null}
     </div>
   );
 };

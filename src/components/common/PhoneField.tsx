@@ -47,7 +47,7 @@ export const PhoneField = ({
           containerClass="w-full"
           inputClass="w-full h-[2.75rem] border border-gray-400 bg-gray-50 rounded-md focus:outline-none focus:border-black pl-16"
           buttonClass="absolute border border-gray-400 bg-gray-50 border-r rounded-l-md px-2 flex items-center justify-center"
-          dropdownClass="bg-white rounded-md"
+          dropdownClass="bg-white rounded-md left-0 top-10"
         />
       )}
     />

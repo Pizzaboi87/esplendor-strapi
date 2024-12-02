@@ -8,7 +8,6 @@ export const ProductCard = ({ product }: { product: ProductCardType }) => (
   <Link
     href={`/products/${product.documentId}`}
     passHref
-    target="_blank"
     className="bg-white p-4 rounded-xl shadow-md w-full flex flex-col justify-between h-[22.5rem] group overflow-hidden"
   >
     <div className="w-full h-48 mt-2">

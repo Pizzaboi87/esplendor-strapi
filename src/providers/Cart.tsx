@@ -6,6 +6,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useUser } from "./User";
 import { fetchCartByJWT, updateCart } from "@/utils/globalApi";
 import { SwalMessageMulti } from "@/components/common/SwalMessage";
+import { usePathname } from "next/navigation";
 
 interface InitialCartData {
   cart: CartItem[];
@@ -17,6 +18,7 @@ interface InitialCartData {
   updateQuantity: (productId: string, quantity: number) => void;
   total: number;
   isUpdateLoading: boolean;
+  emptyCart: () => void;
 }
 
 const CartContext = createContext<InitialCartData>({
@@ -35,12 +37,16 @@ const CartContext = createContext<InitialCartData>({
   updateQuantity: () => {},
   total: 0,
   isUpdateLoading: false,
+  emptyCart: () => {},
 });
 
 // Global timer for debounce functionality
 let updateTimer: NodeJS.Timeout | null = null;
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
+  const location = usePathname();
+  const succesPage = location.includes("success");
+
   const { jwt } = useUser();
   const [cart, setCart] = useState<CartItem[]>([]);
   const [cartId, setCartId] = useState<string>("");
@@ -58,7 +64,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const { data, isLoading } = useQuery({
     queryKey: ["cart", jwt],
     queryFn: () => fetchCartByJWT(jwt as string),
-    enabled: !!jwt,
+    enabled: !!jwt && !succesPage,
   });
 
   // Ensure cart is always an array
@@ -66,7 +72,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Handle user login: sync or merge carts if needed
   useEffect(() => {
-    if (jwt && !isLoading) {
+    if (jwt && !isLoading && !succesPage) {
       const localCart = localStorage.getItem("cart");
       const parsedLocalCart = localCart
         ? (JSON.parse(localCart) as CartItem[])
@@ -93,6 +99,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
                 .then(() => {
                   localStorage.removeItem("cart");
                   setCart(parsedLocalCart); // Update cart state with local cart
+                  localStorage.setItem("cart", JSON.stringify(parsedLocalCart)); // Ensure localStorage is also updated
                 })
                 .catch((error) =>
                   console.error("Failed to sync local cart with server:", error)
@@ -102,6 +109,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
               // User chose server cart
               localStorage.removeItem("cart"); // Clear localStorage
               setCart(data.cart_items); // Use server cart
+              localStorage.setItem("cart", JSON.stringify(data.cart_items)); // Update localStorage
             }
           });
         } else {
@@ -109,6 +117,8 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
           updateCart(jwt, cartId, parsedLocalCart)
             .then(() => {
               localStorage.removeItem("cart");
+              setCart(parsedLocalCart); // Update cart state with local cart
+              localStorage.setItem("cart", JSON.stringify(parsedLocalCart)); // Update localStorage
             })
             .catch((error) =>
               console.error("Failed to sync local cart with server:", error)
@@ -116,13 +126,18 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         }
       }
     }
-  }, [jwt, isLoading, data, cartId]);
+  }, [jwt, isLoading, data, cartId, succesPage]);
 
   useEffect(() => {
-    if (data) {
-      // For logged-in users, load cart from server
+    if (data && data.cart_items && cart.length === 0) {
+      // For logged-in users, load cart from server only if cart is not already set
       setCartId(data.documentId);
+      localStorage.setItem("cartId", data.documentId);
       setCart(Array.isArray(data.cart_items) ? data.cart_items : []);
+      localStorage.setItem(
+        "cart",
+        JSON.stringify(Array.isArray(data.cart_items) ? data.cart_items : [])
+      );
     } else if (!jwt) {
       // For non-logged-in users, load cart from localStorage
       const savedCart = localStorage.getItem("cart");
@@ -131,7 +146,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       }
       setIsHydrated(true);
     }
-  }, [data, jwt]);
+  }, [data, jwt, cart.length]);
 
   // Save cart to localStorage only if the user is not logged in
   useEffect(() => {
@@ -145,6 +160,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     if (jwt && cartId) {
       try {
         await updateCart(jwt, cartId, currentCart); // Send the provided cart state
+        localStorage.setItem("cart", JSON.stringify(currentCart)); // Ensure localStorage is updated
       } catch (error) {
         console.error("Failed to sync cart with server:", error);
       }
@@ -172,6 +188,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     setCart(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart)); // Update localStorage
     if (jwt) {
       startSyncTimer(updatedCart); // Start debounce timer for server sync
     }
@@ -187,6 +204,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
           );
 
     setCart(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart)); // Update localStorage
     if (jwt) {
       startSyncTimer(updatedCart); // Start debounce timer for server sync
     }
@@ -196,12 +214,32 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const removeFromCart = (id: string) => {
     const updatedCart = safeCart.filter((item) => item.id !== id);
     setCart(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart)); // Update localStorage
 
     if (jwt) {
       if (updateTimer) {
         clearTimeout(updateTimer); // Clear the timer if a removal occurs
       }
       syncCartWithServer(updatedCart); // Immediately sync the cart
+    }
+  };
+
+  // Empty the cart
+  const emptyCart = async () => {
+    const savedCartId = localStorage.getItem("cartId");
+    if (!savedCartId) {
+      console.error("No cart ID found in localStorage.");
+      return;
+    }
+
+    setCart([]);
+    localStorage.removeItem("cart");
+    await updateCart(jwt as string, savedCartId, []); // Send an empty cart to the server
+    if (jwt) {
+      if (updateTimer) {
+        clearTimeout(updateTimer); // Clear the timer if a removal occurs
+      }
+      syncCartWithServer([]); // Immediately sync the cart
     }
   };
 
@@ -222,7 +260,8 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         removeFromCart,
         updateQuantity,
         total,
-        isUpdateLoading,
+        isUpdateLoading: isUpdateLoading || isLoading,
+        emptyCart,
       }}
     >
       {isHydrated || jwt ? children : null}

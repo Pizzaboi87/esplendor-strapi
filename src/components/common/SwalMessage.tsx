@@ -14,6 +14,8 @@ export const SwalMessage = ({ title, message }: SwalProps) =>
   Swal.fire({
     title: title,
     html: message,
+    allowEscapeKey: false,
+    allowOutsideClick: false,
     showClass: {
       popup: `
       animate__animated
@@ -42,6 +44,8 @@ export const SwalMessageMulti = ({
     showDenyButton: true,
     confirmButtonText: confirmText,
     denyButtonText: denyText,
+    allowEscapeKey: false,
+    allowOutsideClick: false,
     showClass: {
       popup: `
       animate__animated

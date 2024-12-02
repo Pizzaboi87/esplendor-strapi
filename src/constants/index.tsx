@@ -76,8 +76,8 @@ export const upperFooterIcons = [
     icon: "/assets/icons/chat.svg",
   },
   {
-    title: "Premium Materials",
-    description: "High-quality stones and gold",
+    title: "High Quality",
+    description: "Only the best quality materials",
     icon: "/assets/icons/gem-fill.svg",
   },
 ];

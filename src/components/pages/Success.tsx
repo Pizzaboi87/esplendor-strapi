@@ -12,12 +12,11 @@ export const Success = () => {
   const session_id = searchParams.get("session_id");
 
   const router = useRouter();
-  const { setCart } = useCart();
+  const { emptyCart } = useCart();
 
   useEffect(() => {
     if (session_id) {
-      setCart([]);
-      localStorage.removeItem("cart");
+      emptyCart();
     } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session_id]);
 

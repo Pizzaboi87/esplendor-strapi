@@ -23,7 +23,7 @@ export const RankCard = ({ imageURL, imageID, index }: RankCardProps) => (
   >
     <div className="border border-terciary/20 w-full h-full rounded-tl-lg rounded-br-lg relative bg-white">
       {imageURL ? (
-        <Link href={`/products/${imageID}`} target="_blank">
+        <Link href={`/products/${imageID}`}>
           <Image
             src={imageURL}
             alt="Purchased Item"

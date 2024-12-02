@@ -57,10 +57,7 @@ export const Highlight = () => {
                 <h3 className="text-lg text-center font-semibold mb-2">
                   {highlight.title}
                 </h3>
-                <Link
-                  href={`/products/${highlight.product.documentId}`}
-                  target="_blank"
-                >
+                <Link href={`/products/${highlight.product.documentId}`}>
                   <Button type="button" className="w-full mt-5">
                     Learn more
                   </Button>

@@ -104,7 +104,12 @@ export const SignUp = () => {
               label="Username"
               type="text"
               register={register("userName", {
-                required: "Userame is required",
+                required: "Username is required",
+                pattern: {
+                  value: /^[a-zA-Z0-9_-]+$/,
+                  message:
+                    "Username can only contain letters, numbers, dashes, and underscores.",
+                },
               })}
               error={errors.userName}
             />
@@ -121,6 +126,16 @@ export const SignUp = () => {
               type="password"
               register={register("password", {
                 required: "Password is required",
+                minLength: {
+                  value: 8,
+                  message: "Password must be at least 8 characters long.",
+                },
+                pattern: {
+                  value:
+                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+                  message:
+                    "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character.",
+                },
               })}
               error={errors.password}
             />

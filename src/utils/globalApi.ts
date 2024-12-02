@@ -15,6 +15,7 @@ export const gqlFetch = async <T>(query: string, variables: Record<string, any> 
     return graphqlClient.request<T>(query, variables);
 };
 
+// Fetch data from the API using GraphQL with JWT
 export const gqlAuthFetch = async <T>(
     query: string,
     variables: Record<string, any> = {},
@@ -364,6 +365,7 @@ export const fetchCartByJWT = async (jwt: string): Promise<CartObj> => {
     }
 };
 
+// Update cart
 export const updateCart = async (
     jwt: string,
     documentId: string,
