@@ -7,6 +7,7 @@ import { useUser } from "./User";
 import { fetchCartByJWT, updateCart } from "@/utils/globalApi";
 import { SwalMessageMulti } from "@/components/common/SwalMessage";
 import { usePathname } from "next/navigation";
+import { areCartsEqual } from "@/utils/helpers";
 
 interface InitialCartData {
   cart: CartItem[];
@@ -84,34 +85,42 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
           Array.isArray(data.cart_items) &&
           data.cart_items.length > 0
         ) {
-          // Conflict: Both localStorage and server have carts
-          SwalMessageMulti({
-            title: "Saved Cart",
-            message:
-              "You have a saved cart in our system. Do you want to keep the current cart or the saved cart?",
-            denyText: "Saved Cart",
-            confirmText: "Current Cart",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              setIsUpdateLoading(true);
-              // User chose local cart
-              updateCart(jwt, data.documentId, parsedLocalCart)
-                .then(() => {
-                  localStorage.removeItem("cart");
-                  setCart(parsedLocalCart); // Update cart state with local cart
-                  localStorage.setItem("cart", JSON.stringify(parsedLocalCart)); // Ensure localStorage is also updated
-                })
-                .catch((error) =>
-                  console.error("Failed to sync local cart with server:", error)
-                )
-                .finally(() => setIsUpdateLoading(false));
-            } else if (result.isDenied) {
-              // User chose server cart
-              localStorage.removeItem("cart"); // Clear localStorage
-              setCart(data.cart_items); // Use server cart
-              localStorage.setItem("cart", JSON.stringify(data.cart_items)); // Update localStorage
-            }
-          });
+          // Show a message if the server cart is not equal to the local cart
+          if (!areCartsEqual(parsedLocalCart, data.cart_items)) {
+            SwalMessageMulti({
+              title: "Saved Cart",
+              message:
+                "You have a saved cart in our system. Do you want to keep the current cart or the saved cart?",
+              denyText: "Saved Cart",
+              confirmText: "Current Cart",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                setIsUpdateLoading(true);
+                // User chose local cart
+                updateCart(jwt, data.documentId, parsedLocalCart)
+                  .then(() => {
+                    localStorage.removeItem("cart");
+                    setCart(parsedLocalCart); // Update cart state with local cart
+                    localStorage.setItem(
+                      "cart",
+                      JSON.stringify(parsedLocalCart)
+                    ); // Ensure localStorage is also updated
+                  })
+                  .catch((error) =>
+                    console.error(
+                      "Failed to sync local cart with server:",
+                      error
+                    )
+                  )
+                  .finally(() => setIsUpdateLoading(false));
+              } else if (result.isDenied) {
+                // User chose server cart
+                localStorage.removeItem("cart"); // Clear localStorage
+                setCart(data.cart_items); // Use server cart
+                localStorage.setItem("cart", JSON.stringify(data.cart_items)); // Update localStorage
+              }
+            });
+          }
         } else {
           // No conflict: Server cart is empty
           updateCart(jwt, cartId, parsedLocalCart)
