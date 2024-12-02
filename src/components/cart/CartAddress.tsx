@@ -19,7 +19,7 @@ export const CartAddress = ({ isSomeFieldEmpty }: CartAddressProps) => {
   const { firstName, lastName, country, city, address, zipCode } = user;
 
   return (
-    <div className="flex flex-col gap-y-5 p-8 border-b border-gray-200 h-fit bg-white shadow-md rounded-tl-xl rounded-br-xl">
+    <div className="flex flex-col gap-y-5 p-8 border-b border-gray-200 h-fit bg-white shadow-md rounded-tl-xl rounded-br-xl relative">
       {isSomeFieldEmpty ? (
         <>
           <h2 className="text-lg font-semibold">Shipping Address</h2>
@@ -31,7 +31,7 @@ export const CartAddress = ({ isSomeFieldEmpty }: CartAddressProps) => {
         </>
       ) : (
         <>
-          <Link href="/account">
+          <Link href="/account/personal">
             <Image
               src="/assets/icons/edit.svg"
               alt="Edit Address"
