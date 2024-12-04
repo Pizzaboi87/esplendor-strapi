@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Aboreto, Work_Sans, Bonheur_Royale } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { Header } from "@/components/header/Header";
 import { Footer } from "@/components/footer/Footer";
 import { Providers } from "@/providers";
@@ -46,6 +47,7 @@ const RootLayout = ({
           </main>
         </Providers>
       </body>
+      <GoogleAnalytics gaId="G-PWMM303M4E" />
     </html>
   );
 };
