@@ -10,6 +10,8 @@ export async function POST(req: Request) {
         const body = await req.json();
         const {
             items,
+            images,
+            names,
             userId,
             address,
             city,
@@ -40,12 +42,12 @@ export async function POST(req: Request) {
         }
 
         // Create the line items for the checkout session
-        const lineItems = items.map((item) => ({
+        const lineItems = items.map((item, index) => ({
             price_data: {
                 currency: "eur",
                 product_data: {
-                    name: item.name,
-                    images: [item.image],
+                    name: names[index],
+                    images: [images[index]],
                 },
                 unit_amount: item.price * 100,
             },

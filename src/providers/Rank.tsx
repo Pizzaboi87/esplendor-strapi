@@ -103,7 +103,7 @@ export const RankProvider = ({ children }: { children: React.ReactNode }) => {
       ? discountNameToRank[user.discount.name]
       : "newby";
 
-  if (!isUserLoading && (isLoading || isRankLoading)) {
+  if (isUserLoading || isLoading || isRankLoading) {
     return (
       <div className="inset-0 h-screen w-screen flex items-center justify-center">
         <Loading />

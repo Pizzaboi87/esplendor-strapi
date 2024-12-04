@@ -100,11 +100,8 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
                 updateCart(jwt, data.documentId, parsedLocalCart)
                   .then(() => {
                     localStorage.removeItem("cart");
-                    setCart(parsedLocalCart); // Update cart state with local cart
-                    localStorage.setItem(
-                      "cart",
-                      JSON.stringify(parsedLocalCart)
-                    ); // Ensure localStorage is also updated
+                    setCart(parsedLocalCart);
+                    setIsHydrated(true);
                   })
                   .catch((error) =>
                     console.error(
@@ -115,9 +112,9 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
                   .finally(() => setIsUpdateLoading(false));
               } else if (result.isDenied) {
                 // User chose server cart
-                localStorage.removeItem("cart"); // Clear localStorage
-                setCart(data.cart_items); // Use server cart
-                localStorage.setItem("cart", JSON.stringify(data.cart_items)); // Update localStorage
+                localStorage.removeItem("cart");
+                setCart(data.cart_items);
+                setIsHydrated(true);
               }
             });
           }
@@ -126,8 +123,8 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
           updateCart(jwt, cartId, parsedLocalCart)
             .then(() => {
               localStorage.removeItem("cart");
+              setIsHydrated(true);
               setCart(parsedLocalCart); // Update cart state with local cart
-              localStorage.setItem("cart", JSON.stringify(parsedLocalCart)); // Update localStorage
             })
             .catch((error) =>
               console.error("Failed to sync local cart with server:", error)
@@ -141,12 +138,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     if (data && data.cart_items && cart.length === 0) {
       // For logged-in users, load cart from server only if cart is not already set
       setCartId(data.documentId);
-      localStorage.setItem("cartId", data.documentId);
       setCart(Array.isArray(data.cart_items) ? data.cart_items : []);
-      localStorage.setItem(
-        "cart",
-        JSON.stringify(Array.isArray(data.cart_items) ? data.cart_items : [])
-      );
     } else if (!jwt) {
       // For non-logged-in users, load cart from localStorage
       const savedCart = localStorage.getItem("cart");
@@ -168,8 +160,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const syncCartWithServer = async (currentCart: CartItem[]) => {
     if (jwt && cartId) {
       try {
-        await updateCart(jwt, cartId, currentCart); // Send the provided cart state
-        localStorage.setItem("cart", JSON.stringify(currentCart)); // Ensure localStorage is updated
+        await updateCart(jwt, cartId, currentCart);
       } catch (error) {
         console.error("Failed to sync cart with server:", error);
       }
@@ -197,7 +188,9 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     setCart(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart)); // Update localStorage
+    if (!jwt && isHydrated) {
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+    }
     if (jwt) {
       startSyncTimer(updatedCart); // Start debounce timer for server sync
     }
@@ -213,7 +206,9 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
           );
 
     setCart(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart)); // Update localStorage
+    if (!jwt && isHydrated) {
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+    }
     if (jwt) {
       startSyncTimer(updatedCart); // Start debounce timer for server sync
     }
@@ -223,8 +218,9 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const removeFromCart = (id: string) => {
     const updatedCart = safeCart.filter((item) => item.id !== id);
     setCart(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart)); // Update localStorage
-
+    if (!jwt && isHydrated) {
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+    }
     if (jwt) {
       if (updateTimer) {
         clearTimeout(updateTimer); // Clear the timer if a removal occurs
@@ -243,6 +239,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
     setCart([]);
     localStorage.removeItem("cart");
+    setIsHydrated(true);
     await updateCart(jwt as string, savedCartId, []); // Send an empty cart to the server
     if (jwt) {
       if (updateTimer) {

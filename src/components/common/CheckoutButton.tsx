@@ -22,7 +22,13 @@ export const CheckoutButton = ({ reducedAmount }: CheckoutButtonProps) => {
     setLoading(true);
     try {
       const body = {
-        items: cart,
+        items: cart.map((item) => ({
+          id: item.id,
+          price: item.price,
+          quantity: item.quantity,
+        })),
+        images: cart.map((item) => item.image),
+        names: cart.map((item) => item.name),
         address: user?.address,
         city: user?.city,
         country: user?.country,

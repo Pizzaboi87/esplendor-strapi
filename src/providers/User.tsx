@@ -1,6 +1,5 @@
 "use client";
 
-import { Loading } from "@/components/common";
 import { SwalMessage } from "@/components/common/SwalMessage";
 import { ProductCard, User, UserObj } from "@/types/types";
 import { fetchUserByJWT, updateUser } from "@/utils/globalApi";
@@ -170,15 +169,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       return updatedWishlist;
     });
   };
-
-  // Loading screen
-  if (isLoading) {
-    return (
-      <div className="inset-0 h-screen w-screen flex items-center justify-center">
-        <Loading />
-      </div>
-    );
-  }
 
   return (
     <UserContext.Provider
