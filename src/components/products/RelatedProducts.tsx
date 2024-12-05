@@ -15,7 +15,11 @@ export const RelatedProducts = () => {
   const { documentId } = useParams();
 
   // Fetch related products from the API
-  const { data: relatedProducts = [], error } = useQuery({
+  const {
+    data: relatedProducts = [],
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: ["relatedProducts", documentId],
     queryFn: () => fetchRelatedProducts(documentId as string),
     enabled: !!documentId,
@@ -43,6 +47,7 @@ export const RelatedProducts = () => {
 
   // Error handling
   if (error) throw new Error("Error during fetching related products");
+  if (isLoading) return null;
 
   return (
     <div className="w-full lg:px-12 my-24">

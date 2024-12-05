@@ -15,7 +15,7 @@ import { useScrollToTop } from "@/utils/useScrollToTop";
 export const Cart = () => {
   useScrollToTop();
   const router = useRouter();
-  const { cart } = useCart();
+  const { cart, isUpdateLoading } = useCart();
   const { user } = useUser();
   const { resetFilters } = useFilter();
 
@@ -42,6 +42,10 @@ export const Cart = () => {
             <CartAddress {...{ isSomeFieldEmpty }} />
             <CartSummary {...{ isSomeFieldEmpty }} />
           </div>
+        </div>
+      ) : isUpdateLoading ? (
+        <div className="col-span-12 flex items-center justify-center h-80 mb-24">
+          <p className="text-2xl">Updating cart...</p>
         </div>
       ) : (
         <div className="col-span-12 flex items-center justify-center h-80 mb-24">

@@ -2,13 +2,17 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Order, Product } from "@/types/types";
 import { shortenOrderId } from "@/utils/helpers";
 import { TwoLinesName } from "../common";
 
 export const OrderCard = ({ order }: { order: Order }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+
+  const discountPercentage = useMemo(() => {
+    return order.discount / order.price;
+  }, [order.discount, order.price]);
 
   return (
     <div className="mb-5 bg-white rounded-tl-xl rounded-br-xl shadow-md overflow-hidden">
@@ -78,7 +82,9 @@ export const OrderCard = ({ order }: { order: Order }) => {
 
       <div
         className={`px-5 bg-gray-50 border-t border-gray-200 transition-all ease-in-out duration-500 overflow-hidden ${
-          isExpanded ? "opacity-100 max-h-96 pb-5" : "opacity-0 max-h-0"
+          isExpanded
+            ? "opacity-100 max-h-96 overflow-y-auto pb-5"
+            : "opacity-0 max-h-0"
         }`}
       >
         <h6 className="mt-5 font-semibold mb-3">Products:</h6>
@@ -101,10 +107,10 @@ export const OrderCard = ({ order }: { order: Order }) => {
                   className="w-fit"
                 >
                   <Image
-                    src={product.image.formats.thumbnail.url}
+                    src={product.image.formats.small.url}
                     alt={product.name}
-                    width={60}
-                    height={60}
+                    width={200}
+                    height={200}
                     priority
                     className="rounded-md w-20 h-20"
                   />
@@ -118,7 +124,18 @@ export const OrderCard = ({ order }: { order: Order }) => {
                   </p>
                   <p className="text-sm text-gray-600">Quantity: {quantity}</p>
                 </div>
-                <p className="font-semibold">€{product.price.toFixed(2)}</p>
+                <span className="flex flex-col items-end">
+                  <p className="font-semibold">
+                    €
+                    {(
+                      product.price -
+                      product.price * discountPercentage
+                    ).toFixed(2)}
+                  </p>
+                  <p className="text-gray-600 text-sm">
+                    €{product.price.toFixed(2)}
+                  </p>
+                </span>
               </div>
             );
           })}

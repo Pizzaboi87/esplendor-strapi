@@ -85,6 +85,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
           Array.isArray(data.cart_items) &&
           data.cart_items.length > 0
         ) {
+          localStorage.setItem("cartId", data.documentId);
           // Show a message if the server cart is not equal to the local cart
           if (!areCartsEqual(parsedLocalCart, data.cart_items)) {
             SwalMessageMulti({
@@ -138,6 +139,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     if (data && data.cart_items && cart.length === 0) {
       // For logged-in users, load cart from server only if cart is not already set
       setCartId(data.documentId);
+      localStorage.setItem("cartId", data.documentId);
       setCart(Array.isArray(data.cart_items) ? data.cart_items : []);
     } else if (!jwt) {
       // For non-logged-in users, load cart from localStorage

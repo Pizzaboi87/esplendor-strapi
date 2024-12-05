@@ -102,7 +102,7 @@ export type Product = {
     name: string;
     price: number;
     color: { name: string };
-    image: { formats: { thumbnail: { url: string } } };
+    image: { formats: { small: { url: string } } };
 }
 
 export type Order = {
