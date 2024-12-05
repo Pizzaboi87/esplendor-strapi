@@ -47,7 +47,7 @@ const RootLayout = ({
           </main>
         </Providers>
       </body>
-      <GoogleAnalytics gaId="G-PWMM303M4E" />
+      <GoogleAnalytics gaId="G-WZP1JSHTVJ" />
     </html>
   );
 };
