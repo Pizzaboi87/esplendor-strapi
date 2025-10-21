@@ -2,6 +2,8 @@ import Stripe from "stripe";
 import { NextResponse } from "next/server";
 import { createOrder, updateUser } from "@/utils/globalApi";
 
+export const runtime = "nodejs";
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
     apiVersion: "2024-10-28.acacia",
 });
